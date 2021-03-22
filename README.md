@@ -36,3 +36,4 @@
 * [Mosaic Toolkit](https://github.com/mapbiomas-brazil/mosaic-toolkit)
 
 > Access SEEG products through the websites: *[seeg.org](https://seeg.eco.br)*
+> Access mapbiomas products through the websites: *[mapbiomas.org](https://mapbiomas.org)* and *[alerta.mapbiomas.org](http://alerta.mapbiomas.org)*.
