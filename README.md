@@ -22,6 +22,17 @@
 * [Urban Infrastructure](https://github.com/mapbiomas-brazil/urban-infrastructure)
 * [Water](https://github.com/mapbiomas-brazil/water)
 
+* [Agriculture](https://github.com/mapbiomas-brazil/agriculture) 
+* [Energy]()
+* [Industry]()
+* [Waste]()
+* [LULC]()
+
+# 
+
+* [National]() 
+* [Subnational]() 
+
 ### Products
 * [Deforestation and Regrowth](https://github.com/SEEG-Brazil/deforestation-and-regrowth)
 * [Fire](https://github.com/mapbiomas-brazil/fire)
