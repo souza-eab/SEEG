@@ -1,6 +1,6 @@
 # SEEG Brasil on Github
 
-> Here is available all the scripts used for processing collection 8 of SEEG Cities.
+> Here is available all the scripts used for processing collection 8 of SEEG.
 
 ## Summary of mapbiomas code repositories
 
