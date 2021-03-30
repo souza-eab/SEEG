@@ -47,7 +47,7 @@ A partir de 2014 o SEEG passou a ser adotado por coletivos de outros países. O 
 # Summary of SEEG code repositories
 
 # Sector
-* [Agriculture] 
+* [Agriculture]()
 * [Energy]()
 * [LULUC]()
 * [Industry]()
