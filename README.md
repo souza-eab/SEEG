@@ -26,7 +26,7 @@
 
 > O SEEG considera todos os gases de efeito estufa contidos no inventário nacional como CO2, CH4, N2O e os HFCs e os dados são apresentados também em carbono equivalente (CO2e), tanto na métrica GWP (potencial de aquecimento global) como GTP (potencial de mudança de temperatura global) e segundo os fatores de conversão estabelecidos no 2o, 4o e 5o relatório do IPCC (AR2, AR4 e AR5). A partir da Coleção 5 o padrão da plataforma passou a ser apresentar por padrão os dados nos fatores de conversão GWP AR5, o mais recente e atualizado (e também o fator utilizado na NDC brasileira) porém todas as outras modalidades continuam disponíveis para consulta na plataforma (Ex. CO2e GWP AR2).
 
-#EMISSÕES E REMOÇÕES NÃO CONSIDERADAS NO INVENTÁRIO (NCI)
+# EMISSÕES E REMOÇÕES NÃO CONSIDERADAS NO INVENTÁRIO (NCI)
 
 > Adicionalmente, a partir da Coleção 4 do SEEG foi incluído, de forma experimental, estimativa de emissões e remoções de carbono no solo devido as práticas agrícolas. Estas emissões e remoções não estão contempladas nos inventários nacionais do Brasil (NCI), mas são parte importante da conta atingir a meta do Brasil no Acordo de Paris (INDC).
 
