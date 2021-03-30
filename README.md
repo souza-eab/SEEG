@@ -10,7 +10,7 @@
 
 > As Estimativas de Emissões e Remoções de Gases de Efeito Estufa são geradas segundo as diretrizes do Painel Intergovernamental sobre Mudanças Climáticas (IPCC), com base na metodologia dos Inventários Brasileiros de Emissões e Remoções Antrópicas de Gases do Efeito Estufa, elaborado pelo Ministério da Ciência, Tecnologia e Inovação (MCTI), e em dados obtidos junto a relatórios governamentais, institutos, centros de pesquisa, entidades setoriais e organizações não governamentais.
 
-> A metodologia do SEEG foi publicada na revista científica [NATURE](https://www.nature.com/articles/sdata201845) em 2018. Para acessar a metodologia completa [acesse aqui](http://seeg.eco.br/notas-metodologicas/].
+> A metodologia do SEEG foi publicada na revista científica [NATURE](https://www.nature.com/articles/sdata201845) em 2018. Para acessar a metodologia completa [acesse aqui](http://seeg.eco.br/notas-metodologicas/).
 
 # ESCOPO
 
