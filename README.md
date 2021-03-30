@@ -64,11 +64,8 @@
 * [Nota de preucaução]() 
 
 # +Produtos 
-> Brasil
 * [Deforestation and Regrowth](https://github.com/SEEG-Brazil/deforestation-and-regrowth)
 * [Fire](https://github.com/mapbiomas-brazil/fire)
-
-> Mosaics
 * [Biomes](https://github.com/mapbiomas-brazil/mosaics/tree/master/biomes)
 * [Mosaic Toolkit](https://github.com/mapbiomas-brazil/mosaic-toolkit)
 
