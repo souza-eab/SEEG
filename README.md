@@ -41,7 +41,7 @@
 
 # Summario dos repositórios do SEEG BR
 
-# Sector
+# Setores
 * [Agropecuária]()
 * [Energia]()
 * [Mudanças de Uso da Terra e Florestas]()
