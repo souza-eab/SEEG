@@ -45,25 +45,29 @@
 
 
 
-# Summary of SEEG code repositories
+# Summario dos repositórios do SEEG BR
 
 # Sector
-* [Agriculture]()
-* [Energy]()
-* [LULUC]()
-* [Industry]()
-* [Waste]()
+* [Agropecuária]()
+* [Energia]()
+* [Mudanças de Uso da Terra e Florestas]()
+* [Processos Industriais]()
+* [Resíduos]()
 * 
-# Structure
-* [National]() 
-* [Subnational]() 
+# Estrutura de base de dados 
+* [Emissões totais - Brasil ]() 
+* [Emissões setores]() 
+* [Emissões estados]() 
+* [Emissões por muncípio]() 
+* [Emissões por atividades]() 
+* [Nota de preucaução]() 
 
-### Products
+# +Produtos 
+> Brasil
 * [Deforestation and Regrowth](https://github.com/SEEG-Brazil/deforestation-and-regrowth)
 * [Fire](https://github.com/mapbiomas-brazil/fire)
 
-
-### Mosaics
+> Mosaics
 * [Biomes](https://github.com/mapbiomas-brazil/mosaics/tree/master/biomes)
 * [Mosaic Toolkit](https://github.com/mapbiomas-brazil/mosaic-toolkit)
 
