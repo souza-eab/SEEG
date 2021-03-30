@@ -10,7 +10,7 @@
 
 > As Estimativas de Emissões e Remoções de Gases de Efeito Estufa são geradas segundo as diretrizes do Painel Intergovernamental sobre Mudanças Climáticas (IPCC), com base na metodologia dos Inventários Brasileiros de Emissões e Remoções Antrópicas de Gases do Efeito Estufa, elaborado pelo Ministério da Ciência, Tecnologia e Inovação (MCTI), e em dados obtidos junto a relatórios governamentais, institutos, centros de pesquisa, entidades setoriais e organizações não governamentais.
 
-> A metodologia do SEEG foi publicada na revista científica *[NATURE](https://www.nature.com/articles/sdata201845) em 2018. Para acessar a metodologia completa *[acesse aqui ](http://seeg.eco.br/notas-metodologicas/].
+> A metodologia do SEEG foi publicada na revista científica [NATURE](https://www.nature.com/articles/sdata201845) em 2018. Para acessar a metodologia completa [acesse aqui](http://seeg.eco.br/notas-metodologicas/].
 
 # ESCOPO
 
@@ -32,11 +32,11 @@
 
 # NOVO MÉTODO DE ESTIMATIVA DE EMISSÕES PARA MUDANÇAS DE USO DA TERRA
 
-> Na coleção 8.0 do SEEG foi implementado a aplicação do método de matrizes de transição de uso do solo para calcular as emissões e remoções por mudanças de uso de solo e florestas. A base de dados para as matrizes de transição são os mapas anuais de cobertura e uso do solo produzidos pelo *[MapBiomas].(https://mapbiomas.org/). Também foram mantidos como alternativa de dado as estimativas de emissões com base no desmatamento como proxy (Emissões e Remoções Proxy). No caso das estimativas municipais é utilizado apenas o método das matrizes de transição.
+> Na coleção 8.0 do SEEG foi implementado a aplicação do método de matrizes de transição de uso do solo para calcular as emissões e remoções por mudanças de uso de solo e florestas. A base de dados para as matrizes de transição são os mapas anuais de cobertura e uso do solo produzidos pelo [MapBiomas](https://mapbiomas.org/). Também foram mantidos como alternativa de dado as estimativas de emissões com base no desmatamento como proxy (Emissões e Remoções Proxy). No caso das estimativas municipais é utilizado apenas o método das matrizes de transição.
 
 # PLATAFORMA DE DADOS
 
-> Todos os dados do SEEG são disponibilizados em plataforma digital, onde pode-se consultar os dados diretamente, assim como também obter por download a base de dados completa, com mais de 150 milhões de registros, já preparada para consultas com tabelas dinâmicas. Os principais dados de atividade utilizado nos cálculos também são disponibilizados através da plataforma onde também é possível acessar *[infográficos](http://seeg.eco.br/infograficos) sobre as emissões de cada setor, notas metodológicas que explicam detalhadamente como o levantamento e produção de dados são realizados e uma avaliação da qualidade dos dados.
+> Todos os dados do SEEG são disponibilizados em plataforma digital, onde pode-se consultar os dados diretamente, assim como também obter por download a base de dados completa, com mais de 150 milhões de registros, já preparada para consultas com tabelas dinâmicas. Os principais dados de atividade utilizado nos cálculos também são disponibilizados através da plataforma onde também é possível acessar [infográficos](http://seeg.eco.br/infograficos) sobre as emissões de cada setor, notas metodológicas que explicam detalhadamente como o levantamento e produção de dados são realizados e uma avaliação da qualidade dos dados.
 
 
 # OUTROS PAÍSES
