@@ -1,6 +1,6 @@
 # Github SEEG Brasil 
 
-> Aqui estarão todos os scripts utilizados no processamento da coleção 9 do SEEG - 2021. 
+> Aqui estarão todos os scripts utilizados no processamento da coleção 9 do SEEG - 2021 e suas atualizações. 
 
 # O QUE É O SEEG?
 
