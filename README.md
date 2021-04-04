@@ -39,7 +39,7 @@
 > Todos os dados do SEEG são disponibilizados em plataforma digital, onde pode-se consultar os dados diretamente, assim como também obter por download a base de dados completa, com mais de 150 milhões de registros, já preparada para consultas com tabelas dinâmicas. Os principais dados de atividade utilizado nos cálculos também são disponibilizados através da plataforma onde também é possível acessar [infográficos](http://seeg.eco.br/infografico) sobre as emissões de cada setor, notas metodológicas que explicam detalhadamente como o levantamento e produção de dados são realizados e uma avaliação da qualidade dos dados.
 
 
-# Summario dos repositórios do SEEG BR
+# Sumário dos repositórios do SEEG BR
 
 # Setores
 * [Agropecuária]()
