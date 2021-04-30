@@ -1,12 +1,12 @@
-# Github SEEG Brasil 
+# SEEG Brasil 
 
-> Aqui estarão todos os scripts utilizados no processamento da coleção 9 do SEEG - 2021 e suas atualizações. 
+> Aqui estão depositados todas as rotinas utilizados no processamento da coleção 9 do SEEG - 2021 e suas atualizações. 
 
-# O QUE É O SEEG?
+# +O QUE É O SEEG?
 
 > O Sistema de Estimativas de Emissões e Remoções de Gases de Efeito Estufa (SEEG) é uma iniciativa do Observatório do Clima que compreende a produção de estimativas anuais das emissões de gases de efeito estufa (GEE) no Brasil, documentos analíticos sobre a evolução das emissões e um portal na internet para disponibilização de forma simples e clara dos métodos e dados do sistema.
 
-# REFERÊNCIA METODOLÓGICA
+# Métodos
 
 > As Estimativas de Emissões e Remoções de Gases de Efeito Estufa são geradas segundo as diretrizes do Painel Intergovernamental sobre Mudanças Climáticas (IPCC), com base na metodologia dos Inventários Brasileiros de Emissões e Remoções Antrópicas de Gases do Efeito Estufa, elaborado pelo Ministério da Ciência, Tecnologia e Inovação (MCTI), e em dados obtidos junto a relatórios governamentais, institutos, centros de pesquisa, entidades setoriais e organizações não governamentais.
 
