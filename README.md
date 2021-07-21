@@ -2,7 +2,7 @@
     <img src='./SEEG/files/ipam_logo.jpg' height='auto' width='160' align='right'>
     <h1>Cerrado biome</h1>
 </div>
-SEEG/blob/main/files/ipam_logo.jpg
+
 Developed by [Instituto de Pesquisa Ambiental da Amazônia - IPAM](https://ipam.org.br/)<br>
 
 
