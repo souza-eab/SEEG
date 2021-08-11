@@ -12,7 +12,7 @@ var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mi
 var biomes = ee.Image('projects/mapbiomas-workspace/AUXILIAR/biomas-2019-raster');
 
 // Add ImageCollection Mapbiomas 6.0
-var colecao6 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection60-integration-v0-12").mosaic();
+var colecao6 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO6/mapbiomas-collection60-integration-v0-12").mosaic();
 
 //1 Forest
 //var f = ['3','4','5', '6', '49'];
@@ -81,6 +81,7 @@ var geraMask3_3 = function(ano){
 };
 
 //Aplica as exceções das regras nos dois primeiros (1986 e 1987) e dois últimos anos (2017 e 2018) da série temporal
+var imageZero = ee.Image(0);
 var mask86 =  col6antrop85.select('desm'+(1986 - 1)).eq(0)
               .and(col6antrop85.select('desm'+(1986    )).eq(1))
               .and(col6antrop85.select('desm'+(1986 + 1)).eq(1))
