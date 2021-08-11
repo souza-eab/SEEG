@@ -6,17 +6,13 @@
 
 //  SCRIPT TO GENERATE REGENERATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
 
-//Carregar uma Feature Collection da área de interesse (no caso, todos os biomas do Brasil)
-//SEMA RS: vocês não devem ter acesso a esse Asset, carreguem um shapefile do estado do RS para chamar aqui
-
 // Asset Biomes Brazil
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
 
 // Add ImageCollection Mapbiomas 6.0
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
-//Reclassifica tudo o que for vegetação nativa em 1985 para 1; o que for antrópico, para 0; e o que não se aplica, para 9
-//ATENÇÃO SAIU CLASSE 19
+//Remap layers for native vegetation in 1985 to 1; what is anthropic, is 0; and what does not apply, is 9
 var col5floresta85 = colecao5.select('classification_1985').remap(
                   [3, 4, 5, 11, 12, 13, 9,15,20,21,23,24,25,27, 29, 30, 31, 32, 33,36,39,40,41,42,43,44,45],
                   [1, 1, 1,  1,  1,  1, 0, 0, 0, 0, 9, 0, 0, 9,  9,  0,  0,  9,  9, 0, 0, 0, 0, 0, 0, 0, 0]);
