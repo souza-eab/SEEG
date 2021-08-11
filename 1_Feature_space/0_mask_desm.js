@@ -54,16 +54,15 @@ var col6antrop85 = colecao6.select('classification_1985').remap(
 col6antrop85 = col6antrop85.select([0],['desmat1985']).int8();
 
 // List years
-var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019'];
-
+var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020'];
 
 // Complete doing the same thing for the other years 
 for (var i_ano=0;i_ano<anos.length; i_ano++){
   var ano = anos[i_ano];
 
   var col6uso = colecao6.select('classification_'+ano).remap(
-                  [3, 4, 5, 11, 12, 13, 9,15,20,21,23,24,25,27, 29, 30, 31, 32, 33,36,39,40,41,42,43,44,45],
-                  [0, 0, 0,  0,  0,  0, 1, 1, 1, 1, 9, 1, 1, 9,  9,  1,  1,  9,  9, 1, 1, 1, 1, 1, 1, 1, 1]);
+                  [3, 4, 5, 6, 11, 12, 13, 9, 15,  19, 20, 21,  23, 24, 25,  27, 29, 30, 31, 32, 33, 36, 39, 40, 41, 42, 43, 44, 45, 49],
+                  [0, 0, 0, 0,  0,  0,  0, 1,  1,   1,  1,  1,   9,  1,  1,   9,  9,  1,  1,  9,  9,  1,  1,  1,  1,  1,  1, 1,   1, 0]);
                     
   col6antrop85 = col6antrop85.addBands(col6uso.select([0],['desm'+ano])).int8();
 }
@@ -153,7 +152,7 @@ desm88 = desm88.select(['desm1985'],['desm1988']);
 //Soma as bandas
 desm = desm.addBands(desm88);
 
-//Gera as bandas aplicando o filtro para todos os demais anos da regra geral (no caso, até 2020)
+//Gera as bandas aplicando o filtro para todos os demais anos da regra geral (no caso, até 2019)
 for (var i = 1989; i < 2019; i++) {
  
   var desm_geral = geraMask3_3(i);
@@ -166,7 +165,7 @@ for (var i = 1989; i < 2019; i++) {
 desm = desm.addBands(mask19).addBands(mask20);
 print(desm);
 
-Map.addLayer(desm.select('desm2019'), {'min': 0,'max': 1, 'palette': 'red'},"Desm_2019");
+Map.addLayer(desm.select('desm2020'), {'min': 0,'max': 1, 'palette': 'red'},"Desm_2020");
 
   Export.image.toAsset({
     "image": desm.unmask(0).uint8(),
