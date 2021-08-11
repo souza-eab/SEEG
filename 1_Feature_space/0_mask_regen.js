@@ -1,10 +1,7 @@
-// Create a per-pixel stratified random sampling over reference data
-// For any issue/bug, please write to <edriano.souza@ipam.org.br> <dhemerson.costa@ipam.org.br> <barbara.zimbres@ipam.org.br> 
+// SCRIPT TO GENERATE REGENERATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>;<dhemerson.costa@ipam.org.br>;<barbara.zimbres@ipam.org.br> 
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
-
-
-//  SCRIPT TO GENERATE REGENERATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
 
 // Asset Biomes Brazil
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
