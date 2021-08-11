@@ -1,13 +1,10 @@
-// Script para gerar e estabilizar mapas base anuais de cobertura a partir de uma coleção do MapBiomas
-// Terceiro passo para o método de cálculos do SEEG, setor MUT
-////////////////////////////////////////////////////////////////////////////////////////
-// Organização responsável: IPAM (Instituto de Pesquisa Ambiental da Amazônia)
-// Criado por: Felipe Lenti e Bárbara Zimbres (barbara.zimbres@ipam.org.br)
-// Citação: referenciar o SEEG/Observatório do Clima e o IPAM ao usar esse script
-////////////////////////////////////////////////////////////////////////////////////////
+// Script to generate and stabilize annual coverage basemaps from a MapBiomas collection (eg. col 6.0) 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
+// Developed by: IPAM, SEEG and OC
+// Citing: SEEG/Observatório do Clima and IPAM
 
-//Carregar os asset da coleção do MapBiomas utilizada
-var mapbioDir = 'projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8';
+// Carregar os asset da coleção do MapBiomas utilizada
+var mapbioDir = 'projects/mapbiomas-workspace/COLECAO6/mapbiomas-collection50-integration-v8';
 var mapbiomas = ee.ImageCollection(mapbioDir).mosaic();
 
 //Carregar o asset da região considerada. No caso, biomas do Brasil
