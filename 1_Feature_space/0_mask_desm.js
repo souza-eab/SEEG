@@ -125,15 +125,15 @@ var mask86 =  col6antrop85.select('desm'+(1986 - 1)).eq(0)
   mask19 = mask19.updateMask(mask19.neq(0));
   mask19 = mask19.select([0], ['desm2019']);
   
-  var mask20 =  col5antrop85.select('desm'+(2019 - 8)).eq(0)
-            .and(col5antrop85.select('desm'+(2019 - 7)).eq(0))
-            .and(col5antrop85.select('desm'+(2019 - 6)).eq(0))
-            .and(col5antrop85.select('desm'+(2019 - 5)).eq(0))
-            .and(col5antrop85.select('desm'+(2019 - 4)).eq(0))
-            .and(col5antrop85.select('desm'+(2019 - 3)).eq(0))
-            .and(col5antrop85.select('desm'+(2019 - 2)).eq(0))             
-            .and(col5antrop85.select('desm'+(2019 - 1)).eq(0))
-            .and(col5antrop85.select('desm'+(2019    )).eq(1));
+  var mask20 =  col6antrop85.select('desm'+(2019 - 8)).eq(0)
+            .and(col6antrop85.select('desm'+(2019 - 7)).eq(0))
+            .and(col6antrop85.select('desm'+(2019 - 6)).eq(0))
+            .and(col6antrop85.select('desm'+(2019 - 5)).eq(0))
+            .and(col6antrop85.select('desm'+(2019 - 4)).eq(0))
+            .and(col6antrop85.select('desm'+(2019 - 3)).eq(0))
+            .and(col6antrop85.select('desm'+(2019 - 2)).eq(0))             
+            .and(col6antrop85.select('desm'+(2019 - 1)).eq(0))
+            .and(col6antrop85.select('desm'+(2019    )).eq(1));
             
   mask20 = mask20.mask(mask20.eq(1));
   mask20 = mask20.unmask(imageZero);  
