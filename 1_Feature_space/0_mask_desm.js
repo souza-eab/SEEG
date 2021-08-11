@@ -167,7 +167,7 @@ print(desm);
 
 Map.addLayer(desm.select('desm2020'), {'min': 0,'max': 1, 'palette': 'red'},"Desm_2020");
 
-  Export.image.toAsset({
+Export.image.toAsset({
     "image": desm.unmask(0).uint8(),
     "description": 'desmSEEGc5',
     "assetId":'users/edrianosouza/2021/Seeg-9/desmSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
