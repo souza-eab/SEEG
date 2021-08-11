@@ -4,17 +4,15 @@
 // Citing: SEEG/Observatório do Clima and IPAM
 
 
-//  SCRIPT TO GENERATE REGENERATION MASKS
-
-/////////////////////////////////////////////////////////////////////////////////////////
-//GERAR AS MASCARAS DE REGENERAÇÃO COM A COLEÇÃO DO MAPBIOMAS (exemplo com a coleção 5.0)
+//  SCRIPT TO GENERATE REGENERATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
 
 //Carregar uma Feature Collection da área de interesse (no caso, todos os biomas do Brasil)
 //SEMA RS: vocês não devem ter acesso a esse Asset, carreguem um shapefile do estado do RS para chamar aqui
+
+// Asset Biomes Brazil
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
 
-//Carregar a coleção do Mapbiomas
-//SEMA RS: vocês não devem ter acesso a esse Asset, carreguem a coleção do Mapbiomas que vocês baixaram para chamar aqui (pode ser recortada para o RS já ou deixar para recortar aqui)
+// Add ImageCollection Mapbiomas 6.0
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 //Reclassifica tudo o que for vegetação nativa em 1985 para 1; o que for antrópico, para 0; e o que não se aplica, para 9
