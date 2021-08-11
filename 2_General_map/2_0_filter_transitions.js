@@ -1,15 +1,14 @@
-// SCRIPT PARA FILTRAR AS MÁSCARAS DE DESMATAMENTO E REGENERAÇÃO PARA EXCLUIR PIXELS ISOLADOS E REDUZIR RUÍDO
-// SEGUNDO PASSO PARA O MÉTODO DE CÁLCULOS DO SEEG, SETOR MUT
+// SCRIPT SCRIPT TO FILTER DEFORESTATION AND REGENERATION MASKS TO EXCLUDE ISOLATED PIXELS AND REDUCE NOISE "MAPBIOMAS (eg. col 6.0)" 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
+// Developed by: IPAM, SEEG and OC
+// Citing: SEEG/Observatório do Clima and IPAM
 
-////////////////////////////////////////////////////////////////////////////////////////
-// Organização responsável: IPAM (Instituto de Pesquisa Ambiental da Amazônia)
-// Criado por: Felipe Lenti e Bárbara Zimbres (barbara.zimbres@ipam.org.br)
-// Citação: referenciar o SEEG/Observatório do Clima e o IPAM ao usar esse script
-////////////////////////////////////////////////////////////////////////////////////////
 
-//Definição das funções utilizadas
+// Definition of the functions used
+// Set Asset
+// Apply set
 
-//Função que transforma uma image collection em uma única imagem com várias bandas
+// Function that transforms an image collection into a single image with multiple bands
 var collection2multiband = function (collection) {
 
     var imageList = collection.toList(collection.size()).slice(1);
@@ -90,12 +89,12 @@ var filterParams = [
 ];
 
 //A partir daqui trabalhamos apenas a partir de 1990, que é o período inicial apresentado pelo Inventário Nacional
-var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019'];
+var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020'];
 
 var eeAnos = ee.List(anos);
 
 /////Chama o asset da máscara de REGENERAÇÃO exportado a partir do script 1
-var inputImage_regen = ee.Image('users/edrianosouza/Colecao_9_2021/Regen_SEEGc9'); // alterar para o asset salvo por vocês no script anterior
+var inputImage_regen = ee.Image('users/edrianosouza/2021/Seeg-9/Regen_SEEGc9'); // alterar para o asset salvo por vocês no script anterior
 
 //Aplica as funções
 var result_regen = eeAnos.map(function(ano){
@@ -114,7 +113,7 @@ print(result_regen);
 Export.image.toAsset({
     "image": result_regen.uint8(),
     "description": 'regenSEEGc5_filter_certo',
-    "assetId": 'users/edrianosouza/Colecao_9_2021/Regen_SEEGc9_2', //insere o endereço para onde vai exportar a máscara filtrada
+    "assetId": 'users/edrianosouza/2021/Seeg-9/Regen_SEEGc9_2', //insere o endereço para onde vai exportar a máscara filtrada
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
@@ -123,10 +122,8 @@ Export.image.toAsset({
     "region": Bioma.geometry().convexHull() //altera para a região utilizada por vocês
 });
 
-
-
 /////Chama o asset da máscara de DESMATAMENTO exportado a partir do script 1
-var inputImage_desm = ee.Image('users/edrianosouza/Colecao_9_2021/Desm_SEEGc9'); // alterar para o asset salvo por vocês no script anterior
+var inputImage_desm = ee.Image('users/edrianosouza/2021/Seeg-9/Desm_SEEGc9'); // alterar para o asset salvo por vocês no script anterior
 
 //Aplica as funções
 var result_desm = eeAnos.map(function(ano){
@@ -139,13 +136,13 @@ var result_desm = eeAnos.map(function(ano){
 });
 
 // Salva o resultado como uma imagem multi-bandas
- result_desm = collection2multiband(ee.ImageCollection.fromImages(result_desm));
+result_desm = collection2multiband(ee.ImageCollection.fromImages(result_desm));
 print(result_desm);
 
 Export.image.toAsset({
     "image": result_desm.uint8(),
     "description": 'desmSEEGc5_filter_certo',
-    "assetId": 'users/edrianosouza/Colecao_9_2021/DesmSEEGc9_2', //insere o endereço para onde vai exportar a máscara filtrada
+    "assetId": 'users/edrianosouza/2021/Seeg-9/DesmSEEGc9_2', //insere o endereço para onde vai exportar a máscara filtrada
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
