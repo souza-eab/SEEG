@@ -3,14 +3,43 @@
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
 
-// Asset Biomes Brazil
+
+// Set assets
+
+// Asset Biomes brazilian
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
 
-// Add ImageCollection Mapbiomas 6.0
-var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection60-integration-v0-12").mosaic();
+//// brazilian biomes?
+var biomes = ee.Image('projects/mapbiomas-workspace/AUXILIAR/biomas-2019-raster');
 
+// Add ImageCollection Mapbiomas 6.0
+var colecao6 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection60-integration-v0-12").mosaic();
+
+//1 Forest
+var f = ['3','4','5', '6', '49'];
+
+//10 Non Forest Natural Formation
+var nf = ['11','12','32', '29', '13]; 
+
+//14 Farming
+var afolu = ['15', '18', '19','39','20','40','41','36','46','47','48','9','21']
+  
+//22 Non vegetated area
+var nav = ['23', '24', '30', '25']
+
+//26 Water
+var water = 33, 31, 27
+
+
+           
+           //// brazilian administration states
+var assetStates = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster');
+
+
+//Range General prevalence Cerrado Biome 30,23,5,31,32,24,9,20,39,40,41,36,46,47,48,19,29,25,33,3,4,11,12,15,21
+// Order  
 //Remap layers for native vegetation in 1985 to 1; what is anthropic, is 0; and what does not apply, is 9
-var col5antrop85 = colecao5.select('classification_1985').remap(
+var col5antrop85 = colecao6.select('classification_1985').remap(
                   [3, 4, 5, 9, 12, 13, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29,30,31,32,33]
                   [0, 0, 0, 1,  0,  0,  1,  1,  1,  1,  1,  9,  9,  1,  1,  1,  9,  1,  1,  9,  9, 1, 1, 1, 1, 1, 1, 1, 1
   
