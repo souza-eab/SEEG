@@ -22,23 +22,27 @@ var f = ['3','4','5', '6', '49'];
 var nf = ['11','12','32', '29', '13]; 
 
 //14 Farming
-var afolu = ['15', '18', '19','39','20','40','41','36','46','47','48','9','21']
+var afolu = ['15', '18', '19','39','20','40','41','36','46','47','48','9','21'];
+var afoluO = ['9','15', '18', '19','20','21','36','39','40','41','46','47','48'];
+var afoluOp = ['18', '19','39','20','40','41','36','46','47','48','9','15', '21'];
+
   
 //22 Non vegetated area
-var nav = ['23', '24', '30', '25']
+var nav = ['23', '24', '30', '25'];
+// order prevalence <> 30,23,24,25}
 
 //26 Water
-var water = ['33', '31'] 
+var water = ['33', '31'];
       
 // 27 Non Observed
-var nonO = ['27']
+var nonO = ['27'];
 
 
-           
-           //// brazilian administration states
-var assetStates = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster');
+'3','4','5', '6', '49',
+0  
 
-
+11,12,32,29,13
+0,0,9,9,0
 //Range General prevalence Cerrado Biome 30,23,5,31,32,24,9,20,39,40,41,36,46,47,48,19,29,25,33,3,4,11,12,15,21
 // Order  
 //Remap layers for native vegetation in 1985 to 1; what is anthropic, is 0; and what does not apply, is 9
