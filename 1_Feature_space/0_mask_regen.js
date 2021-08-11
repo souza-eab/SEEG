@@ -3,71 +3,78 @@
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
 
+// Set assets
+
 // Asset Biomes Brazil
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
 
+
+//// brazilian biomes?
+var biomes = ee.Image('projects/mapbiomas-workspace/AUXILIAR/biomas-2019-raster');
+
 // Add ImageCollection Mapbiomas 6.0
-var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
+var colecao6 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO6/mapbiomas-collection60-integration-v0-12").mosaic();
 
 //Remap layers for native vegetation in 1985 to 1; what is anthropic, is 0; and what does not apply, is 9
-var col5floresta85 = colecao5.select('classification_1985').remap(
-                  [3, 4, 5, 11, 12, 13, 9,15,20,21,23,24,25,27, 29, 30, 31, 32, 33,36,39,40,41,42,43,44,45],
-                  [1, 1, 1,  1,  1,  1, 0, 0, 0, 0, 9, 0, 0, 9,  9,  0,  0,  9,  9, 0, 0, 0, 0, 0, 0, 0, 0]);
+var col6floresta85 = colecao6.select('classification_1985').remap(
+                  [3, 4, 5, 6, 11, 12, 13, 9, 15,  19, 20, 21,  23, 24, 25,  27, 29, 30, 31, 32, 33, 36, 39, 40, 41, 42, 43, 44, 45, 49],
+                  [1, 1, 1, 1,  1,  1,  1, 0,  0,   0,  0,  0,   9,  0,  0,   9,  9,  0,  0,  9,  9,  0,  0,  0,  0,  0,  0,  0,  0, 1]);
+                  
 
 //Changing names of bands 
-col5floresta85 = col5floresta85.select([0],['regen1985']).int8();
+col6floresta85 = col6floresta85.select([0],['regen1985']).int8();
 
 // List years
-var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019'];
+var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020'];
 
 // Complete doing the same thing for the other years
 for (var i_ano=0;i_ano<anos.length; i_ano++){ /////nao tá em roxo length
   var ano = anos[i_ano];
 
-  var col5flor = colecao5.select('classification_'+ano).remap(
-                  [3, 4, 5, 11, 12, 13, 9,15,20,21,23,24,25,27, 29, 30, 31, 32, 33,36,39,40,41,42,43,44,45],
-                  [1, 1, 1,  1,  1,  1, 0, 0, 0, 0, 9, 0, 0, 9,  9,  0,  0,  9,  9, 0, 0, 0, 0, 0, 0, 0, 0]);
+  var col5flor = colecao6.select('classification_'+ano).remap(
+                  [3, 4, 5, 6, 11, 12, 13, 9, 15,  19, 20, 21,  23, 24, 25,  27, 29, 30, 31, 32, 33, 36, 39, 40, 41, 42, 43, 44, 45, 49],
+                  [1, 1, 1, 1,  1,  1,  1, 0,  0,   0,  0,  0,   9,  0,  0,   9,  9,  0,  0,  9,  9,  0,  0,  0,  0,  0,  0,  0,  0, 1]);
                     
-  col5floresta85 = col5floresta85.addBands(col5flor.select([0],['regen'+ano])).int8();
+  col6floresta85 = col6floresta85.addBands(col6flor.select([0],['regen'+ano])).int8();
 }
 
 //Gera a função que aplica a regra geral do filtro temporal (3 anos antes e 2 depois da transição)
 var geraMask3_3 = function(ano){
-  var mask =  col5floresta85.select('regen'+(ano - 3)).eq(0)
-              .and(col5floresta85.select('regen'+(ano - 2)).eq(0))
-              .and(col5floresta85.select('regen'+(ano - 1)).eq(0))
-              .and(col5floresta85.select('regen'+(ano    )).eq(1))
-              .and(col5floresta85.select('regen'+(ano + 1)).eq(1))
-              .and(col5floresta85.select('regen'+(ano + 2)).eq(1));
+  var mask =  col6floresta85.select('regen'+(ano - 3)).eq(0)
+              .and(col6floresta85.select('regen'+(ano - 2)).eq(0))
+              .and(col6floresta85.select('regen'+(ano - 1)).eq(0))
+              .and(col6floresta85.select('regen'+(ano    )).eq(1))
+              .and(col6floresta85.select('regen'+(ano + 1)).eq(1))
+              .and(col6floresta85.select('regen'+(ano + 2)).eq(1));
   mask = mask.mask(mask.eq(1));
   return mask;
 };
 
 //Aplica as exceções das regras nos dois primeiros (1986 e 1987) e dois últimos anos (2017 e 2018) da série temporal
 var imageZero = ee.Image(0);
-  var mask86 =  col5floresta85.select('regen'+(1986 - 1)).eq(0)
-              .and(col5floresta85.select('regen'+(1986    )).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 1)).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 2)).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 3)).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 4)).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 5)).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 6)).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 7)).eq(1))
-              .and(col5floresta85.select('regen'+(1986 + 8)).eq(1));
+  var mask86 =  col6floresta85.select('regen'+(1986 - 1)).eq(0)
+              .and(col6floresta85.select('regen'+(1986    )).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 1)).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 2)).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 3)).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 4)).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 5)).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 6)).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 7)).eq(1))
+              .and(col6floresta85.select('regen'+(1986 + 8)).eq(1));
               
   mask86 = mask86.mask(mask86.eq(1));
   mask86 = mask86.unmask(imageZero);  
   mask86 = mask86.updateMask(mask86.neq(0));
   mask86 = mask86.select([0], ['regen1986']);
 
-  var mask87 =  col5floresta85.select('regen'+(1987 - 2)).eq(0)
-              .and(col5floresta85.select('regen'+(1987 - 1)).eq(0))
-              .and(col5floresta85.select('regen'+(1987    )).eq(1))
-              .and(col5floresta85.select('regen'+(1987 + 1)).eq(1))
-              .and(col5floresta85.select('regen'+(1987 + 2)).eq(1))
-              .and(col5floresta85.select('regen'+(1987 + 3)).eq(1))
-              .and(col5floresta85.select('regen'+(1987 + 4)).eq(1));
+  var mask87 =  col6floresta85.select('regen'+(1987 - 2)).eq(0)
+              .and(col6floresta85.select('regen'+(1987 - 1)).eq(0))
+              .and(col6floresta85.select('regen'+(1987    )).eq(1))
+              .and(col6floresta85.select('regen'+(1987 + 1)).eq(1))
+              .and(col6floresta85.select('regen'+(1987 + 2)).eq(1))
+              .and(col6floresta85.select('regen'+(1987 + 3)).eq(1))
+              .and(col6floresta85.select('regen'+(1987 + 4)).eq(1));
 
   mask87 = mask87.mask(mask87.eq(1));
   mask87 = mask87.unmask(imageZero);  
@@ -75,34 +82,34 @@ var imageZero = ee.Image(0);
   mask87 = mask87.select([0], ['regen1987']);
   
   
-  var mask18 =  col5floresta85.select('regen'+(2018 - 6)).eq(0)
-            .and(col5floresta85.select('regen'+(2018 - 5)).eq(0))
-            .and(col5floresta85.select('regen'+(2018 - 4)).eq(0))
-            .and(col5floresta85.select('regen'+(2018 - 3)).eq(0))
-            .and(col5floresta85.select('regen'+(2018 - 2)).eq(0))
-            .and(col5floresta85.select('regen'+(2018 - 1)).eq(0))
-            .and(col5floresta85.select('regen'+(2018    )).eq(1))
-            .and(col5floresta85.select('regen'+(2018 + 1)).eq(1));
-              
-  mask18 = mask18.mask(mask18.eq(1));
-  mask18 = mask18.unmask(imageZero);  
-  mask18 = mask18.updateMask(mask18.neq(0));
-  mask18 = mask18.select([0], ['regen2018']);
-  
-  var mask19 =  col5floresta85.select('regen'+(2019 - 8)).eq(0)
-            .and(col5floresta85.select('regen'+(2019 - 7)).eq(0))
-            .and(col5floresta85.select('regen'+(2019 - 6)).eq(0))
-            .and(col5floresta85.select('regen'+(2019 - 5)).eq(0))
-            .and(col5floresta85.select('regen'+(2019 - 4)).eq(0))
-            .and(col5floresta85.select('regen'+(2019 - 3)).eq(0))
-            .and(col5floresta85.select('regen'+(2019 - 2)).eq(0))             
-            .and(col5floresta85.select('regen'+(2019 - 1)).eq(0))
-            .and(col5floresta85.select('regen'+(2019    )).eq(1));
+  var mask19 =  col6floresta85.select('regen'+(2019 - 6)).eq(0)
+            .and(col6floresta85.select('regen'+(2019 - 5)).eq(0))
+            .and(col6floresta85.select('regen'+(2019 - 4)).eq(0))
+            .and(col6floresta85.select('regen'+(2019 - 3)).eq(0))
+            .and(col6floresta85.select('regen'+(2019 - 2)).eq(0))
+            .and(col6floresta85.select('regen'+(2019 - 1)).eq(0))
+            .and(col6floresta85.select('regen'+(2019    )).eq(1))
+            .and(col6floresta85.select('regen'+(2019 + 1)).eq(1));
               
   mask19 = mask19.mask(mask19.eq(1));
   mask19 = mask19.unmask(imageZero);  
   mask19 = mask19.updateMask(mask19.neq(0));
   mask19 = mask19.select([0], ['regen2019']);
+  
+  var mask20 =  col6floresta85.select('regen'+(2020 - 8)).eq(0)
+            .and(col6floresta85.select('regen'+(2020 - 7)).eq(0))
+            .and(col6floresta85.select('regen'+(2020 - 6)).eq(0))
+            .and(col6floresta85.select('regen'+(2020 - 5)).eq(0))
+            .and(col6floresta85.select('regen'+(2020 - 4)).eq(0))
+            .and(col6floresta85.select('regen'+(2020 - 3)).eq(0))
+            .and(col6floresta85.select('regen'+(2020 - 2)).eq(0))             
+            .and(col6floresta85.select('regen'+(2020 - 1)).eq(0))
+            .and(col6floresta85.select('regen'+(2020    )).eq(1));
+              
+  mask20 = mask20.mask(mask20.eq(1));
+  mask20 = mask20.unmask(imageZero);  
+  mask20 = mask20.updateMask(mask20.neq(0));
+  mask20 = mask20.select([0], ['regen2020']);
 
 //Soma as bandas dos dois primeiros anos
 var regen = mask86.addBands(mask87);
@@ -117,7 +124,7 @@ regen88 = regen88.select(['regen1985'],['regen1988']);
 regen = regen.addBands(regen88);
 
 //Gera as bandas aplicando o filtro para todos os demais anos da regra geral (no caso, até 2016)
-for (var i = 1989; i < 2018; i++) {
+for (var i = 1989; i < 2019; i++) {
    var regen_geral = geraMask3_3(i);
       regen_geral = regen_geral.unmask(imageZero);
       regen_geral = regen_geral.updateMask(regen_geral.neq(0));
@@ -125,16 +132,16 @@ for (var i = 1989; i < 2018; i++) {
 }
 
 //Adiciona os dois últimos anos
-regen = regen.addBands(mask18).addBands(mask19);
+regen = regen.addBands(mask19).addBands(mask20);
 print(regen);
 
 Map.addLayer(regen.select('regen1999'), {'min': 0,'max': 1, 'palette': 'blue'},'Regen_1999');
-Map.addLayer(regen.select('regen2019'), {'min': 0,'max': 1, 'palette': 'blue'},'Regen_2019');
+Map.addLayer(regen.select('regen2020'), {'min': 0,'max': 1, 'palette': 'blue'},'Regen_2020');
 
-  Export.image.toAsset({
+Export.image.toAsset({
     "image": regen.unmask(0).uint8(),
     "description": 'regenSEEGc5',
-    "assetId": 'users/edrianosouza/SEEG8_2020/regenSEEGc5', //inserir aqui o endereço e o nome do Asset a ser exportado
+    "assetId": 'users/edrianosouza/2021/Seeg-9/regenSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
