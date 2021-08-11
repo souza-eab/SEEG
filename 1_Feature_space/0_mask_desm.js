@@ -1,17 +1,27 @@
+// SCRIPT TO GENERATE DEFORESTATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>;<dhemerson.costa@ipam.org.br>;<barbara.zimbres@ipam.org.br> 
+// Developed by: IPAM, SEEG and OC
+// Citing: SEEG/Observatório do Clima and IPAM
 
+// Asset Biomes Brazil
+var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
 
-//////////////////////////////////////////////////////////////////////////////////////////
-//GERAR AS MASCARAS DE DESMATAMENTO COM A COLEÇÃO DO MAPBIOMAS (exemplo com a coleção 5.0)
+// Add ImageCollection Mapbiomas 6.0
+var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
-
-//Reclassifica tudo o que for uso antrópico em 1985 para 1; o que for vegetação nativa, para 0; e o que não se aplica, para 9
+//Remap layers for native vegetation in 1985 to 1; what is anthropic, is 0; and what does not apply, is 9
 var col5antrop85 = colecao5.select('classification_1985').remap(
                   [3, 4, 5, 11, 12, 13, 9,15,20,21,23,24,25,27, 29, 30, 31, 32, 33,36,39,40,41,42,43,44,45],
                   [0, 0, 0,  0,  0,  0, 1, 1, 1, 1, 9, 1, 1, 9,  9,  1,  1,  9,  9, 1, 1, 1, 1, 1, 1, 1, 1]);
-//Muda o nome da banda
+
+//Changing names of bands 
 col5antrop85 = col5antrop85.select([0],['desmat1985']).int8();
 
-//Completa fazendo a mesma coisa para os demais anos
+// List years
+var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019'];
+
+
+// Complete doing the same thing for the other years 
 for (var i_ano=0;i_ano<anos.length; i_ano++){
   var ano = anos[i_ano];
 
