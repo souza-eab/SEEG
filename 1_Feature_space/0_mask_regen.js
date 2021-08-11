@@ -1,13 +1,11 @@
 // SCRIPT TO GENERATE REGENERATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
-// For any issue/bug, please write to <edriano.souza@ipam.org.br>;<dhemerson.costa@ipam.org.br>;<barbara.zimbres@ipam.org.br> 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
 
 // Set assets
-
 // Asset Biomes Brazil
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
-
 
 //// brazilian biomes?
 var biomes = ee.Image('projects/mapbiomas-workspace/AUXILIAR/biomas-2019-raster');
@@ -19,9 +17,8 @@ var colecao6 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO6/mapbiom
 var col6floresta85 = colecao6.select('classification_1985').remap(
                   [3, 4, 5, 6, 11, 12, 13, 9, 15,  19, 20, 21,  23, 24, 25,  27, 29, 30, 31, 32, 33, 36, 39, 40, 41, 42, 43, 44, 45, 49],
                   [1, 1, 1, 1,  1,  1,  1, 0,  0,   0,  0,  0,   9,  0,  0,   9,  9,  0,  0,  9,  9,  0,  0,  0,  0,  0,  0,  0,  0, 1]);
-                  
-
-//Changing names of bands 
+               
+// Changing names of bands 
 col6floresta85 = col6floresta85.select([0],['regen1985']).int8();
 
 // List years
