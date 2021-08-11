@@ -95,7 +95,7 @@ var anos = ['1985','1986','1987','1988','1989','1990','1991','1992','1993','1994
 var eeAnos = ee.List(anos);
 
 /////Chama o asset da máscara de REGENERAÇÃO exportado a partir do script 1
-var inputImage_regen = ee.Image('users/edrianosouza/2021/Seeg-9/Regen_SEEGc6'); // alterar para o asset salvo por vocês no script anterior
+var inputImage_regen = ee.Image('users/edrianosouza/2021/Seeg-9/regen_SEEGc6'); // alterar para o asset salvo por vocês no script anterior
 
 //Aplica as funções
 var result_regen = eeAnos.map(function(ano){
@@ -114,7 +114,7 @@ print(result_regen);
 Export.image.toAsset({
     "image": result_regen.uint8(),
     "description": 'regenSEEGc5_filter_certo',
-    "assetId": 'users/edrianosouza/2021/Seeg-9/Regen_SEEGc6_1', //insere o endereço para onde vai exportar a máscara filtrada
+    "assetId": 'users/edrianosouza/2021/Seeg-9/regen_SEEGc6_filter', //insere o endereço para onde vai exportar a máscara filtrada
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
@@ -124,7 +124,7 @@ Export.image.toAsset({
 });
 
 /////Chama o asset da máscara de DESMATAMENTO exportado a partir do script 1
-var inputImage_desm = ee.Image('users/edrianosouza/2021/Seeg-9/Desm_SEEGc6'); // alterar para o asset salvo por vocês no script anterior
+var inputImage_desm = ee.Image('users/edrianosouza/2021/Seeg-9/desm_SEEGc6'); // alterar para o asset salvo por vocês no script anterior
 
 //Aplica as funções
 var result_desm = eeAnos.map(function(ano){
@@ -143,7 +143,7 @@ print(result_desm);
 Export.image.toAsset({
     "image": result_desm.uint8(),
     "description": 'desmSEEGc5_filter_certo',
-    "assetId": 'users/edrianosouza/2021/Seeg-9/DesmSEEGc6_2', //insere o endereço para onde vai exportar a máscara filtrada
+    "assetId": 'users/edrianosouza/2021/Seeg-9/desmSEEGc6_filter', //insere o endereço para onde vai exportar a máscara filtrada
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
