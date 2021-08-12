@@ -3,7 +3,7 @@
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
 
-// Carregar os asset da coleção do MapBiomas utilizada
+// Set Asset collection  6.0 MapBiomas 
 var mapbioDir = 'projects/mapbiomas-workspace/COLECAO6/mapbiomas-collection50-integration-v8';
 var mapbiomas = ee.ImageCollection(mapbioDir).mosaic();
 
@@ -11,12 +11,13 @@ var mapbiomas = ee.ImageCollection(mapbioDir).mosaic();
 var assetRegions = "projects/mapbiomas-workspace/AUXILIAR/biomas-2019";
 var regions = ee.FeatureCollection(assetRegions);
 
+
 //Carregar as máscaras de desmatamento e regeneração, já filtradas para eliminar ruído
-var regenDir = 'projects/mapbiomas-workspace/public/collection5/mapbiomas_collection50_deforestation_regeneration_v1'; 
+var regenDir = 'users/edrianosouza/2021/Seeg-9/desmSEEGc6_filter'; 
 var regen = ee.Image(regenDir);
 print("bandas regen", regen.bandNames());//regeneração a partir de 1990
 
-var annualDesm = 'projects/mapbiomas-workspace/public/collection5/mapbiomas_collection50_deforestation_primary_vegetation_v1';
+var annualDesm = 'users/edrianosouza/2021/Seeg-9/desmSEEGc6_filter';
 var annualLoss = ee.Image(annualDesm); // desmatamento a partir de 1990
 print("bandas annualLoss", annualLoss.bandNames());
 
