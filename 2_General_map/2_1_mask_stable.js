@@ -26,15 +26,17 @@ var bandNames = mapbiomas.bandNames().slice(4);
 print("bandas", bandNames);
       mapbiomas = mapbiomas.select(bandNames);
 
+// 1986 -> 2020
 ////////Calculando frequencia (número de anos) em que cada pixel foi uma certa classe
 // General rule (proporção do período)
 var exp = '100*((b(0)+b(1)+b(2)+b(3)+b(4)+b(5)+b(6)+b(7)+b(8)+b(9)+b(10)+b(11)+b(12)+b(13)+b(14)+b(15)' +
-    '+b(16)+b(17)+b(18)+b(19)+b(20)+b(21)+b(22)+b(23)+b(24)+b(25)+b(26)+b(27)+b(28)+b(29)+b(30))/31)';
+    '+b(16)+b(17)+b(18)+b(19)+b(20)+b(21)+b(22)+b(23)+b(24)+b(25)+b(26)+b(27)+b(28)+b(29)+b(30)+b(31)+b(32)+b(33)+b(34))/34)';
 
 // Get frequency of each class
 var florFreq = mapbiomas.eq(3).expression(exp); //floresta
 var savFreq = mapbiomas.eq(4).expression(exp); //savana
 var manFreq = mapbiomas.eq(5).expression(exp);  //mangue
+var floFFreq = mapbiomas.eq(6).expression(exp);  //////////////////////////////////////////////// 'Add class Flooded Forest'
 var umiFreq = mapbiomas.eq(11).expression(exp); //área úmida não florestal
 var grassFreq = mapbiomas.eq(12).expression(exp); //veg campestre
 var naoFlorFreq = mapbiomas.eq(13).expression(exp); //outra formação natural não florestal
@@ -47,6 +49,7 @@ var agroFreq = mapbiomas.eq(21).expression(exp); //mosaico de agricultura e past
 var praiasFreq = mapbiomas.eq(23).expression(exp); //praia e duna
 var urbanFreq = mapbiomas.eq(24).expression(exp); //infraestrutura urbana
 var naoVegFreq = mapbiomas.eq(25).expression(exp); //outra área não vegetada
+var naoObsFreq = mapbiomas.eq(27).expression(exp); /////////////////////////////////////////////// Add class 'Non observed'
 var rockFreq = mapbiomas.eq(29).expression(exp); //afloramento rochoso
 var mineFreq = mapbiomas.eq(30).expression(exp); //mineração
 var aquiFreq = mapbiomas.eq(31).expression(exp); //aquicultura
