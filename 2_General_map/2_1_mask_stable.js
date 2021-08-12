@@ -105,13 +105,13 @@ var  baseMap = ee.Image(0).clip(regions)
                               .where(usoMask.eq(1).and(agroSojaFreq.gt(99)), 39)
                               .where(usoMask.eq(1).and(canaFreq.gt(99)), 20)
                               .where(usoMask.eq(1).and(silviFreq.gt(99)), 9)
-                              .where(usoMask.eq(1).and(praiasFreq.gt(99)), 23)
                               .where(usoMask.eq(1).and(urbanFreq.gt(99)), 24)
-                              
-                              .where(usoMask.eq(1).and(mineFreq.gt(99)), 30)
                               .where(usoMask.eq(1).and(aquiFreq.gt(99)), 31)
+                              .where(usoMask.eq(1).and(praiasFreq.gt(99)), 23)
+                              .where(usoMask.eq(1).and(mineFreq.gt(99)), 30)
                               
-                              
+                           
+ // Verificar pois aqui a alocação está como sendo florestas + ordem hierarquica                             
 //Aloca classe mais frequente na máscara de vegetacao nativa, com um critério de 60% de corte e depois sobrepondo as áreas nativas estáveis                             
                               .where(vegMask.eq(1).and(florFreq.gt(60)), 3)
                               .where(vegMask.eq(1).and(savFreq.gt(60)), 4)
@@ -124,31 +124,33 @@ var  baseMap = ee.Image(0).clip(regions)
                               .where(vegMask.eq(1).and(florFreq.gt(95)), 3) //ESTAVA 99, MAS NO ESQUEMA DA METODOLOGIA DIZ 95%. TROQUEI...
                               .where(vegMask.eq(1).and(savFreq.gt(95)), 4)
                               .where(vegMask.eq(1).and(manFreq.gt(95)), 5)
+                              .where(vegMask.eq(1).and(floFFreq.gt(95)), 6) //////////////////////////////////// Include 6
+                              .where(vegMask.eq(1).and(WrestFreq.gt(95)), 49) //////////////////////////////////// Include 49
                               .where(vegMask.eq(1).and(umiFreq.gt(95)), 11)
                               .where(vegMask.eq(1).and(grassFreq.gt(95)), 12)
                               .where(vegMask.eq(1).and(naoFlorFreq.gt(95)), 13);
 
 //Para preencher vazios: mapa de 1989 (exceto classe 21)
-//Máscara vegetacao nativa em 1989
-  var mapBiomas89vegMask = mapbiomas.select("classification_1989").remap([3, 4, 5, 11, 12, 13], [1, 1, 1, 1, 1, 1], 0);
+//Máscara vegetacao nativa em 1986
+  var mapBiomas86vegMask = mapbiomas.select("classification_1986").remap([3, 4, 5, 6, 49, 11, 12, 13], [1, 1, 1, 1,1, 1, 1, 1], 0);
 //Máscara uso e água em 1989
-  var mapBiomas89UsoMask = mapbiomas.select("classification_1989").remap([9, 15, 19, 20, 23, 24, 25, 30, 31, 36, 39, 41], //POR TINHA CLASSE 33 AQUI EM USO? ADICIONEI AS CLASSES AGRO NOVAS
-                                                     [1, 1,  1, 1, 1, 1,  1,  1,  1, 1 , 1, 1], 0);
-
+  var mapBiomas86UsoMask = mapbiomas.select("classification_1986").remap([9, 15, 19, 20, 21, 23, 24, 25, 30, 31, 36, 39, 41], //POR TINHA CLASSE 33 AQUI EM USO? ADICIONEI AS CLASSES AGRO NOVAS
+                                                                         [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1 , 1,  1], 0);
+// Include 21 Mosaic Of Agriculture and Pasture // 23 if =1 ?
 //Junta as duas máscaras                                                     
-  var mapBiomas89Mask = mapBiomas89vegMask.where(mapBiomas89vegMask.eq(0), mapBiomas89UsoMask);
+  var mapBiomas86Mask = mapBiomas86vegMask.where(mapBiomas86vegMask.eq(0), mapBiomas86UsoMask);
 
-//Preenche as áreas não estáveis com as máscaras de uso e vegetação nativa em 1989
-  baseMap = baseMap.where(baseMap.eq(0).and(mapBiomas89Mask.eq(1)),
-                                            mapbiomas.select("classification_1989"));
+//Preenche as áreas não estáveis com as máscaras de uso e vegetação nativa em 1986
+  baseMap = baseMap.where(baseMap.eq(0).and(mapBiomas86Mask.eq(1)),
+                                            mapbiomas.select("classification_1986"));
   baseMap = baseMap.updateMask(baseMap.neq(0));
-  baseMap = baseMap.select([0], ["classification_1989"]).unmask(0);
+  baseMap = baseMap.select([0], ["classification_1986"]).unmask(0);
 
 var years = [
-    1990, 1991, 1992, 1993, 1994, 1995, 1996,
+    1986,1987,1989,1990, 1991, 1992, 1993, 1994, 1995, 1996,
     1997, 1998, 1999, 2000, 2001, 2002, 2003,
     2004, 2005, 2006, 2007, 2008, 2009, 2010,
-    2011, 2012, 2013, 2014, 2015, 2016, 2017,2018, 2019
+    2011, 2012, 2013, 2014, 2015, 2016, 2017,2018,2019,2020
 ]; 
 var eeYears = ee.List(years);
 
@@ -197,33 +199,35 @@ var goSEEG1_1 = function (element, accumList) {
       thisYearCoverMap = thisYearCoverMap.where(thisYearGainMap.eq(1),
                                            mapbiomas.select(currentMapBioBand)
                                            .multiply(100));
-////Onde houver classes 30 ou 24 no MapBiomas no ano t (exceto 21), alocar no mapa ano t                                        
+////Onde houver classes 30 ou 24 no MapBiomas no ano t (exceto 21), alocar no mapa ano t   // Pq não a classe 21                                     
       thisYearCoverMap = thisYearCoverMap.where(mapbiomas.select(currentMapBioBand).eq(24)
                                                 .or(mapbiomas.select(currentMapBioBand).eq(30)),
                                                 mapbiomas.select(currentMapBioBand));
 
 //This year anthropic land-use Mask
-var thisYearLandUseMask = thisYearCoverMap.remap([9, 15, 19, 20, 23, 24, 25, 30, 31, 36, 39, 41],
-                                                     [1, 1, 1, 1, 1, 1,  1,  1,  1, 1 , 1, 1], 0);
+var thisYearLandUseMask = thisYearCoverMap.remap([9, 15, 19, 20, 21, 23, 24, 25, 30, 31, 36, 39, 41],
+                                                 [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1 , 1,  1], 0);
 
 ////Libera transições entre classes de uso (retorna classes de uso do mapa do MapBiomas no ano considerado)                             
-    thisYearCoverMap = thisYearCoverMap.where(thisYearLandUseMask.eq(1).and(mapbiomas.select(currentMapBioBand).eq(9)
+    thisYearCoverMap = thisYearCoverMap.where(thisYearLandUseMask.eq(1).and(mapbiomas.select(currentMapBioBand).eq(21)
                                                 .or(mapbiomas.select(currentMapBioBand).eq(15))
-                                                .or(mapbiomas.select(currentMapBioBand).eq(19))
-                                                .or(mapbiomas.select(currentMapBioBand).eq(20))
-                                                .or(mapbiomas.select(currentMapBioBand).eq(23))
-                                                .or(mapbiomas.select(currentMapBioBand).eq(24))
                                                 .or(mapbiomas.select(currentMapBioBand).eq(25))
-                                                .or(mapbiomas.select(currentMapBioBand).eq(30))
-                                                .or(mapbiomas.select(currentMapBioBand).eq(31))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(29))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(19))
                                                 .or(mapbiomas.select(currentMapBioBand).eq(36))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(41))
                                                 .or(mapbiomas.select(currentMapBioBand).eq(39))
-                                                .or(mapbiomas.select(currentMapBioBand).eq(41))),
+                                                .or(mapbiomas.select(currentMapBioBand).eq(20))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(9))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(24))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(31))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(23))
+                                                .or(mapbiomas.select(currentMapBioBand).eq(30))),
                                                 mapbiomas.select(currentMapBioBand));
       
       thisYearCoverMap = thisYearCoverMap.select([0], currentMapBioBand);
 
-///Bandas de anos passados para preencher mapas entre 1989 e t-1, com base nos dados de regeneracao e desmatamento e mapbiomas  
+///Bandas de anos passados para preencher mapas entre 1986 e t-1, com base nos dados de regeneracao e desmatamento e mapbiomas  
   var pastBandsVoid = ee.Algorithms.If(ee.Number(eeYears.indexOf(element)).eq(0),
     previous.bandNames().get(0),
     previous.bandNames());
@@ -233,14 +237,14 @@ var thisYearLandUseMask = thisYearCoverMap.remap([9, 15, 19, 20, 23, 24, 25, 30,
 ///Mapas do MapBiomas a serem usados  
 /////Constante (classes estáveis)
   var pastConstMapBio = ee.Algorithms.If(ee.Number(eeYears.indexOf(element)).eq(0),
-    mapbiomas.select(lastMapBioBand, ee.List(["classification_1989"])),
+    mapbiomas.select(lastMapBioBand, ee.List(["classification_1986"])),
     mapbiomas.select(ee.List.repeat(ee.String(lastMapBioBand.get(0)), eeYears.indexOf(element).add(1)),
                      bandNames.slice(0, eeYears.indexOf(element).add(1))));
   pastConstMapBio = ee.Image(pastConstMapBio);
 
 /////Literal (classes como eram na coleção original)
   var pastFreeMapBio = ee.Algorithms.If(ee.Number(eeYears.indexOf(element)).eq(0),
-    mapbiomas.select(["classification_1989"]),
+    mapbiomas.select(["classification_1986"]),
     mapbiomas.select(pastBandsVoid));
     
   pastFreeMapBio = ee.Image(pastFreeMapBio);
@@ -249,6 +253,8 @@ var thisYearLandUseMask = thisYearCoverMap.remap([9, 15, 19, 20, 23, 24, 25, 30,
 var florFreq = pastFreeMapBio.eq(3).reduce(ee.Reducer.sum())
 var savFreq = pastFreeMapBio.eq(4).reduce(ee.Reducer.sum())
 var manFreq = pastFreeMapBio.eq(5).reduce(ee.Reducer.sum())
+var floFFreq = pastFreeMapBio.eq(6).reduce(ee.Reducer.sum())
+var WrestFreq = pastFreeMapBio.eq(49).reduce(ee.Reducer.sum())
 var umiFreq = pastFreeMapBio.eq(11).reduce(ee.Reducer.sum())
 var grassFreq = pastFreeMapBio.eq(12).reduce(ee.Reducer.sum())
 var naoFlorFreq = pastFreeMapBio.eq(13).reduce(ee.Reducer.sum())
@@ -314,10 +320,10 @@ var moreFrequent = ee.Algorithms.If(frequencyWindow.reduce(ee.Reducer.max())
     moreFrequent = ee.Image(moreFrequent);
     
 var pastFreqMapBio = ee.Algorithms.If(ee.Number(eeYears.indexOf(element)).eq(0),
-    ee.Image(moreFrequent.select([0], ["classification_1989"])),
+    ee.Image(moreFrequent.select([0], ["classification_1986"])),
     ee.Image(pastBandsVoid.iterate(function(element, accumImg){
       return ee.Image(accumImg).addBands(ee.Image(moreFrequent.select([0], [element]))).slice(1);
-    },ee.Image(moreFrequent.select([0], ["classification_1989"])))));
+    },ee.Image(moreFrequent.select([0], ["classification_1986"])))));
 
   pastFreqMapBio = ee.Image(pastFreqMapBio);
 
@@ -368,14 +374,14 @@ print('SEEGmap1_1 Maps_pos_desmate*regen', SEEGmap1_1 );
 //Exportar os mapas de cobertura estabilizados como uma Image Collection
 //(é necessário criar uma Image Collection vazia no Asset para armazenar cada imagem que for iterativamente sendo exportada)
 
-for (var i = 0; i < 31; i++){ //MAIS UM ANO
+for (var i = 0; i < 34; i++){ //MAIS UM ANO
   var bandName = SEEGmap1_1.bandNames().get(i);
-  var image = SEEGmap1_1.select([bandName]).set('year', ee.Number(1989).add(i));
+  var image = SEEGmap1_1.select([bandName]).set('year', ee.Number(1986).add(i));
   
   Export.image.toAsset({
     "image": image.unmask(0).uint32(),
     "description": 'SEEG_2020_c5_'+ (1989+i),
-    "assetId": 'users/edrianosouza/qcn/GT/DG'+ (1989+i), //alterar o endereço da sua Image Collection
+    "assetId": 'users/edrianosouza/2021/Seeg-9/mask_stable'+ (1986+i), //alterar o endereço da sua Image Collection
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
