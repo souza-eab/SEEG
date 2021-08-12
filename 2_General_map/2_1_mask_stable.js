@@ -37,6 +37,7 @@ var florFreq = mapbiomas.eq(3).expression(exp); //floresta
 var savFreq = mapbiomas.eq(4).expression(exp); //savana
 var manFreq = mapbiomas.eq(5).expression(exp);  //mangue
 var floFFreq = mapbiomas.eq(6).expression(exp);  //////////////////////////////////////////////// 'Add class Flooded Forest'
+var WrestFreq = mapbiomas.eq(49).expression(exp);  //////////////////////////////////////////////// 'Add class Wooded Restinga'
 var umiFreq = mapbiomas.eq(11).expression(exp); //área úmida não florestal
 var grassFreq = mapbiomas.eq(12).expression(exp); //veg campestre
 var naoFlorFreq = mapbiomas.eq(13).expression(exp); //outra formação natural não florestal
@@ -53,20 +54,24 @@ var naoObsFreq = mapbiomas.eq(27).expression(exp); /////////////////////////////
 var rockFreq = mapbiomas.eq(29).expression(exp); //afloramento rochoso
 var mineFreq = mapbiomas.eq(30).expression(exp); //mineração
 var aquiFreq = mapbiomas.eq(31).expression(exp); //aquicultura
+var ApicFreq = mapbiomas.eq(32).expression(exp); /////////////////////////////////////////////// Add class 'Apicum'
 var aguaFreq = mapbiomas.eq(33).expression(exp); //rio, lago, oceano
 var agroPerFreq = mapbiomas.eq(36).expression(exp); //agricultura perene
 var agroSojaFreq = mapbiomas.eq(39).expression(exp); //soja
 var agroTempFreq = mapbiomas.eq(41).expression(exp); //agricultura anual (outras)
 
+
 //////Máscara de vegetacao nativa e agua (freq >95%) estáveis
 var vegMask = ee.Image(0).clip(regions)
-                         .where(florFreq.gt(95), 1)  //ESTAVA 99, MAS NO ESQUEMA DA METODOLOGIA DIZ 95%. TROQUEI...
-                         .where(savFreq.gt(95), 1)
-                         .where(manFreq.gt(95), 1) 
-                         .where(umiFreq.gt(95), 1)
-                         .where(grassFreq.gt(95), 1)
-                         .where(naoFlorFreq.gt(95), 1)
-                         .where(aguaFreq.gt(95), 1);
+                         .where(florFreq.gt(95),1)  //ESTAVA 99, MAS NO ESQUEMA DA METODOLOGIA DIZ 95%. TROQUEI...
+                         .where(savFreq.gt(95),1)
+                         .where(manFreq.gt(95),1)
+                         .where(floFFreq.gt(95),1) 
+                         .where(WrestFreq.gt(95),1) 
+                         .where(umiFreq.gt(95),1)
+                         .where(grassFreq.gt(95),1)
+                         .where(naoFlorFreq.gt(95),1)
+                         .where(aguaFreq.gt(95),1);
 
 //////Máscara de uso e afloramento rochoso (freq >99%)    estáveis                      
 var usoMask = ee.Image(0).clip(regions)                         
@@ -81,6 +86,7 @@ var usoMask = ee.Image(0).clip(regions)
                           .where(praiasFreq.gt(99), 1)
                           .where(urbanFreq.gt(99), 1)
                           .where(naoVegFreq.gt(99), 1)
+                          .where(naoObsFreq.gt(99), 0) // Why 0?
                           .where(mineFreq.gt(99), 1)
                           .where(aquiFreq.gt(99), 1)
                           .where(rockFreq.gt(0), 0);  //POR QUÊ 0?
@@ -90,19 +96,21 @@ var  baseMap = ee.Image(0).clip(regions)
 ///Aloca classe mais frequente na máscara de uso no mapa base
 //Aqui a ordem importa, a ordenação é hierárquica
                               .where(usoMask.eq(1), 21) //classe 21 menor poder na hierarquia
-                              .where(usoMask.eq(1).and(silviFreq.gt(99)), 9)
                               .where(usoMask.eq(1).and(pastFreq.gt(99)), 15)
+                              .where(usoMask.eq(1).and(naoVegFreq.gt(99)), 25)
+                              .where(usoMask.eq(1).and(rockFreq.gt(0)), 29)
                               .where(usoMask.eq(1).and(agroAnnFreq.gt(99)), 19)
                               .where(usoMask.eq(1).and(agroPerFreq.gt(99)), 36)
-                              .where(usoMask.eq(1).and(agroSojaFreq.gt(99)), 39)
                               .where(usoMask.eq(1).and(agroTempFreq.gt(99)), 41)
+                              .where(usoMask.eq(1).and(agroSojaFreq.gt(99)), 39)
                               .where(usoMask.eq(1).and(canaFreq.gt(99)), 20)
+                              .where(usoMask.eq(1).and(silviFreq.gt(99)), 9)
                               .where(usoMask.eq(1).and(praiasFreq.gt(99)), 23)
                               .where(usoMask.eq(1).and(urbanFreq.gt(99)), 24)
-                              .where(usoMask.eq(1).and(naoVegFreq.gt(99)), 25)
+                              
                               .where(usoMask.eq(1).and(mineFreq.gt(99)), 30)
                               .where(usoMask.eq(1).and(aquiFreq.gt(99)), 31)
-                              .where(usoMask.eq(1).and(rockFreq.gt(0)), 29)
+                              
                               
 //Aloca classe mais frequente na máscara de vegetacao nativa, com um critério de 60% de corte e depois sobrepondo as áreas nativas estáveis                             
                               .where(vegMask.eq(1).and(florFreq.gt(60)), 3)
