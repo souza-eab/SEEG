@@ -22,7 +22,7 @@ var annualLoss = ee.Image(annualDesm); // desmatamento a partir de 1990
 print("bandas annualLoss", annualLoss.bandNames());
 
 //Seleciona bandas da coleção do MapBiomas a partir de 1989 (compõe a dupla da transição 1989-1990, que será a primeira a ser considerada)
-var bandNames = mapbiomas.bandNames().slice(5);
+var bandNames = mapbiomas.bandNames().slice(4);
 print("bandas", bandNames);
       mapbiomas = mapbiomas.select(bandNames);
 
