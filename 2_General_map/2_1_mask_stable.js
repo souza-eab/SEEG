@@ -22,7 +22,7 @@ var annualLoss = ee.Image(annualDesm); // desmatamento a partir de 1990
 print("bandas annualLoss", annualLoss.bandNames());
 
 //Seleciona bandas da coleção do MapBiomas a partir de 1989 (compõe a dupla da transição 1989-1990, que será a primeira a ser considerada)
-var bandNames = mapbiomas.bandNames().slice(4);
+var bandNames = mapbiomas.bandNames().slice(5);
 print("bandas", bandNames);
       mapbiomas = mapbiomas.select(bandNames);
 
@@ -30,7 +30,7 @@ print("bandas", bandNames);
 ////////Calculando frequencia (número de anos) em que cada pixel foi uma certa classe
 // General rule (proporção do período)
 var exp = '100*((b(0)+b(1)+b(2)+b(3)+b(4)+b(5)+b(6)+b(7)+b(8)+b(9)+b(10)+b(11)+b(12)+b(13)+b(14)+b(15)' +
-    '+b(16)+b(17)+b(18)+b(19)+b(20)+b(21)+b(22)+b(23)+b(24)+b(25)+b(26)+b(27)+b(28)+b(29)+b(30)+b(31)+b(32)+b(33)+b(34)+b(35))/36)';
+    '+b(16)+b(17)+b(18)+b(19)+b(20)+b(21)+b(22)+b(23)+b(24)+b(25)+b(26)+b(27)+b(28)+b(29)+b(30)+b(31))/32)';
 
 // Get frequency of each class
 var florFreq = mapbiomas.eq(3).expression(exp); //floresta
@@ -132,22 +132,22 @@ var  baseMap = ee.Image(0).clip(regions)
 
 //Para preencher vazios: mapa de 1989 (exceto classe 21)
 //Máscara vegetacao nativa em 1985
-  var mapBiomas86vegMask = mapbiomas.select("classification_1985").remap([3, 4, 5, 6, 49, 11, 12, 13], [1, 1, 1, 1,1, 1, 1, 1], 0);
+  var mapBiomas89vegMask = mapbiomas.select("classification_1989").remap([3, 4, 5, 6, 49, 11, 12, 13], [1, 1, 1, 1,1, 1, 1, 1], 0);
 //Máscara uso e água em 1989
-  var mapBiomas86UsoMask = mapbiomas.select("classification_1985").remap([9, 15, 19, 20, 21, 23, 24, 25, 30, 31, 36, 39, 41], //POR TINHA CLASSE 33 AQUI EM USO? ADICIONEI AS CLASSES AGRO NOVAS
+  var mapBiomas89UsoMask = mapbiomas.select("classification_1989").remap([9, 15, 19, 20, 21, 23, 24, 25, 30, 31, 36, 39, 41], //POR TINHA CLASSE 33 AQUI EM USO? ADICIONEI AS CLASSES AGRO NOVAS
                                                                          [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1 , 1,  1], 0);
 // Include 21 Mosaic Of Agriculture and Pasture // 23 if =1 ?
 //Junta as duas máscaras                                                     
-  var mapBiomas86Mask = mapBiomas86vegMask.where(mapBiomas86vegMask.eq(0), mapBiomas86UsoMask);
+  var mapBiomas89Mask = mapBiomas89vegMask.where(mapBiomas89vegMask.eq(0), mapBiomas89UsoMask);
 
 //Preenche as áreas não estáveis com as máscaras de uso e vegetação nativa em 1986
-  baseMap = baseMap.where(baseMap.eq(0).and(mapBiomas86Mask.eq(1)),
-                                            mapbiomas.select("classification_1986"));
+  baseMap = baseMap.where(baseMap.eq(0).and(mapBiomas89Mask.eq(1)),
+                                            mapbiomas.select("classification_1989"));
   baseMap = baseMap.updateMask(baseMap.neq(0));
-  baseMap = baseMap.select([0], ["classification_1985"]).unmask(0);
+  baseMap = baseMap.select([0], ["classification_1989"]).unmask(0);
 
 var years = [
-    1985, 1986,1987,1989,1990, 1991, 1992, 1993, 1994, 1995, 1996,
+    1990, 1991, 1992, 1993, 1994, 1995, 1996,
     1997, 1998, 1999, 2000, 2001, 2002, 2003,
     2004, 2005, 2006, 2007, 2008, 2009, 2010,
     2011, 2012, 2013, 2014, 2015, 2016, 2017,2018,2019,2020
