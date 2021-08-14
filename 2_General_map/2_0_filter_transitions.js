@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // SCRIPT SCRIPT TO FILTER DEFORESTATION AND REGENERATION MASKS TO EXCLUDE ISOLATED PIXELS AND REDUCE NOISE "MAPBIOMAS (eg. col 6.0)" 
 // For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
 // Developed by: IPAM, SEEG and OC
@@ -7,6 +9,8 @@
 // Definition of the functions used
 // Set Asset
 // Apply set
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Function that transforms an image collection into a single image with multiple bands
 var collection2multiband = function (collection) {
