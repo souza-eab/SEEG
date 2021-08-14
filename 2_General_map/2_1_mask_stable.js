@@ -140,7 +140,7 @@ var  baseMap = ee.Image(0).clip(regions)
 //Junta as duas máscaras                                                     
   var mapBiomas89Mask = mapBiomas89vegMask.where(mapBiomas89vegMask.eq(0), mapBiomas89UsoMask);
 
-//Preenche as áreas não estáveis com as máscaras de uso e vegetação nativa em 1986
+//Preenche as áreas não estáveis com as máscaras de uso e vegetação nativa em 1989
   baseMap = baseMap.where(baseMap.eq(0).and(mapBiomas89Mask.eq(1)),
                                             mapbiomas.select("classification_1989"));
   baseMap = baseMap.updateMask(baseMap.neq(0));
@@ -150,7 +150,7 @@ var years = [
     1990, 1991, 1992, 1993, 1994, 1995, 1996,
     1997, 1998, 1999, 2000, 2001, 2002, 2003,
     2004, 2005, 2006, 2007, 2008, 2009, 2010,
-    2011, 2012, 2013, 2014, 2015, 2016, 2017,2018,2019,2020
+    2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020
 ]; 
 var eeYears = ee.List(years);
 
@@ -367,21 +367,21 @@ return ee.List(accumList).add(ee.Image(adequatedSack));
 var mapsSEEG1_1 = eeYears.iterate(goSEEG1_1, ee.List([baseMap]));
     mapsSEEG1_1 = ee.List(mapsSEEG1_1);
 
-var SEEGmap1_1 = ee.Image(mapsSEEG1_1.get(33));
+var SEEGmap1_1 = ee.Image(mapsSEEG1_1.get(31));
 print('SEEGmap1_1 Maps_pos_desmate*regen', SEEGmap1_1 );
 
 ///////////////////////////////////
 //Exportar os mapas de cobertura estabilizados como uma Image Collection
 //(é necessário criar uma Image Collection vazia no Asset para armazenar cada imagem que for iterativamente sendo exportada)
 
-for (var i = 0; i < 34; i++){ //MAIS UM ANO
+for (var i = 0; i < 32; i++){ //MAIS UM ANO
   var bandName = SEEGmap1_1.bandNames().get(i);
-  var image = SEEGmap1_1.select([bandName]).set('year', ee.Number(1985).add(i));
+  var image = SEEGmap1_1.select([bandName]).set('year', ee.Number(1989).add(i));
   
   Export.image.toAsset({
     "image": image.unmask(0).uint32(),
-    "description": 'SEEG_2021_c6_'+ (1985+i),
-    "assetId": 'users/edrianosouza/2021/Seeg-9/mask_stable'+ (1985+i), //alterar o endereço da sua Image Collection
+    "description": 'SEEG_2021_c6_'+ (1989+i),
+    "assetId": 'users/edrianosouza/2021/Seeg-9/mask_stable'+ (1989+i), //alterar o endereço da sua Image Collection
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
