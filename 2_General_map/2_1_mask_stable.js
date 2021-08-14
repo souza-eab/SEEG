@@ -13,11 +13,11 @@ var regions = ee.FeatureCollection(assetRegions);
 
 
 //Carregar as máscaras de desmatamento e regeneração, já filtradas para eliminar ruído
-var regenDir = 'users/edrianosouza/2021/Seeg-9/desmSEEGc6_filter'; 
+var regenDir = 'users/edrianosouza/2021/Seeg-9/regen_SEEGc6_filter'; 
 var regen = ee.Image(regenDir);
 print("bandas regen", regen.bandNames());//regeneração a partir de 1990
 
-var annualDesm = 'users/edrianosouza/2021/Seeg-9/desmSEEGc6_filter';
+var annualDesm = 'users/edrianosouza/2021/Seeg-9/desm_SEEGc6_filter';
 var annualLoss = ee.Image(annualDesm); // desmatamento a partir de 1990
 print("bandas annualLoss", annualLoss.bandNames());
 
