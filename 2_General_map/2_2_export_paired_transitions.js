@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Script to Generate and Export Transition Maps Between Pair of years from a MapBiomas collection (eg. col 6.0) 
 // For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
 // Developed by: IPAM, SEEG and OC
@@ -7,6 +9,7 @@
 // Set Asset
 // Apply set
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Carregar o asset da região considerada. No caso, biomas do Brasil
 var assetRegions = "projects/mapbiomas-workspace/AUXILIAR/biomas-2019";
