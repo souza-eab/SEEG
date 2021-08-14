@@ -2,6 +2,12 @@
 // For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
+// Processing time (14:30h as ) in Google Earth Engine
+
+/// Definition of the functions used
+/// Set Asset
+/// Apply set
+
 
 // Set Asset collection  6.0 MapBiomas 
 var mapbioDir = 'projects/mapbiomas-workspace/COLECAO6/mapbiomas-collection60-integration-v0-12';
