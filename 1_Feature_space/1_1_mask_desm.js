@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // SCRIPT TO GENERATE DEFORESTATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
 // For any issue/bug, please write to <edriano.souza@ipam.org.br>;<dhemerson.costa@ipam.org.br>;<barbara.zimbres@ipam.org.br> 
 // Developed by: IPAM, SEEG and OC
@@ -5,6 +7,9 @@
 // Processing time <1h> in Google Earth Engine
 
 // Set assets
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // Asset Biomes brazilian
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
