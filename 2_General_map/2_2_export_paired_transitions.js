@@ -1,20 +1,21 @@
-// SCRIPT PARA GERAR E EXPORTAR MAPAS DE TRANSIÇÃO ENTRE PARES DE ANOS
-// QUARTO PASSO PARA O MÉTODO DE CÁLCULOS DO SEEG, SETOR MUT
+// Script to Generate and Export Transition Maps Between Pair of years from a MapBiomas collection (eg. col 6.0) 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
+// Developed by: IPAM, SEEG and OC
+// Citing: SEEG/Observatório do Clima and IPAM
+// Processing time (14:30h as ) in Google Earth Engine
 
-////////////////////////////////////////////////////////////////////////////////////////
-// Organização responsável: IPAM (Instituto de Pesquisa Ambiental da Amazônia)
-// Criado por: Felipe Lenti e Bárbara Zimbres (barbara.zimbres@ipam.org.br)
-// Citação: referenciar o SEEG/Observatório do Clima e o IPAM ao usar esse script
-//////////////////////////////////////////////////////////////////////////////////////////
+// Set Asset
+// Apply set
+
 
 //Carregar o asset da região considerada. No caso, biomas do Brasil
 var assetRegions = "projects/mapbiomas-workspace/AUXILIAR/biomas-2019";
 var regions = ee.FeatureCollection(assetRegions);
 
-var anos = ['1989', '1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019'];
+var anos = ['1989', '1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019', '2020'];
 
 //Carregar os asset da coleção do MapBiomas utilizada
-var cobertura = ee.ImageCollection('projects/mapbiomas-workspace/SEEG/2020/cobertura-c5-v1-classe19').aside(print);
+var cobertura = ee.ImageCollection('users/edrianosouza/2021/Seeg-9/mask_stable').aside(print);
 
 //Loop para fazer a arimética de bandas com todos os pares de anos, multiplicando t1 por 10000
 anos.forEach(function(ano){
@@ -35,9 +36,9 @@ anos.forEach(function(ano){
 
 Export.image.toAsset({
   "image": transicoes2.unmask(0).uint32(),
-  "description": 'SEEG_transicoes_2020_c5_'+ (parseInt(ano))+'_'+(parseInt(ano)+1),
+  "description": 'SEEG_transicoes_2021_c6_'+ (parseInt(ano))+'_'+(parseInt(ano)+1),
   //alterar o endereço da sua Image Collection:
-  "assetId": 'projects/mapbiomas-workspace/SEEG/2020/transicoes-c5-v1-classe19/SEEG_transicoes_2020_c5_'+(parseInt(ano))+'_'+(parseInt(ano)+1),
+  "assetId": 'users/edrianosouza/2021/Seeg-9/transitions/SEEG_transicoes_2021_c6_'+(parseInt(ano))+'_'+(parseInt(ano)+1),
   "scale": 30,
   "pyramidingPolicy": {
       '.default': 'mode'
