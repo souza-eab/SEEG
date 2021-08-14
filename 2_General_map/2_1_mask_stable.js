@@ -131,7 +131,7 @@ var  baseMap = ee.Image(0).clip(regions)
                               .where(vegMask.eq(1).and(naoFlorFreq.gt(95)), 13);
 
 //Para preencher vazios: mapa de 1989 (exceto classe 21)
-//Máscara vegetacao nativa em 1985
+//Máscara vegetacao nativa em 1989
   var mapBiomas89vegMask = mapbiomas.select("classification_1989").remap([3, 4, 5, 6, 49, 11, 12, 13], [1, 1, 1, 1,1, 1, 1, 1], 0);
 //Máscara uso e água em 1989
   var mapBiomas89UsoMask = mapbiomas.select("classification_1989").remap([9, 15, 19, 20, 21, 23, 24, 25, 30, 31, 36, 39, 41], //POR TINHA CLASSE 33 AQUI EM USO? ADICIONEI AS CLASSES AGRO NOVAS
@@ -237,14 +237,14 @@ var thisYearLandUseMask = thisYearCoverMap.remap([9, 15, 19, 20, 21, 23, 24, 25,
 ///Mapas do MapBiomas a serem usados  
 /////Constante (classes estáveis)
   var pastConstMapBio = ee.Algorithms.If(ee.Number(eeYears.indexOf(element)).eq(0),
-    mapbiomas.select(lastMapBioBand, ee.List(["classification_1985"])),
+    mapbiomas.select(lastMapBioBand, ee.List(["classification_1989"])),
     mapbiomas.select(ee.List.repeat(ee.String(lastMapBioBand.get(0)), eeYears.indexOf(element).add(1)),
                      bandNames.slice(0, eeYears.indexOf(element).add(1))));
   pastConstMapBio = ee.Image(pastConstMapBio);
 
 /////Literal (classes como eram na coleção original)
   var pastFreeMapBio = ee.Algorithms.If(ee.Number(eeYears.indexOf(element)).eq(0),
-    mapbiomas.select(["classification_1985"]),
+    mapbiomas.select(["classification_1989"]),
     mapbiomas.select(pastBandsVoid));
     
   pastFreeMapBio = ee.Image(pastFreeMapBio);
@@ -320,10 +320,10 @@ var moreFrequent = ee.Algorithms.If(frequencyWindow.reduce(ee.Reducer.max())
     moreFrequent = ee.Image(moreFrequent);
     
 var pastFreqMapBio = ee.Algorithms.If(ee.Number(eeYears.indexOf(element)).eq(0),
-    ee.Image(moreFrequent.select([0], ["classification_1985"])),
+    ee.Image(moreFrequent.select([0], ["classification_1989"])),
     ee.Image(pastBandsVoid.iterate(function(element, accumImg){
       return ee.Image(accumImg).addBands(ee.Image(moreFrequent.select([0], [element]))).slice(1);
-    },ee.Image(moreFrequent.select([0], ["classification_1985"])))));
+    },ee.Image(moreFrequent.select([0], ["classification_1989"])))));
 
   pastFreqMapBio = ee.Image(pastFreqMapBio);
 
