@@ -2,7 +2,7 @@
 // For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
-
+// Processing time <6h> in Google Earth Engine
 
 // Definition of the functions used
 // Set Asset
