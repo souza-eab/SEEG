@@ -37,11 +37,12 @@ anos.forEach(function(ano){
 //OBS.: vão ser gerados pares de anos até o último ano +1, que não existe. 
 //Ignorar a Task para exportar esse último par de anos inexistente
 
+
 Export.image.toAsset({
   "image": transicoes2.unmask(0).uint32(),
   "description": 'SEEG_transicoes_2021_c6_'+ (parseInt(ano))+'_'+(parseInt(ano)+1),
   //alterar o endereço da sua Image Collection:
-  "assetId": 'users/edrianosouza/2021/Seeg-9/transitions/SEEG_transicoes_2021_c6_'+(parseInt(ano))+'_'+(parseInt(ano)+1),
+  "assetId": 'users/edrianosouza/2021/Seeg-9/mask_stable/SEEG_transicoes_2021_c6_'+(parseInt(ano))+'_'+(parseInt(ano)+1),
   "scale": 30,
   "pyramidingPolicy": {
       '.default': 'mode'
