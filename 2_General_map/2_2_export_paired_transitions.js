@@ -37,7 +37,6 @@ anos.forEach(function(ano){
 //OBS.: vão ser gerados pares de anos até o último ano +1, que não existe. 
 //Ignorar a Task para exportar esse último par de anos inexistente
 
-
 Export.image.toAsset({
   "image": transicoes2.unmask(0).uint32(),
   "description": 'SEEG_transicoes_2021_c6_'+ (parseInt(ano))+'_'+(parseInt(ano)+1),
