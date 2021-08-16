@@ -9,7 +9,7 @@
 // 1.2 Perform correction from 1985 to 2020 (cumulative and static)
 // @. ~~~~~~~~~~~~~~ // 
  
-/* @. Set user parameters *///
+/* @. Set user parameters */// eg.
 var dir_output = 'users/dhconciani/SEEG/rectv1/';
 var version = '1';
 
