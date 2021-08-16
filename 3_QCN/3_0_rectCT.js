@@ -151,3 +151,17 @@ Export.image.toAsset({
     "maxPixels": 1e13,
     "region": image_static.geometry()
 });  
+
+
+// export as GEE asset
+Export.image.toAsset({
+    "image": image_accumm.toFloat(),
+    "description": 'accumm_v' + version,
+    "assetId": dir_output + 'accum_v' + version,
+    "scale": 30,
+    "pyramidingPolicy": {
+        '.default': 'mode'
+    },
+    "maxPixels": 1e13,
+    "region": image_accumm.geometry()
+});  
