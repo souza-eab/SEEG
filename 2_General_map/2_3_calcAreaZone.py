@@ -39,7 +39,7 @@ def start(years):
   
     # Aqui eh o raster multi-banda das transicoes
     transitions = ee.Image(
-        'users/edrianosouza/b_v_tis/SEEG_transicoes_c5_stacked')
+        'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_2021_c6_')
     
     # Aqui eh o raster multi-banda de areas protegidas, em que cada banda e o cumulativo das AP em cada ano
     apMask = ee.Image(
@@ -208,7 +208,8 @@ periods = [
     ["2015", "2016"],
     ["2016", "2017"],
     ["2017","2018"],
-    ["2018","2019"]
+    ["2018","2019"],
+    ["2019","2020"]
 ]
 
 for period in periods:
