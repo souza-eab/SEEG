@@ -22,7 +22,7 @@ var list_mapb_years = [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 199
 
 // Define reclassification matrix
 var raw_mapbiomas = [3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 30, 31, 32, 33, 36, 39, 41];   // Palets add other new classes 
-var design5 =       [3, 0, 0, 0,  0, 0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
+var design5 =       [3, 4, 0, 0,  0, 0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
 
 ///////////////////////////////////////
 /* @. Don't change below this line *///
@@ -41,7 +41,7 @@ var palt = pal.matplotlib.viridis[7];
 var pala = pal.kovesi.rainbow_bgyr_35_85_c72[7];
 
 // total stock
-var cer_tot = ee.Image('users/edrianosouza/QCN/cer_cagb');
+var cer_tot = ee.Image('users/edrianosouza/QCN/cer_ctotal4inv');
 var soc = ee.Image('users/edrianosouza/soil_co2/BR_SOCstock_0-30_t_ha');
 
 // brazilian states
