@@ -402,4 +402,6 @@ for (var i = 0; i < 32; i++){ //MAIS UM ANO
   
 }
 
+// Atualizar imageCollection
+
 
