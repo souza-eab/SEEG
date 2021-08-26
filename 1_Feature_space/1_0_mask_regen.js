@@ -146,7 +146,7 @@ Map.addLayer(regen.select('regen2020'), {'min': 0,'max': 1, 'palette': 'blue'},'
 Export.image.toAsset({
     "image": regen.unmask(0).uint8(),
     "description": 'regenSEEGc6',
-    "assetId": 'projects/mapbiomas-workspace/SEEG/2021/V9/regenSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
+    "assetId": 'projects/mapbiomas-workspace/SEEG/2021/regenSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
