@@ -3,17 +3,17 @@ var gfolder = 'TEMP';                // google drive folder
 var assetId = 'insert-here-a-asset'; // asset link
 
 // define data path
-var dir = 'projects/mapbiomas-workspace/SEEG/2020/cobertura-c5-v1-classe19';
+var dir = 'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_2021_c6_';
 
 // define filenames prefix
-var prefix = 'SEEG_2020_c6_';
+var prefix = 'SEEG_transicoes_2021_c6_';
 
 // define years to be processed
-var listYears = [1989, 1990, 1991, 1992, 1993, 1994, 1995, 
-                 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-                 2003, 2004, 2005, 2006, 2007, 2008, 2009, 
-                 2010, 2011, 2012, 2013, 2014, 2015, 2016,
-                 2017, 2018, 2019,2020];
+var listYears = ['1989_1990', '1990_1991', '1991_1992', '1992_1993', '1993_1994', '1994_1995', '1995_1996', 
+                 '1996_1997', '1997_1998', '1998_1999', '1999_2000', '2000_2001', '2001_2002', '2002_2003',
+                 '2003_2004', '2004_2005', '2005_2006', '2006_2007', '2007_2008', '2008_2009', '2009_2010', 
+                 '2010_2011', '2011_2012', '2012_2013', '2013_2014', '2014_2015', '2015_2016', '2016_2017',
+                 '2017_2018', '2018_2019','2019_2020'];
 
 // create empty recipe to receive each image and stack as a new band
 var recipe = ee.Image([]);
