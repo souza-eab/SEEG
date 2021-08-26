@@ -85,7 +85,7 @@ var geraMask3_3 = function(ano){
   return mask;
 };
 
-//Aplica as exceções das regras nos dois primeiros (1986 e 1987) e dois últimos anos (2017 e 2018) da série temporal
+//Aplica as exceções das regras nos dois primeiros (1986 e 1987) e dois últimos anos (2019 e 2020) da série temporal
 var imageZero = ee.Image(0);
 var mask86 =  col6antrop85.select('desm'+(1986 - 1)).eq(0)
               .and(col6antrop85.select('desm'+(1986    )).eq(1))
