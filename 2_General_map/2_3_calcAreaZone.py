@@ -1,11 +1,22 @@
-## SCRIPT PARA SOMAR E EXPORTAR AS AREAS DAS TRANSICOES ANUAIS DE ACORDO COM AS REGIOES DE INTERESSE
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SCRIPT TO GENERATE DEFORESTATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>;<dhemerson.costa@ipam.org.br>;<barbara.zimbres@ipam.org.br> 
+// Developed by: IPAM, SEEG and OC
+// Citing: SEEG/Observatório do Clima and IPAM
+
+
+// Set assets
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+## SCRIPT TO GENERATE SUM AND EXPORT IN AREAS OF TRANSITION ANNUAL TO ACCORDING OF INTERESS REGION
+## For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
+## Developed by: IPAM, SEEG and OC
+## Citing: SEEG/Observatório do Clima and IPAM
+
+
 ## QUINTO PASSO PARA O METODO DE CALCULOS DO SEEG, SETOR MUT
-## .py colocar não em Immage Collections (Image) 
-
-## Organizacao responsavel: IPAM (Instituto de Pesquisa Ambiental da Amazonia)
-## Criado por: Joao Siqueira e atualizado por Barbara Zimbres (barbara.zimbres@ipam.org.br)
-## Citacao: referenciar o SEEG/Observatorio do Clima e o IPAM ao usar esse script
-
+## *.py -> OBS: ñ processa em Immage Collections, utilizar o passo 2_2_1_Transfer 
 ####OBS.:
 ### Para rodar esse script, basta abrir o prompt de comandos do computador e rodar o seguinte codigo:
 ### cd "NOME DA PASTA ONDE ESSE SCRIPT ESTA ARMAZENADO"
