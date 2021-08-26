@@ -1,6 +1,6 @@
 // export parameters
 var gfolder = 'TEMP';                // google drive folder 
-var assetId = 'insert-here-a-asset'; // asset link
+var assetId = 'users/edrianosouza/2021/Seeg-9'; // asset link
 
 // define data path
 var dir = 'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_2021_c6_';
@@ -29,6 +29,7 @@ listYears.forEach(function(stack_img){
 // print stacked data
 print(recipe);
 
+/*
 // export as gdrive file
     Export.image.toDrive({
     image: recipe,
@@ -39,10 +40,10 @@ print(recipe);
     region: recipe.geometry(),
     maxPixels: 1e13
     });
+*/
 
 // export as GEE asset 
-/*
-Export.image.toAsset({
+  Export.image.toAsset({
     'image': recipe,
     'description': prefix + 'stacked',
     'assetId': assetId + prefix + 'stacked',
@@ -53,6 +54,6 @@ Export.image.toAsset({
     'scale': 30,
     'maxPixels': 1e13
 });
-*/
+
 
 
