@@ -176,7 +176,7 @@ Map.addLayer(desm.select('desm2020'), {'min': 0,'max': 1, 'palette': 'red'},"Des
 Export.image.toAsset({
     "image": desm.unmask(0).uint8(),
     "description": 'desmSEEGc6',
-    "assetId":'users/edrianosouza/2021/Seeg-9/desmSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
+    "assetId":'projects/mapbiomas-workspace/SEEG/2021/V9/desmSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
