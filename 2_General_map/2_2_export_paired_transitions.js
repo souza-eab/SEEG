@@ -41,7 +41,7 @@ Export.image.toAsset({
   "image": transicoes2.unmask(0).uint32(),
   "description": 'SEEG_transicoes_2021_c6_'+ (parseInt(ano))+'_'+(parseInt(ano)+1),
   //alterar o endereço da sua Image Collection:
-  "assetId": 'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_2021_c6_'+(parseInt(ano))+'_'+(parseInt(ano)+1),
+  "assetId": 'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_2021_c6_',
   "scale": 30,
   "pyramidingPolicy": {
       '.default': 'mode'
