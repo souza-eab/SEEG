@@ -1,23 +1,21 @@
 ## SCRIPT PARA SOMAR E EXPORTAR AS AREAS DAS TRANSICOES ANUAIS DE ACORDO COM AS REGIOES DE INTERESSE
 ## QUINTO PASSO PARA O METODO DE CALCULOS DO SEEG, SETOR MUT
+## .py colocar não em Immage Collections (Image) 
 
 ## Organizacao responsavel: IPAM (Instituto de Pesquisa Ambiental da Amazonia)
-## Criado por: Edriano Souza, Joao Siqueira e atualizado por Barbara Zimbres (barbara.zimbres@ipam.org.br)
+## Criado por: Joao Siqueira e atualizado por Barbara Zimbres (barbara.zimbres@ipam.org.br)
 ## Citacao: referenciar o SEEG/Observatorio do Clima e o IPAM ao usar esse script
 
 ####OBS.:
 ### Para rodar esse script, basta abrir o prompt de comandos do computador e rodar o seguinte codigo:
 ### cd "NOME DA PASTA ONDE ESSE SCRIPT ESTA ARMAZENADO"
 ### python "NOME COM QUE ESSE SCRIPT ESTA SALVO".py
-### Intalação_PS C:\Users\edriano.souza\OneDrive\d\seeg\a\scripts> pip install earthengine-api
-### biomasMunicip = biomas.multiply(100).add(estados).multiply(10000000).add(municipios)
-
 
 import ee
 import os
 from pprint import pprint
-ee.Initialize()
 ee.Authenticate()
+ee.Initialize()
 
 
 def start(years):
@@ -36,16 +34,17 @@ def start(years):
     #O valor do raster eh o geocodigo dos estados segundo o IBGE.
     #estados = ee.Image(
     #    'projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster')
-  
+
     # Aqui eh o raster multi-banda das transicoes
     transitions = ee.Image(
-        'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_2021_c6_')
+        'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_c6_stacked')
     
     # Aqui eh o raster multi-banda de areas protegidas, em que cada banda e o cumulativo das AP em cada ano
     apMask = ee.Image(
         'projects/mapbiomas-workspace/AUXILIAR/areas-protegidas-por-ano-2019/ap' + years[0]).unmask()
-    
+
     biomasMunicip = biomas.multiply(10000000).add(municipios)
+
     geometry = biomas.geometry().bounds()
     # a geometria aqui eh uma bounding box do Brasil. Criem uma bounding box do RS e insiram as coordenadas aqui.
     geometry = ee.Geometry.Polygon(
@@ -164,20 +163,23 @@ def start(years):
 
     areas = areasAp0.merge(areasAp1)
 
-    #O output name que voces querem que exporte
-    file_name = "seeg-collection-6-transicao-biomas-municipios-" + \
+    #Export
+    name = "seeg-collection-6-transicao-biomas-municipios-" + \
         years[0] + '-' + years[1]
+
+    #completeName = os.path.join('SEEG', file_name)
+    #file = open(completeName +'.GeoJSON', 'w')
+    #file.write(str(areas))
+    #file.close()
 
     task = ee.batch.Export.table.toDrive(
         collection=areas,
-        description=file_name,
-        folder='BV/b_v_tis', #Pasta no Google Drive para exportar a tabela
-        fileNamePrefix=file_name,
-        fileFormat='GeoJSON')
+        description=name,
+        folder='SEEG_2021_GEE', #Pasta no Google Drive para exportar a tabela
+        fileNamePrefix=name,
+        fileFormat="GeoJSON")           
 
     task.start()
-
-    
 periods = [
     ["1989", "1990"],
     ["1990", "1991"],
@@ -208,10 +210,8 @@ periods = [
     ["2015", "2016"],
     ["2016", "2017"],
     ["2017","2018"],
-    ["2018","2019"],
-    ["2019","2020"]
+    ["2018","2019","2020"]
 ]
 
 for period in periods:
     start(period)
-
