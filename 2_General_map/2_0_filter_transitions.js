@@ -128,7 +128,7 @@ Export.image.toAsset({
 });
 
 /////Chama o asset da máscara de DESMATAMENTO exportado a partir do script 1
-var inputImage_desm = ee.Image('projects/mapbiomas-workspace/SEEG/2021/desm_SEEGc6'); // alterar para o asset salvo por vocês no script anterior
+var inputImage_desm = ee.Image('projects/mapbiomas-workspace/SEEG/2021/desmSEEGc6'); // alterar para o asset salvo por vocês no script anterior
 
 //Aplica as funções
 var result_desm = eeAnos.map(function(ano){
