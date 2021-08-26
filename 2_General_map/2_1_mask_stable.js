@@ -27,7 +27,7 @@ var regenDir = 'projects/mapbiomas-workspace/SEEG/2021/regen_SEEGc6_filter';
 var regen = ee.Image(regenDir);
 print("bandas regen", regen.bandNames());//regeneração a partir de 1990
 
-var annualDesm = 'projects/mapbiomas-workspace/SEEG/2021/desm_SEEGc6_filter';
+var annualDesm = 'projects/mapbiomas-workspace/SEEG/2021/desmSEEGc6_filter'';
 var annualLoss = ee.Image(annualDesm); // desmatamento a partir de 1990
 print("bandas annualLoss", annualLoss.bandNames());
 
