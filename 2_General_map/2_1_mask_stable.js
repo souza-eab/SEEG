@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Script to generate and stabilize annual coverage basemaps from a MapBiomas collection (eg. col 6.0) 
 // For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
@@ -21,13 +21,12 @@ var mapbiomas = ee.ImageCollection(mapbioDir).mosaic();
 var assetRegions = "projects/mapbiomas-workspace/AUXILIAR/biomas-2019";
 var regions = ee.FeatureCollection(assetRegions);
 
-projects/mapbiomas-workspace/SEEG/2021/
 //Carregar as máscaras de desmatamento e regeneração, já filtradas para eliminar ruído
-var regenDir = 'projects/mapbiomas-workspace/SEEG/2021/regen_SEEGc6_filter'; 
+var regenDir = 'projects/mapbiomas-workspace/SEEG/2021/regen_SEEGc6_filter';
 var regen = ee.Image(regenDir);
 print("bandas regen", regen.bandNames());//regeneração a partir de 1990
 
-var annualDesm = 'projects/mapbiomas-workspace/SEEG/2021/desmSEEGc6_filter'';
+var annualDesm = 'projects/mapbiomas-workspace/SEEG/2021/desmSEEGc6_filter';
 var annualLoss = ee.Image(annualDesm); // desmatamento a partir de 1990
 print("bandas annualLoss", annualLoss.bandNames());
 
@@ -401,7 +400,4 @@ for (var i = 0; i < 32; i++){ //MAIS UM ANO
 });   
   
 }
-
-// Atualizar imageCollection
-
 
