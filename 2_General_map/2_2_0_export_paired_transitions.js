@@ -32,7 +32,8 @@ anos.forEach(function(ano){
 
 //Exportar os mapas de transição par a par como uma Image Collection
 //(é necessário criar uma Image Collection vazia no Asset para armazenar cada imagem que for iterativamente sendo exportada)
-//"SEEG_transicoes_2021_c6_" é o nome da Image Collection que eu criei na pasta desejada
+//"Transicoes" é o nome da Image Collection que eu criei na pasta desejada
+// SEEG_Transicoes_2021_c6_ irá ser o code 
 
 //OBS.: vão ser gerados pares de anos até o último ano +1, que não existe. 
 //Ignorar a Task para exportar esse último par de anos inexistente
@@ -41,7 +42,7 @@ Export.image.toAsset({
   "image": transicoes2.unmask(0).uint32(),
   "description": 'SEEG_Transicoes_2021_c6_'+ (parseInt(ano))+'_'+(parseInt(ano)+1),
   //alterar o endereço da sua Image Collection:
-  "assetId": 'users/edrianosouza/2021/SEEG_9/Transicoes_2021_c6_',
+  "assetId": 'projects/mapbiomas-workspace/SEEG/2021/Transicoes/SEEG_Transicoes_2021_c6_'+ (parseInt(ano))+'_'+(parseInt(ano)+1),
   "scale": 30,
   "pyramidingPolicy": {
       '.default': 'mode'
