@@ -18,7 +18,7 @@ var regions = ee.FeatureCollection(assetRegions);
 var anos = ['1989', '1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019', '2020'];
 
 //Carregar os asset da coleção do MapBiomas utilizada
-var cobertura = ee.ImageCollection('users/edrianosouza/2021/Seeg-9/mask_stable').aside(print);
+var cobertura = ee.ImageCollection('projects/mapbiomas-workspace/SEEG/2021/mask_stable').aside(print);
 
 //Loop para fazer a arimética de bandas com todos os pares de anos, multiplicando t1 por 10000
 anos.forEach(function(ano){
