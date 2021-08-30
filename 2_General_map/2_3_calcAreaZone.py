@@ -48,7 +48,7 @@ def start(years):
 
     # Aqui eh o raster multi-banda das transicoes
     transitions = ee.Image(
-        'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_c6_stacked')
+        'projects/mapbiomas-workspace/SEEG/2021/SEEG_Transicoes_2021_c6_stacked')
     
     # Aqui eh o raster multi-banda de areas protegidas, em que cada banda e o cumulativo das AP em cada ano
     apMask = ee.Image(
