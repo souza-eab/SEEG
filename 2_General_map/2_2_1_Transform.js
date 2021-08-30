@@ -1,12 +1,12 @@
 // export parameters
 var gfolder = 'TEMP';                // google drive folder 
-var assetId = 'users/edrianosouza/2021/Seeg-9'; // asset link
+var assetId = 'projects/mapbiomas-workspace/SEEG/2021'; // asset link
 
 // define data path
-var dir = 'users/edrianosouza/2021/Seeg-9/SEEG_transicoes_2021_c6_';
+var dir = 'projects/mapbiomas-workspace/SEEG/2021/Transicoes';
 
 // define filenames prefix
-var prefix = 'SEEG_transicoes_2021_c6_';
+var prefix = 'SEEG_Transicoes_2021_c6_';
 
 // define years to be processed
 var listYears = ['1989_1990', '1990_1991', '1991_1992', '1992_1993', '1993_1994', '1994_1995', '1995_1996', 
