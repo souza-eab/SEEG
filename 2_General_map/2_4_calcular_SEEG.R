@@ -22,7 +22,7 @@ install.packages("styler")
 biomasestados <- read.csv("C:/Users/edriano.souza/OneDrive/d/seeg/a/R/data_seeg//biomas_estados.csv")
 
 #Pasta onde se encontram os GeoJSON exportados do Google Earth Engine
-folder <- "C:/Users/edriano.souza/OneDrive/d/seeg/a/R/geo/geoJson"
+folder <- "C:/Users/edriano.souza/OneDrive/data_2021/geoJson"
 
 #Organizacao das areas de transicao e saida em hectares
 biomasestado.data = list.files(folder, full.names = TRUE) %>%
