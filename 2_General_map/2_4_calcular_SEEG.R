@@ -1,3 +1,30 @@
+#Setar di
+setwd("C:/Users/edriano.souza/OneDrive/data_2021")
+
+
+# Install
+
+#install.packages("usethis")
+
+library(usethis)
+
+
+usethis::use_git_config(#Your name
+                       user.name = "Edriao Souza",
+                       user.email = "edriano759@gmail.com")
+
+usethis::edit_r_environ()
+
+usethis::create_github_token()
+
+usethis::use_git()
+
+
+
+
+######
+
+
 ## SCRIPT PARA CALCULO DAS EMISSÕES E REMOÇÕES DAS TRANSIÇÕES
 ## SEXTO E ÚLTIMO PASSO PARA O METODO DE CALCULOS DO SEEG, SETOR MUT
 
@@ -12,7 +39,7 @@ library(jsonlite)
 library(tidyverse)
 library(googledrive)
 library(openxlsx)
-install.packages("styler")
+#install.packages("styler")
 ############################
 
 
@@ -48,15 +75,15 @@ biomasestado.data = list.files(folder, full.names = TRUE) %>%
          area_ha = V2) %>%
   mutate(area_ha = area_ha*100)
 
-#16:46 
+#15:35 16:29
 
 #Exportacao da tabela para fins de armazenamento do processo
 tran_mun = biomasestado.data %>%
   arrange(codigo, periodo, de, para) %>% 
-  ?spread(key = periodo, value = area_ha, fill = 0) %>%
-  filter(!is.na(bioma))%>%
-  write_csv("C:/Users/edriano.souza/OneDrive/d/seeg/a/R/seeg8_1/out_trans/transicao_biomas_estados_municipios_col5.csv")
-
+  spread(key = periodo, value = area_ha, fill = 0) %>%
+  filter(!is.na(bioma))#%>%
+  #write_csv("C:/Users/edriano.souza/OneDrive/d/seeg/a/R/seeg8_1/out_trans/transicao_biomas_estados_municipios_col5.csv")
+#15:35 16:29
 
 ####Definicao de parametros para aplicacao das equacoes de emissao/remocao 
 
@@ -198,9 +225,9 @@ biomas <- c( "AMAZONIA", "CAATINGA","CERRADO", "MATA_ATLANTICA",
              "PAMPA","PANTANAL")
 
 #Relacao das classes do MapBiomas com as classes contabilizadas no 3o. Inventario
-FM <- c(3, 4, 5)
-FNM <- c(3, 4, 5)
-FSec <- c(300, 400, 500)
+FM <- c(3, 4, 5, 49)
+FNM <- c(3, 4, 5, 49)
+FSec <- c(300, 400, 500, 4900)
 GSec <- c(1100, 1200, 1300)
 Ref <- 9
 GM <- c(11,12,13)
@@ -261,7 +288,7 @@ colnames(tran_mun)<-c('codigo','codigobiomasestados', 'bioma','estado','ap','de'
                       'X2011.a.2012','X2012.a.2013',
                       'X2013.a.2014','X2014.a.2015',
                       'X2015.a.2016','X2016.a.2017',
-                      'X2017.a.2018','X2018.a.2019')
+                      'X2017.a.2018','X2018.a.2019', 'X2019.a.2020')
 
 #Agregar a soma das areas de cada transicao por area de interesse (municipio, bioma, estado e area protegida)
 tran_mun<-tran_mun%>%
@@ -279,7 +306,8 @@ tran_mun<-tran_mun%>%
                                                                               X2011.a.2012 = sum(X2011.a.2012),X2012.a.2013 = sum(X2012.a.2013),
                                                                               X2013.a.2014 = sum(X2013.a.2014),X2014.a.2015 = sum(X2014.a.2015),
                                                                               X2015.a.2016 = sum(X2015.a.2016),X2016.a.2017 = sum(X2016.a.2017),
-                                                                              X2017.a.2018 = sum(X2017.a.2018),X2018.a.2019 = sum(X2018.a.2019))
+                                                                              X2017.a.2018 = sum(X2017.a.2018),X2018.a.2019 = sum(X2018.a.2019),
+                                                                              X2019.a.2020 = sum(X2019.a.2020))
 tran_mun<-data.frame(tran_mun)
 
 nrow(tran_mun[tran_mun$de == 3 &
@@ -305,12 +333,12 @@ for (i in 1:length(estadosCerrado)){
 }
 
 #unique(paste(tran_mun$uf, tran_mun$bioma))
-colSums(subset(tran_mun, tran_mun$bioma == "AMAZONIA")[8:37])
-colSums(subset(tran_mun, tran_mun$bioma == "CERRADO")[8:37])
-colSums(subset(tran_mun, tran_mun$bioma == "MATA_ATLANTICA")[8:37])
-colSums(subset(tran_mun, tran_mun$bioma == "PANTANAL")[8:37])
-colSums(subset(tran_mun, tran_mun$bioma == "PAMPA")[8:37])
-colSums(subset(tran_mun, tran_mun$bioma == "CAATINGA")[8:37])
+colSums(subset(tran_mun, tran_mun$bioma == "AMAZONIA")[8:38])
+colSums(subset(tran_mun, tran_mun$bioma == "CERRADO")[8:38])
+colSums(subset(tran_mun, tran_mun$bioma == "MATA_ATLANTICA")[8:38])
+colSums(subset(tran_mun, tran_mun$bioma == "PANTANAL")[8:38])
+colSums(subset(tran_mun, tran_mun$bioma == "PAMPA")[8:38])
+colSums(subset(tran_mun, tran_mun$bioma == "CAATINGA")[8:38])
 
 # rownames(tran_mun)<-seq(1:nrow(tran_mun))
 
@@ -319,12 +347,12 @@ tran_mun <- tran_mun[!!rowSums(abs(tran_mun[(names (tran_mun) %in% c("X1989.a.19
                                                                      "X1992.a.1993","X1993.a.1994","X1994.a.1995",
                                                                      "X1995.a.1996","X1996.a.1997","X1997.a.1998",
                                                                      "X1998.a.1999","X1999.a.2000","X2000.a.2001",
-                                                                     "X2001.a.2002","2002.a.2003","2003.a.2004",
+                                                                     "X2001.a.2002","X2002.a.2003","X2003.a.2004",
                                                                      "X2004.a.2005","X2005.a.2006","X2006.a.2007",
                                                                      "X2007.a.2008","X2008.a.2009","X2009.a.2010",
                                                                      "X2010.a.2011","X2011.a.2012","X2012.a.2013",
                                                                      "X2013.a.2014","X2014.a.2015","X2015.a.2016",
-                                                                     "X2016.a.2017","X2017.a.2018","X2018.a.2019"))])) > 1,]
+                                                                     "X2016.a.2017","X2017.a.2018","X2018.a.2019", "X2019.a.2020"))])) > 1,]
 
 
 
@@ -1801,10 +1829,10 @@ for (i in 1:nrow(emiss_mun)){
   }
 }
 
-tran_mun.b[,8:37] <- as.numeric(unlist(tran_mun.b[,8:37])) #Coluna com as estimativas anuais como numéricas
-emiss_mun[,8:37] <- as.numeric(unlist(emiss_mun[,8:37])) #Coluna com as estimativas anuais como numéricas
+tran_mun.b[,8:38] <- as.numeric(unlist(tran_mun.b[,8:38])) #Coluna com as estimativas anuais como numéricas
+emiss_mun[,8:38] <- as.numeric(unlist(emiss_mun[,8:38])) #Coluna com as estimativas anuais como numéricas
 
-colSums(emiss_mun[8:37])
+colSums(emiss_mun[8:38])
 
 #colSums(desm[34:63])
 #colSums(subset(desm, desm$LEVEL_3 == "AMAZONIA")[34:63])
@@ -1815,8 +1843,8 @@ colSums(emiss_mun[8:37])
 # colSums(subset(desm, desm$LEVEL_3 == "PANTANAL")[34:63])
 
 #Exportacao para fins de armazenamento do processo e exploracao inicial dos padroes
-write.csv(emiss_mun, file = "C:/Users/edriano.souza/OneDrive/d/seeg/a/R/Seeg8_1/emiss_mun_col5_municipios.csv")
-write.csv(tran_mun.b, file = "C:/Users/edriano.souza/OneDrive/d/seeg/a/R/Seeg8_1/areastran_col5_municipios.csv")
+write.csv(emiss_mun, file = "C:/Users/edriano.souza/OneDrive/data_seeg/result/emiss_mun_col6_municipios.csv")
+write.csv(tran_mun.b, file = "C:/Users/edriano.souza/OneDrive/data_seeg/result/areastran_col6_municipios.csv")
 
 # setwd("D:/Dropbox/Work/SEEG")
 # tran_mun.b<-read.csv("SEEG 8/SEEG 8.1/areastran_col5_municipios.csv",h=T)
