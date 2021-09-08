@@ -1,4 +1,4 @@
-// Rectfy CT of QCN Grasslands that are Forest in Mapbiomas and export as an GEE asset 
+// Rectfy CT of QCN Savanna that are Forest in Mapbiomas and export as an GEE asset 
 // For any issue/bug, please write to dhemerson.costa@ipam.org.br or edriano.souza@ipam.org.br
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
