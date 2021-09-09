@@ -323,6 +323,15 @@ colnames(ca)
 summary(ca)
 cbind(names(ca))
 
+
+#Nomes das colunas
+newNames <- c("FID", "ID", "C_pretorig","C_pretvizi", "categvizi", "c_agb", 
+              "c_bgb","c_dw","c_litter","c_total4inv") #Aqui as colunas padrã
+#que todos os biomas compartilhas da mesma informação;
+#Para relacionar as classes pegamos C_pretvizi e categvizi;
+
+
+
 #Reclassificando as colunas dos biomas da QCN
 colnames(ca)<-newNames
 
@@ -332,9 +341,6 @@ ca$BIOMA <- c("Caatinga")
 
 
 #Criar variável de classe igual para tratamentos
-ca <- mutate(ca, C_pretvizi_OK =C_pretvizi)
-
-
 ca <- mutate(ca, C_pretvizi_OK =C_pretvizi) #Criar variável de classe igual para tratamentos nas tbls
 ca$C_pretorig <- as.factor(ca$C_pretorig)#Tranformar em fatores para as Tibbles
 ca$C_pretvizi <- as.factor(ca$C_pretvizi)#.....................................
@@ -365,20 +371,20 @@ ca_mapb_FLO<- ca %>%
 
 ##Classes de Florestas = 18
 
+
 #Classificar com a QCN para a Savana
 ca_mapb_S<- ca %>% 
   filter(C_pretvizi_OK== "Sa" |C_pretvizi_OK== "Ta" |C_pretvizi_OK== "Tg") %>%
   mutate(MAPBIOMAS = 4)
 ##Classes de Florestas = 3
 
-#Classificar com a QCN para a Grassland
+#Classificar com a QCN para a Grassland 12
 ca_mapb_G<- ca %>% 
   filter(C_pretvizi_OK== "Sg" |C_pretvizi_OK== "Sp" |C_pretvizi_OK== "Tp"
          |C_pretvizi_OK== "Rm") %>%
   mutate(MAPBIOMAS = 12)
-##Classes de Florestas = 4
 
-
+##Classes de Mangue = 5
 ca_mapb_M<- ca %>% 
   filter(C_pretvizi_OK== "Pf") %>%
   mutate(MAPBIOMAS = 5)
@@ -419,7 +425,7 @@ class1 <-todosNAA[,c(2,13)]
 setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
 #Printar as csv para concatenar com o QGIS
 write.csv(class,file = "Caa_Teste_MAPbiomas_NA.csv",row.names=F,fileEncoding = "UTF-8")
-write.csv(class1,file = "Caa_Teste_MAPbiomas_NAA.csv",row.names=F,fileEncoding = "UTF-8")
+write.csv(class1,file = "Caa_MAPbiomas.csv",row.names=F,fileEncoding = "UTF-8")
 
 rm(list=ls())
 
@@ -439,6 +445,13 @@ summary(m_atl)
 m_atl<-m_atl[,-c(3,6)] #há duas colunas addicionais "ObjID" e "categorig" retirar e alinhar as colunas
 cbind(names(m_atl))
 
+
+
+
+newNames <- c("FID", "ID", "C_pretorig","C_pretvizi", "categvizi", "c_agb", 
+              "c_bgb","c_dw","c_litter","c_total4inv") #Aqui as colunas pad
+
+
 #Reclassificando as colunas dos biomas da QCN
 colnames(m_atl)<-newNames
 
@@ -453,9 +466,7 @@ m_atl$C_pretvizi_OK <- as.factor(m_atl$C_pretvizi_OK)#..........................
 
 
 a<- m_atl %>%
-
-  
-    group_by(C_pretvizi_OK) %>%
+  group_by(C_pretvizi_OK) %>%
   count(C_pretvizi_OK)
 
 ggplot(data=a, aes(x=C_pretvizi_OK, y=n)) +
@@ -479,13 +490,13 @@ m_atl_mapb_FLO<- m_atl %>%
 
 ##Classes de Florestas = 24
 
-#Classifim_atlr com a QCN para a Savana
+#Classifim_atlr com a QCN para a Savana 4
 m_atl_mapb_S<- m_atl %>% 
   filter(C_pretvizi_OK== "Sa" |C_pretvizi_OK== "Sd" | C_pretvizi_OK== "Ta" |C_pretvizi_OK== "Td") %>%
   mutate(MAPBIOMAS = 4)
 ##Classes de Florestas = 4
 
-#Classifim_atlr com a QCN para a Grassland
+#Classifim_atlr com a QCN para a Grassland 12
 m_atl_mapb_G<- m_atl %>% 
   filter(C_pretvizi_OK== "Sg" |C_pretvizi_OK== "Sp" |C_pretvizi_OK== "Tg" |C_pretvizi_OK== "Rl"
          |C_pretvizi_OK== "Rm"|C_pretvizi_OK== "Lg"|C_pretvizi_OK== "Eg") %>%
@@ -545,14 +556,14 @@ m_atl_mapb_NAA <- m_atl %>%
 todosNA<-rbind(m_atl_mapb_FLO,m_atl_mapb_S,m_atl_mapb_G,m_atl_mapb_M,m_atl_mapb_DUN,m_atl_mapb_AR,m_atl_mapb_NA)
 todosNAA<-rbind(m_atl_mapb_FLO,m_atl_mapb_S,m_atl_mapb_G,m_atl_mapb_M,m_atl_mapb_DUN,m_atl_mapb_AR,m_atl_mapb_NAA)
 
-class <-todosNA[,c(2,13)]
-class1 <-todosNAA[,c(2,13)]
+class <-todosNA[,c(2,12)]
+class1 <-todosNAA[,c(2,12)]
 
 
 setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
 #Printar as csv para conm_atltenar com o QGIS
 write.csv(class,file = "M_atl_Teste_MAPbiomas_NA.csv",row.names=F,fileEncoding = "UTF-8")
-write.csv(class1,file = "M_atl_Teste_MAPbiomas_NAA.csv",row.names=F,fileEncoding = "UTF-8")
+write.csv(class1,file = "Mata_MAPbiomas.csv",row.names=F,fileEncoding = "UTF-8")
 
 rm(list=ls())
 
@@ -572,6 +583,10 @@ colnames(pan)# Verificar nomes das colunas Pantanal
 summary(pan) 
 pan<-pan[,-c(5)]#Na csv tem outra categoria do IBGE, "categorig" retirar e alinhar a colunas
 cbind(names(pan))
+
+
+newNames <- c("FID", "ID", "C_pretorig","C_pretvizi", "categvizi", "c_agb", 
+              "c_bgb","c_dw","c_litter","c_total4inv") #Aqui as colunas pad
 
 
 colnames(pan)<-newNames #Reclassificando as colunas dos biomas da QCN
@@ -648,8 +663,8 @@ pan_mapb_NAA <- pan %>%
 todosNA<-rbind(pan_mapb_FLO,pan_mapb_S,pan_mapb_G,pan_mapb_W,pan_mapb_NA)
 todosNAA<-rbind(pan_mapb_FLO,pan_mapb_S,pan_mapb_G,pan_mapb_W,pan_mapb_NAA)
 
-class <-todosNA[,c(2,13)]
-class1 <-todosNAA[,c(2,13)]
+class <-todosNA[,c(2,12)]
+class1 <-todosNAA[,c(2,12)]
 
 
 setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
@@ -675,6 +690,11 @@ colnames(pam)
 summary(pam) #
 pam<-pam[,-c(5,12)] #há duas colunas addicionais "categorig" e uma "area_ha" a única a ter área
 #retirar e alinhar as colunas
+
+
+
+newNames <- c("FID", "ID", "C_pretorig","C_pretvizi", "categvizi", "c_agb", 
+              "c_bgb","c_dw","c_litter","c_total4inv") #Aqui as colunas pad
 
 
 #Reclassificando as colunas dos biomas da QCN
@@ -771,13 +791,13 @@ todosNA<-rbind(pam_mapb_FLO,pam_mapb_W,pam_mapb_G,pam_mapb_M,pam_mapb_DUN,pam_ma
 todosNAA<-rbind(pam_mapb_FLO,pam_mapb_W,pam_mapb_G,pam_mapb_M,pam_mapb_DUN,pam_mapb_NAA)
 
 class <-todosNA[,c(2,13)]
-class1 <-todosNAA[,c(2,13)]
+class1 <-todosNAA[,c(2,12)]
 
 
 setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
 #Printar as csv para conpamtenar com o QGIS
 write.csv(class,file = "pam_Teste_MAPbiomas_NA.csv",row.names=F,fileEncoding = "UTF-8")
-write.csv(class1,file = "pam_Teste_MAPbiomas_NAA.csv",row.names=F,fileEncoding = "UTF-8")
+write.csv(class1,file = "pam_MAPbiomas.csv",row.names=F,fileEncoding = "UTF-8")
 
 
 rm(list=ls())
