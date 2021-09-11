@@ -50,7 +50,7 @@ var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster
 Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 // Import LCLUC data
-var qcn = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12");
+var qcn = ee.Image("users/edrianosouza/qcn/12b");
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
