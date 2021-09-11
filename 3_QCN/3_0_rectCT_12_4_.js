@@ -158,7 +158,7 @@ Export.image.toAsset({
 Export.image.toAsset({
     "image": image_accumm.toFloat(),
     "description": 'cer_pclas_accum_12_4',
-    "assetId": dir_output + 'pclas_accum_12_4',
+    "assetId": dir_output + 'cer_pclas_accum_12_4',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
