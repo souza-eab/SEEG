@@ -11,7 +11,7 @@
 // @. ~~~~~~~~~~~~~~ // 
  
 /* @. Set user parameters */// eg.
-var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN_stp2';
+var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN_stp2/';
 var version = '1';
 
 // Define classes to be assesed as 'reference class' into QCN
@@ -143,8 +143,8 @@ Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: pa
 // export as GEE asset
 Export.image.toAsset({
     "image": image_static.toFloat(),
-    "description": 'static_v' + version,
-    "assetId": dir_output + 'static_v' + version,
+    "description": 'pclas_static_12_4',
+    "assetId": dir_output + 'pclas_static_12_4',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
@@ -157,8 +157,8 @@ Export.image.toAsset({
 // export as GEE asset
 Export.image.toAsset({
     "image": image_accumm.toFloat(),
-    "description": 'accumm_v' + version,
-    "assetId": dir_output + 'accum_v' + version,
+    "description": 'pclas_accum_12_4',
+    "assetId": dir_output + 'pclas_accum_12_4',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
