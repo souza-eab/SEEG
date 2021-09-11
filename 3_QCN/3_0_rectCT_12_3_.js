@@ -11,7 +11,7 @@
 // @. ~~~~~~~~~~~~~~ // 
  
 /* @. Set user parameters */// eg.
-var dir_output = 'users/dhconciani/SEEG/rectv1/';
+var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN_stp2';
 var version = '1';
 
 // Define classes to be assesed as 'reference class' into QCN
@@ -23,7 +23,7 @@ var list_mapb_years = [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 199
 
 // Define reclassification matrix
 var raw_mapbiomas = [3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 30, 31, 32, 33, 36, 39, 41];   // Palets add other new classes 
-var design5 =       [0, 4, 0, 0,  0, 0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
+var design5 =       [3, 0, 0, 0,  0, 0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
 
 ///////////////////////////////////////
 /* @. Don't change below this line *///
@@ -50,7 +50,7 @@ var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster
 Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 // Import LCLUC data
-var qcn = ee.Image("users/edrianosouza/qcn/4b");
+var qcn = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12");
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
