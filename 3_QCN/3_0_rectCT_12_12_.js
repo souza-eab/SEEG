@@ -11,7 +11,7 @@
 // @. ~~~~~~~~~~~~~~ // 
  
 /* @. Set user parameters */// eg.
-var dir_output = 'users/dhconciani/SEEG/rectv1/';
+var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN_stp2/';
 var version = '1';
 
 // Define classes to be assesed as 'reference class' into QCN
@@ -50,7 +50,7 @@ var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster
 Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 // Import LCLUC data
-var qcn = ee.Image("users/edrianosouza/qcn/4b");
+var qcn = ee.Image("users/edrianosouza/qcn/12b");
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
@@ -77,7 +77,7 @@ list_classes.forEach(function(class_i) {
     var mapb_qcn_ij_d5 = mapb_qcn_ij.remap(raw_mapbiomas, design5);
     
     // perform QCN correction by brazilian state - static //
-    var cer_tot_rect = cer_tot.where(states.eq(11).and(mapb_qcn_ij_d5.eq(3)), 24,75375483); // RO
+    var cer_tot_rect = cer_tot.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // RO
         cer_tot_rect = cer_tot_rect.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
         cer_tot_rect = cer_tot_rect.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
         cer_tot_rect = cer_tot_rect.where(states.eq(22).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // PI
@@ -122,7 +122,7 @@ list_classes.forEach(function(class_i) {
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MS
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MT
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(52).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // GO
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483;  // DF
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);  // DF
           cer_tot_rect2 = cer_tot_rect2.rename('rect_' + year_j);
     }
     
