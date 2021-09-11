@@ -23,7 +23,7 @@ var list_mapb_years = [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 199
 
 // Define reclassification matrix
 var raw_mapbiomas = [3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 30, 31, 32, 33, 36, 39, 41];   // Palets add other new classes 
-var design5 =       [0, 4, 0, 0,  0, 0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
+var design5 =       [0, 0, 0, 0,  0, 0,  12,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
 
 ///////////////////////////////////////
 /* @. Don't change below this line *///
@@ -77,52 +77,52 @@ list_classes.forEach(function(class_i) {
     var mapb_qcn_ij_d5 = mapb_qcn_ij.remap(raw_mapbiomas, design5);
     
     // perform QCN correction by brazilian state - static //
-    var cer_tot_rect = cer_tot.where(states.eq(11).and(mapb_qcn_ij_d5.eq(3)), 79.80779548); // RO
-        cer_tot_rect = cer_tot_rect.where(states.eq(17).and(mapb_qcn_ij_d5.eq(3)), 64.27657895); // TO
-        cer_tot_rect = cer_tot_rect.where(states.eq(21).and(mapb_qcn_ij_d5.eq(3)), 63.91879963); // MA
-        cer_tot_rect = cer_tot_rect.where(states.eq(22).and(mapb_qcn_ij_d5.eq(3)), 66.068241);   // PI
-        cer_tot_rect = cer_tot_rect.where(states.eq(29).and(mapb_qcn_ij_d5.eq(3)), 67.18329178); // BA
-        cer_tot_rect = cer_tot_rect.where(states.eq(31).and(mapb_qcn_ij_d5.eq(3)), 70.08654663); // MG
-        cer_tot_rect = cer_tot_rect.where(states.eq(35).and(mapb_qcn_ij_d5.eq(3)), 84.98800092); // SP
-        cer_tot_rect = cer_tot_rect.where(states.eq(41).and(mapb_qcn_ij_d5.eq(3)), 74.98246537); // PR
-        cer_tot_rect = cer_tot_rect.where(states.eq(50).and(mapb_qcn_ij_d5.eq(3)), 99.27158356); // MS
-        cer_tot_rect = cer_tot_rect.where(states.eq(51).and(mapb_qcn_ij_d5.eq(3)), 93.55501847); // MT
-        cer_tot_rect = cer_tot_rect.where(states.eq(52).and(mapb_qcn_ij_d5.eq(3)), 70.01143121); // GO
-        cer_tot_rect = cer_tot_rect.where(states.eq(53).and(mapb_qcn_ij_d5.eq(3)), 66.8596976);  // DF
+    var cer_tot_rect = cer_tot.where(states.eq(11).and(mapb_qcn_ij_d5.eq(3)), 24,75375483); // RO
+        cer_tot_rect = cer_tot_rect.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
+        cer_tot_rect = cer_tot_rect.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
+        cer_tot_rect = cer_tot_rect.where(states.eq(22).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // PI
+        cer_tot_rect = cer_tot_rect.where(states.eq(29).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // BA
+        cer_tot_rect = cer_tot_rect.where(states.eq(31).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MG
+        cer_tot_rect = cer_tot_rect.where(states.eq(35).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // SP
+        cer_tot_rect = cer_tot_rect.where(states.eq(41).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // PR
+        cer_tot_rect = cer_tot_rect.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MS
+        cer_tot_rect = cer_tot_rect.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MT
+        cer_tot_rect = cer_tot_rect.where(states.eq(52).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // GO
+        cer_tot_rect = cer_tot_rect.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);  // DF
         cer_tot_rect = cer_tot_rect.rename('rect_' + year_j);
         
     // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
-      var cer_tot_rect2 = cer_tot.where(states.eq(11).and(mapb_qcn_ij_d5.eq(3)), 79.80779548); // RO
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(3)), 64.27657895); // TO
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(3)), 63.91879963); // MA
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(3)), 66.068241);   // PI
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(29).and(mapb_qcn_ij_d5.eq(3)), 67.18329178); // BA
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(31).and(mapb_qcn_ij_d5.eq(3)), 70.08654663); // MG
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(35).and(mapb_qcn_ij_d5.eq(3)), 84.98800092); // SP
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(41).and(mapb_qcn_ij_d5.eq(3)), 74.98246537); // PR
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(50).and(mapb_qcn_ij_d5.eq(3)), 99.27158356); // MS
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(3)), 93.55501847); // MT
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(52).and(mapb_qcn_ij_d5.eq(3)), 70.01143121); // GO
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(3)), 66.8596976);  // DF
+      var cer_tot_rect2 = cer_tot.where(states.eq(11).and(mapb_qcn_ij_d5.eq(3)), 24.75375483); // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // PI
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(29).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // BA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(31).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MG
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(35).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // SP
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(41).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // PR
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MS
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MT
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(52).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // GO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);  // DF
           cer_tot_rect2 = cer_tot_rect2.rename('rect_' + year_j);
     }
     // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
       var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
-      var cer_tot_rect2 = r_last_year.where(states.eq(11).and(mapb_qcn_ij_d5.eq(3)), 79.80779548);   // RO
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(3)), 64.27657895); // TO
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(3)), 63.91879963); // MA
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(3)), 66.068241);   // PI
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(29).and(mapb_qcn_ij_d5.eq(3)), 67.18329178); // BA
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(31).and(mapb_qcn_ij_d5.eq(3)), 70.08654663); // MG
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(35).and(mapb_qcn_ij_d5.eq(3)), 84.98800092); // SP
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(41).and(mapb_qcn_ij_d5.eq(3)), 74.98246537); // PR
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(50).and(mapb_qcn_ij_d5.eq(3)), 99.27158356); // MS
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(3)), 93.55501847); // MT
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(52).and(mapb_qcn_ij_d5.eq(3)), 70.01143121); // GO
-          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(3)), 66.8596976);  // DF
+      var cer_tot_rect2 = r_last_year.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // PI
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(29).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // BA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(31).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MG
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(35).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // SP
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(41).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // PR
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MS
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MT
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(52).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // GO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483;  // DF
           cer_tot_rect2 = cer_tot_rect2.rename('rect_' + year_j);
     }
     
