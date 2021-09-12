@@ -58,7 +58,7 @@ Map.addLayer(qcn, {color:'blue'}, "QCN 1985", false);
 Map.addLayer(ca_tot, {min: 0, max: 168, palette: palt}, 'CT 1985');
 
 // Import vectorial data
-var eco_regions = ee.FeatureCollection('users/dhconciani/base/ECORREGIOES_CERRADO_V7');
+//var eco_regions = ee.FeatureCollection('users/dhconciani/base/ECORREGIOES_CERRADO_V7');
 
 // create empty recipes
 var image_static = ee.Image([]);
@@ -224,8 +224,8 @@ Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: pa
 // export as GEE asset
 Export.image.toAsset({
     "image": image_static.toFloat(),
-    "description": 'ca_pclass_static_12_all',
-    "assetId": dir_output + 'ca_pclas_static_12_all',
+    "description": 'ca_pclass_static_3_all',
+    "assetId": dir_output + 'ca_pclas_static_3_all',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
@@ -238,8 +238,8 @@ Export.image.toAsset({
 // export as GEE asset
 Export.image.toAsset({
     "image": image_accumm.toFloat(),
-    "description": 'ca_pclass_accumm_12_all',
-    "assetId": dir_output + 'ca_pclas_accum_all',
+    "description": 'ca_pclass_accumm_3_all',
+    "assetId": dir_output + 'ca_pclas_accum_3_all',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
