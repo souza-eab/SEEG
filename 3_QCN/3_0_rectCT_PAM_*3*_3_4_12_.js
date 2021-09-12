@@ -42,7 +42,7 @@ var palt = pal.matplotlib.viridis[7];
 var pala = pal.kovesi.rainbow_bgyr_35_85_c72[7];
 
 // total stock
-var pan_tot = ee.Image('users/edrianosouza/QCN/pan_ctotal4inv');
+var pam_tot = ee.Image('users/edrianosouza/QCN/pam_ctotal4inv');
 var soc = ee.Image('users/edrianosouza/soil_co2/BR_SOCstock_0-30_t_ha');
 
 // brazilian states
@@ -50,12 +50,12 @@ var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster
 Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 // Import LCLUC data
-var qcn = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pan_3");
+var qcn = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_3");
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
 Map.addLayer(qcn, {color:'blue'}, "QCN 1985", false);
-Map.addLayer(pan_tot, {min: 0, max: 168, palette: palt}, 'CT 1985');
+Map.addLayer(pam_tot, {min: 0, max: 168, palette: palt}, 'CT 1985');
 
 // Import vectorial data
 //var eco_regions = ee.FeatureCollection('users/dhconciani/base/ECORREGIOES_CERRADO_V7');
@@ -77,67 +77,42 @@ list_classes.forEach(function(class_i) {
     var mapb_qcn_ij_d5 = mapb_qcn_ij.remap(raw_mapbiomas, design5);
     
     // perform QCN correction by brazilian state - static //
-    var pan_tot_rect = pan_tot.where(states.eq(50).and(mapb_qcn_ij_d5.eq(3)), 98.10198434); // MS
-        pan_tot_rect = pan_tot_rect.where(states.eq(51).and(mapb_qcn_ij_d5.eq(3)), 98.10198434); // MT
-        pan_tot_rect = pan_tot_rect.rename('rect_' + year_j);
+    var pam_tot_rect = pam_tot.where(states.eq(43).and(mapb_qcn_ij_d5.eq(3)), 115.0286131); // MS
+        pam_tot_rect = pam_tot_rect.rename('rect_' + year_j);
     
     // perform QCN correction by brazilian state - static //
-    var pan_tot_rect = pan_tot.where(states.eq(50).and(mapb_qcn_ij_d5.eq(4)), 37.53344167); // MS
-        pan_tot_rect = pan_tot_rect.where(states.eq(51).and(mapb_qcn_ij_d5.eq(4)), 37.53344167); // MT
-        pan_tot_rect = pan_tot_rect.rename('rect_' + year_j);
-        
-         // perform QCN correction by brazilian state - static //
-    var pan_tot_rect = pan_tot.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.01225878); // RN
-        pan_tot_rect = pan_tot_rect.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.01225878); // PB
-        pan_tot_rect = pan_tot_rect.rename('rect_' + year_j);
+    var pam_tot_rect = pam_tot.where(states.eq(43).and(mapb_qcn_ij_d5.eq(12)), 4.560158311); // RN
+        pam_tot_rect = pam_tot_rect.rename('rect_' + year_j);
         
     // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
-      var pan_tot_rect2 = pan_tot.where(states.eq(50).and(mapb_qcn_ij_d5.eq(3)), 98.10198434); // RN
-          pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(3)), 98.10198434); // PB
-          pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
+      var pam_tot_rect2 = pam_tot.where(states.eq(43).and(mapb_qcn_ij_d5.eq(3)), 115.0286131); // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
     }
-     // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
+    // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
-      var pan_tot_rect2 = pan_tot.where(states.eq(50).and(mapb_qcn_ij_d5.eq(4)), 37.53344167); // RN
-          pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(4)), 37.53344167); // PB
-          pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
-    }
-   // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
-    // first year dont have previous year
-    if (year_j == 1985) {
-      var pan_tot_rect2 = pan_tot.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.01225878); // RN
-          pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.01225878); // PB
-          pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
+      var pam_tot_rect2 = pam_tot.where(states.eq(43).and(mapb_qcn_ij_d5.eq(12)), 4.560158311); // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
     }
    
     // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
       var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
-      var pan_tot_rect2 = r_last_year.where(states.eq(50).and(mapb_qcn_ij_d5.eq(3)), 98.10198434);   // RN
-          pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(3)), 98.10198434); // PB
-          pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
+      var pam_tot_rect2 = r_last_year.where(states.eq(43).and(mapb_qcn_ij_d5.eq(3)), 115.0286131);   // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
     }
-     // if year is greater than 1985, considers the previous year
+    // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
       var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
-      var pan_tot_rect2 = r_last_year.where(states.eq(50).and(mapb_qcn_ij_d5.eq(4)), 37.53344167);   // RN
-          pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(4)), 37.53344167); // PB
-          pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
-    }
-     // if year is greater than 1985, considers the previous year
-    if (year_j > 1985) {
-      var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
-      var pan_tot_rect2 = r_last_year.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.01225878);   // RN
-          pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.01225878); // PB
-          pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
+      var pam_tot_rect2 = r_last_year.where(states.eq(43).and(mapb_qcn_ij_d5.eq(12)), 4.560158311);   // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
     }
     
     // add results as a band 
-    image_static = image_static.addBands(pan_tot_rect);
-    image_accumm = image_accumm.addBands(pan_tot_rect2);
+    image_static = image_static.addBands(pam_tot_rect);
+    image_accumm = image_accumm.addBands(pam_tot_rect2);
     
   });
 });
@@ -152,8 +127,8 @@ Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: pa
 // export as GEE asset
 Export.image.toAsset({
     "image": image_static.toFloat(),
-    "description": 'pan_pclass_static_3_all',
-    "assetId": dir_output + 'pan_pclas_static_3_all',
+    "description": 'pam_pclass_static_3_all',
+    "assetId": dir_output + 'pam_pclas_static_3_all',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
@@ -166,8 +141,8 @@ Export.image.toAsset({
 // export as GEE asset
 Export.image.toAsset({
     "image": image_accumm.toFloat(),
-    "description": 'pan_pclass_accumm_3_all',
-    "assetId": dir_output + 'pan_pclas_accum_3_all',
+    "description": 'pam_pclass_accumm_3_all',
+    "assetId": dir_output + 'pam_pclas_accum_3_all',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
