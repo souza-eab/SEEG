@@ -43,7 +43,7 @@ var pala = pal.kovesi.rainbow_bgyr_35_85_c72[7];
 
 // total stock
 var ca_tot = ee.Image('users/edrianosouza/QCN/ca_ctotal4inv');
-var soc = ee.Image('users/edrianosouza/soil_co2/BR_SOCstock_0-30_t_ha');
+//var soc = ee.Image('users/edrianosouza/soil_co2/BR_SOCstock_0-30_t_ha');
 
 // brazilian states
 var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster');
@@ -62,7 +62,6 @@ var qcnC = qcnC.remap([0, 1], [0, 12])
 
 // fazer o blend só com as classes - descartar quando value == 0
 var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
-
 
 var pal = require('users/gena/packages:palettes');
 var palt = pal.matplotlib.viridis[7];
