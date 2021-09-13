@@ -49,8 +49,26 @@ var soc = ee.Image('users/edrianosouza/soil_co2/BR_SOCstock_0-30_t_ha');
 var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster');
 Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
+
 // Import LCLUC data
-var qcn = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/caa_12");
+var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/caa_12");
+var qcnS = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/caa_4");
+var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/caa_3");
+
+// reclassificiar
+var qcnF = qcnF.remap([0, 1], [0, 3])
+var qcnS = qcnS.remap([0, 1], [0, 4])
+var qcnC = qcnC.remap([0, 1], [0, 12])
+
+// fazer o blend só com as classes - descartar quando value == 0
+var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
+
+
+var pal = require('users/gena/packages:palettes');
+var palt = pal.matplotlib.viridis[7];
+
+Map.addLayer(qcn, {min: 0, max: 12, palette: palt}, 'QCN_Reclass_QGIS');
+
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
