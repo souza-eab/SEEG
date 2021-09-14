@@ -64,19 +64,13 @@ var qcnC = qcnC.remap([0, 1], [0, 12]);
 // fazer o blend só com as classes - descartar quando value == 0
 var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
 
-var pal = require('users/gena/packages:palettes');
-var palt = pal.matplotlib.viridis[7];
-
-Map.addLayer(qcn, {min: 0, max: 12, palette: palt}, 'QCN_Reclass_QGIS');
+// Inspector
+Map.addLayer(qcn, vis, 'QCN_Reclass_QGIS');
 
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
-Map.addLayer(qcn, {color:'blue'}, "QCN 1985", false);
-Map.addLayer(ma_tot, {min: 0, max: 168, palette: palt}, 'CT 1985');
-
-// Import vectorial data
-//var eco_regions = ee.FeatureCollection('users/dhconciani/base/ECORREGIOES_CERRADO_V7');
+Map.addLayer(ma_tot, {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass');
 
 // create empty recipes
 var image_static = ee.Image([]);
@@ -309,8 +303,8 @@ print('static', image_static);
 print('accumulated', image_accumm);
 
 // plot inspection
-Map.addLayer(image_static.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'static 2019');
-Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'accumm 2019');
+Map.addLayer(image_static.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass_Static 2019');
+Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass_Accumm 2019');
 
 // export as GEE asset
 Export.image.toAsset({
