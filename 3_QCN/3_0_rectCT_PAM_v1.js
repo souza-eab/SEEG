@@ -53,16 +53,14 @@ Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 // Import LCLUC data
 var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_3");
-var qcnS = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_4");
 var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_12");
 
 // reclassificiar
 var qcnF = qcnF.remap([0, 1], [0, 3]);
-var qcnS = qcnS.remap([0, 1], [0, 4]);
 var qcnC = qcnC.remap([0, 1], [0, 12]);
 
 // fazer o blend só com as classes - descartar quando value == 0
-var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
+var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnC.updateMask(qcnC.eq(12)));
 
 var pal = require('users/gena/packages:palettes');
 var palt = pal.matplotlib.viridis[7];
