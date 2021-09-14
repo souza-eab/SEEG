@@ -309,3 +309,4 @@ Export.image.toAsset({
     "maxPixels": 1e13,
     "region": image_accumm.geometry()
 });  
+
