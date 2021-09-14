@@ -70,11 +70,7 @@ Map.addLayer(qcn, vis, 'QCN_Reclass_QGIS');
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
-Map.addLayer(qcn, {color:'blue'}, "QCN 1985_Biomass_Rec", false);
-Map.addLayer(cer_tot, {min: 0, max: 168, palette: palt}, 'QCN_1985_Biomass');
-
-// Import vectorial data
-//var eco_regions = ee.FeatureCollection('users/dhconciani/base/ECORREGIOES_CERRADO_V7');
+Map.addLayer(cer_tot, {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass');
 
 // create empty recipes
 var image_static = ee.Image([]);
@@ -276,8 +272,8 @@ print('static', image_static);
 print('accumulated', image_accumm);
 
 // plot inspection
-Map.addLayer(image_static.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'static 2019');
-Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'accumm 2019');
+Map.addLayer(image_static.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass_Static 2019');
+Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass_Accumm 2019');
 
 // export as GEE asset
 Export.image.toAsset({
@@ -296,7 +292,7 @@ Export.image.toAsset({
 // export as GEE asset
 Export.image.toAsset({
     "image": image_accumm.toFloat(),
-    "description": 'cer_pclass_accumm_12_all',
+    "description": 'cer_pclass_accumm_all',
     "assetId": dir_output + 'cer_pclas_accum_all',
     "scale": 30,
     "pyramidingPolicy": {
