@@ -52,9 +52,9 @@ Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 
 // Import LCLUC data
-var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12");
+var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_3");
 var qcnS = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_4");
-var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_3");
+var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12");
 
 // reclassificiar
 var qcnF = qcnF.remap([0, 1], [0, 3]);
