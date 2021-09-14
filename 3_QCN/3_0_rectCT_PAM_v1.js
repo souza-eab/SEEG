@@ -24,7 +24,7 @@ var list_mapb_years = [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 199
 
 // Define reclassification matrix
 var raw_mapbiomas = [3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 30, 31, 32, 33, 36, 39, 41];   // Palets add other new classes 
-var design5 =       [3, 0, 5, 0,  0, 0,  12,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
+var design5 =       [3, 0, 5, 0,  0, 11, 12,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
 
 ///////////////////////////////////////
   /* @. Don't change below this line *///
@@ -106,6 +106,14 @@ var temp2 = ee.Image([]);
         pam_tot_rect = pam_tot_rect.rename('rect_' + year_j);
     
     // perform QCN correction by brazilian state - static //
+    var pam_tot_rect = pam_tot_rect.where(states.eq(43).and(mapb_qcn_ij_d5.eq(5)), 12.77); // RN
+        pam_tot_rect = pam_tot_rect.rename('rect_' + year_j);
+    
+    // perform QCN correction by brazilian state - static //
+    var pam_tot_rect = pam_tot_rect.where(states.eq(43).and(mapb_qcn_ij_d5.eq(11)), 12.77); // RN
+        pam_tot_rect = pam_tot_rect.rename('rect_' + year_j);
+    
+    // perform QCN correction by brazilian state - static //
     var pam_tot_rect = pam_tot_rect.where(states.eq(43).and(mapb_qcn_ij_d5.eq(12)), 4.560158311); // RN
         pam_tot_rect = pam_tot_rect.rename('rect_' + year_j);
         
@@ -118,14 +126,36 @@ var temp2 = ee.Image([]);
     // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
+      var pam_tot_rect2 = pam_tot_rect2.where(states.eq(43).and(mapb_qcn_ij_d5.eq(5)), 12.77); // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
+    }
+    // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
+    // first year dont have previous year
+    if (year_j == 1985) {
+      var pam_tot_rect2 = pam_tot_rect2.where(states.eq(43).and(mapb_qcn_ij_d5.eq(11)), 12.77); // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
+    }
+    // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
+    // first year dont have previous year
+    if (year_j == 1985) {
       var pam_tot_rect2 = pam_tot_rect2.where(states.eq(43).and(mapb_qcn_ij_d5.eq(12)), 4.560158311); // RN
           pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
     }
-   
+    
     // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
       var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
       var pam_tot_rect2 = r_last_year.where(states.eq(43).and(mapb_qcn_ij_d5.eq(3)), 115.0286131);   // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
+    }
+    // if year is greater than 1985, considers the previous year
+    if (year_j > 1985) {
+      var pam_tot_rect2 = pam_tot_rect2.where(states.eq(43).and(mapb_qcn_ij_d5.eq(5)), 12.77);   // RN
+          pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
+    }
+    // if year is greater than 1985, considers the previous year
+    if (year_j > 1985) {
+      var pam_tot_rect2 = pam_tot_rect2.where(states.eq(43).and(mapb_qcn_ij_d5.eq(11)), 12.77);   // RN
           pam_tot_rect2 = pam_tot_rect2.rename('rect_' + year_j);
     }
     // if year is greater than 1985, considers the previous year
@@ -140,6 +170,12 @@ var temp2 = ee.Image([]);
         if (class_i == 3) {
           temp = pam_tot_rect;
         }
+        if (class_i == 5) {
+          temp = temp.blend(pam_tot_rect.updateMask(qcn_i.eq(class_i)));
+        }
+        if (class_i == 11) {
+          temp = temp.blend(pam_tot_rect.updateMask(qcn_i.eq(class_i)));
+        }
         if (class_i == 12) {
           temp = temp.blend(pam_tot_rect.updateMask(qcn_i.eq(class_i)));
           // paste as band
@@ -149,6 +185,12 @@ var temp2 = ee.Image([]);
         // accumulated
         if (class_i == 3) {
           temp2 = pam_tot_rect2;
+        }
+        if (class_i == 5) {
+          temp2 = temp2.blend(pam_tot_rect2.updateMask(qcn_i.eq(class_i)));
+        }
+        if (class_i == 11) {
+          temp2 = temp2.blend(pam_tot_rect2.updateMask(qcn_i.eq(class_i)));
         }
         if (class_i == 12) {
           temp2 = temp2.blend(pam_tot_rect2.updateMask(qcn_i.eq(class_i)));
