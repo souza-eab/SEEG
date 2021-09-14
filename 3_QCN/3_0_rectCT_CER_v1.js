@@ -64,9 +64,7 @@ var qcnC = qcnC.remap([0, 1], [0, 12]);
 // fazer o blend só com as classes - descartar quando value == 0
 var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
 
-var pal = require('users/gena/packages:palettes');
-var palt = pal.matplotlib.viridis[7];
-
+// Inspector
 Map.addLayer(qcn, vis, 'QCN_Reclass_QGIS');
 
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
@@ -212,7 +210,6 @@ var temp2 = ee.Image([]);
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
       var cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(4)), 39.99);   // RO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(4)), 39.99); // TO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(4)), 39.99); // MA
@@ -229,7 +226,6 @@ var temp2 = ee.Image([]);
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
       var cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // RO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
