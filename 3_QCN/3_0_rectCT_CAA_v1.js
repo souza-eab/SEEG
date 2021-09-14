@@ -276,7 +276,7 @@ Export.image.toAsset({
 // export as GEE asset
 Export.image.toAsset({
     "image": image_accumm.toFloat(),
-    "description": 'ca_pclass_accumm_12_all',
+    "description": 'ca_pclass_accumm_all',
     "assetId": dir_output + 'ca_pclas_accum_all',
     "scale": 30,
     "pyramidingPolicy": {
