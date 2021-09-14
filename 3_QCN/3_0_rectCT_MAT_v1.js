@@ -270,12 +270,40 @@ var temp2 = ee.Image([]);
           ma_tot_rect2 = ma_tot_rect2.rename('rect_' + year_j);
     }
     
-    // add results as a band 
-    image_static = image_static.addBands(ma_tot_rect);
-    image_accumm = image_accumm.addBands(ma_tot_rect2);
+
+        
+        // mix corrections
+        // static
+        if (class_i == 3) {
+          temp = ma_tot_rect;
+        }
+        if (class_i == 4) {
+          temp = temp.blend(ma_tot_rect.updateMask(qcn_i.eq(class_i)));
+        }
+        if (class_i == 12) {
+          temp = temp.blend(ma_tot_rect.updateMask(qcn_i.eq(class_i)));
+          // paste as band
+          image_static = image_static.addBands(temp);
+        }
+        
+        // accumulated
+        if (class_i == 3) {
+          temp2 = ma_tot_rect2;
+        }
+        if (class_i == 4) {
+          temp2 = temp2.blend(ma_tot_rect2.updateMask(qcn_i.eq(class_i)));
+        }
+        if (class_i == 12) {
+          temp2 = temp2.blend(ma_tot_rect2.updateMask(qcn_i.eq(class_i)));
+          // paste as band
+          image_accumm = image_accumm.addBands(ma_tot_rect2);
+        }
     
+    });
+
   });
-});
+
+   
 
 print('static', image_static);
 print('accumulated', image_accumm);
@@ -287,8 +315,8 @@ Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: pa
 // export as GEE asset
 Export.image.toAsset({
     "image": image_static.toFloat(),
-    "description": 'ma_pclass_static_12_all',
-    "assetId": dir_output + 'ma_pclas_static_12_all',
+    "description": 'ma_pclass_static_all',
+    "assetId": dir_output + 'ma_pclas_static_all',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
