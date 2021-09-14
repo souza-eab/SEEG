@@ -50,11 +50,11 @@ var cer_tot = ee.Image('users/edrianosouza/QCN/cer_ctotal4inv');
 var states = ee.Image('projects/mapbiomas-workspace/AUXILIAR/estados-2016-raster');
 Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
+
 // Import LCLUC data
 var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12");
 var qcnS = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_4");
 var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_3");
-
 
 // reclassificiar
 var qcnF = qcnF.remap([0, 1], [0, 3]);
@@ -64,19 +64,16 @@ var qcnC = qcnC.remap([0, 1], [0, 12]);
 // fazer o blend só com as classes - descartar quando value == 0
 var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
 
-// Import pallet 
 var pal = require('users/gena/packages:palettes');
 var palt = pal.matplotlib.viridis[7];
 
-// inspector
-Map.addLayer(qcn, {min: 0, max: 12, palette: palt}, 'QCN_Reclass_QGIS');
+Map.addLayer(qcn, vis, 'QCN_Reclass_QGIS');
 
-// Import LCLUC data Mapbiomas
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
-Map.addLayer(qcn, {color:'blue'}, "QCN 1985", false);
-Map.addLayer(cer_tot, {min: 0, max: 168, palette: palt}, 'CT 1985');
+Map.addLayer(qcn, {color:'blue'}, "QCN 1985_Biomass_Rec", false);
+Map.addLayer(cer_tot, {min: 0, max: 168, palette: palt}, 'QCN_1985_Biomass');
 
 // Import vectorial data
 //var eco_regions = ee.FeatureCollection('users/dhconciani/base/ECORREGIOES_CERRADO_V7');
