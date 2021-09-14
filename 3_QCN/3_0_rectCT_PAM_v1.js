@@ -15,7 +15,7 @@ var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN_stp2_v1/';
 var version = '1';
 
 // Define classes to be assesed as 'reference class' into QCN
-var list_classes = [3, 4, 12];
+var list_classes = [3, 5, 11, 12];
 
 // Define years of Mapbiomas to be compared with QCN reference class
 var list_mapb_years = [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
@@ -24,7 +24,7 @@ var list_mapb_years = [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 199
 
 // Define reclassification matrix
 var raw_mapbiomas = [3, 4, 5, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 30, 31, 32, 33, 36, 39, 41];   // Palets add other new classes 
-var design5 =       [3, 4, 0, 0,  0, 0,  12,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
+var design5 =       [3, 0, 5, 0,  0, 0,  12,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0];     // Ungroup {Forest) + Grass  
 
 ///////////////////////////////////////
   /* @. Don't change below this line *///
@@ -53,14 +53,21 @@ Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 // Import LCLUC data
 var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_3");
+var qcnM = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_5");
+var qcnCH = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_11");
 var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pam_12");
+
+
 
 // reclassificiar
 var qcnF = qcnF.remap([0, 1], [0, 3]);
+var qcnM = qcnM.remap([0, 1], [0, 5]);
+var qcnCH = qcnCH.remap([0, 1], [0, 11]);
 var qcnC = qcnC.remap([0, 1], [0, 12]);
 
+
 // fazer o blend só com as classes - descartar quando value == 0
-var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnC.updateMask(qcnC.eq(12)));
+var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnM.updateMask(qcnM.eq(5)).blend(qcnCH.updateMask(qcnCH.eq(11)).blend(qcnC.updateMask(qcnC.eq(12)))));
 
 var pal = require('users/gena/packages:palettes');
 var palt = pal.matplotlib.viridis[7];
