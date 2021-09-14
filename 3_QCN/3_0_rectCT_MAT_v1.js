@@ -309,8 +309,8 @@ Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: pa
 // export as GEE asset
 Export.image.toAsset({
     "image": image_static.toFloat(),
-    "description": 'ma_pclass_static_all',
-    "assetId": dir_output + 'ma_pclas_static_all',
+    "description": 'ma_pclass_static',
+    "assetId": dir_output + 'ma_pclas_static',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
@@ -323,8 +323,8 @@ Export.image.toAsset({
 // export as GEE asset
 Export.image.toAsset({
     "image": image_accumm.toFloat(),
-    "description": 'ma_pclass_accumm_all',
-    "assetId": dir_output + 'ma_pclas_accum_all',
+    "description": 'ma_pclass_accum',
+    "assetId": dir_output + 'ma_pclas_accum',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
