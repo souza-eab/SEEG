@@ -67,7 +67,7 @@ var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qc
 var pal = require('users/gena/packages:palettes');
 var palt = pal.matplotlib.viridis[7];
 
-Map.addLayer(qcn, {min: 0, max: 12, palette: palt}, 'QCN_Reclass_QGIS');
+Map.addLayer(qcn, vis, 'QCN_Reclass_QGIS');
 
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
