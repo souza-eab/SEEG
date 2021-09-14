@@ -54,23 +54,22 @@ var qcn = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/pan_12");
 var colecao5 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO5/mapbiomas-collection50-integration-v8").mosaic();
 
 // Plot inspection
-Map.addLayer(qcn, {color:'blue'}, "QCN 1985", false);
-Map.addLayer(pan_tot, {min: 0, max: 168, palette: palt}, 'CT 1985');
-
-// Import vectorial data
-//var eco_regions = ee.FeatureCollection('users/dhconciani/base/ECORREGIOES_CERRADO_V7');
+Map.addLayer(pan_tot, {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass');
 
 // create empty recipes
 var image_static = ee.Image([]);
 var image_accumm = ee.Image([]);
+var temp = ee.Image([]);
+var temp2 = ee.Image([]);
 
+// For each year of MapBiomas
+list_mapb_years.forEach(function(year_j){
 // For each QCN reference class [i]
-list_classes.forEach(function(class_i) {
+  list_classes.forEach(function(class_i) {
   // Mask QCN only to reference class
   var qcn_i = qcn.updateMask(qcn.eq(class_i));
   
-  // For each year of MapBiomas
-  list_mapb_years.forEach(function(year_j){
+  
     // Mask MapBiomas by QCN
     var mapb_qcn_ij = colecao5.select(['classification_' + year_j]).updateMask(qcn_i.eq(class_i));
     // Perform reclassification according definied matrix
@@ -122,25 +121,47 @@ list_classes.forEach(function(class_i) {
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
       var pan_tot_rect2 = r_last_year.where(states.eq(50).and(mapb_qcn_ij_d5.eq(4)), 37.53344167);   // RN
           pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(4)), 37.53344167); // PB
           pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var r_last_year = image_accumm.select(['rect_' + (year_j -1)]);
       var pan_tot_rect2 = r_last_year.where(states.eq(50).and(mapb_qcn_ij_d5.eq(12)), 24.01225878);   // RN
           pan_tot_rect2 = pan_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(12)), 24.01225878); // PB
           pan_tot_rect2 = pan_tot_rect2.rename('rect_' + year_j);
     }
     
-    // add results as a band 
-    image_static = image_static.addBands(pan_tot_rect);
-    image_accumm = image_accumm.addBands(pan_tot_rect2);
+// mix corrections
+        // static
+        if (class_i == 3) {
+          temp = pan_tot_rect;
+        }
+        if (class_i == 4) {
+          temp = temp.blend(pan_tot_rect.updateMask(qcn_i.eq(class_i)));
+        }
+        if (class_i == 12) {
+          temp = temp.blend(pan_tot_rect.updateMask(qcn_i.eq(class_i)));
+          // paste as band
+          image_static = image_static.addBands(temp);
+        }
+        
+        // accumulated
+        if (class_i == 3) {
+          temp2 = pam_tot_rect2;
+        }
+        if (class_i == 4) {
+          temp2 = temp2.blend(pam_tot_rect2.updateMask(qcn_i.eq(class_i)));
+        }
+        if (class_i == 12) {
+          temp2 = temp2.blend(pam_tot_rect2.updateMask(qcn_i.eq(class_i)));
+          // paste as band
+          image_accumm = image_accumm.addBands(cer_tot_rect2);
+        }
     
+    });
+
   });
-});
 
 print('static', image_static);
 print('accumulated', image_accumm);
