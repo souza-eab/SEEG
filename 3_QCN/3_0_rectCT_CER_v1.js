@@ -106,7 +106,7 @@ var temp2 = ee.Image([]);
         cer_tot_rect = cer_tot_rect.rename('rect_' + year_j);
     
     // perform QCN correction by brazilian state - static //
-    var cer_tot_rect = cer_tot_rect.where(states.eq(11).and(mapb_qcn_ij_d5.eq(4)), 39.99); // RO
+        cer_tot_rect = cer_tot_rect.where(states.eq(11).and(mapb_qcn_ij_d5.eq(4)), 39.99); // RO
         cer_tot_rect = cer_tot_rect.where(states.eq(17).and(mapb_qcn_ij_d5.eq(4)), 39.99); // TO
         cer_tot_rect = cer_tot_rect.where(states.eq(21).and(mapb_qcn_ij_d5.eq(4)), 39.99); // MA
         cer_tot_rect = cer_tot_rect.where(states.eq(22).and(mapb_qcn_ij_d5.eq(4)), 39.99);   // PI
@@ -121,7 +121,7 @@ var temp2 = ee.Image([]);
         cer_tot_rect = cer_tot_rect.rename('rect_' + year_j);
         
          // perform QCN correction by brazilian state - static //
-    var cer_tot_rect = cer_tot_rect.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // RO
+        cer_tot_rect = cer_tot_rect.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // RO
         cer_tot_rect = cer_tot_rect.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
         cer_tot_rect = cer_tot_rect.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
         cer_tot_rect = cer_tot_rect.where(states.eq(22).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // PI
@@ -155,7 +155,7 @@ var temp2 = ee.Image([]);
      // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
-      var cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(4)), 39.99); // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(4)), 39.99); // RO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(4)), 39.99); // TO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(4)), 39.99); // MA
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(4)), 39.99);   // PI
@@ -172,7 +172,7 @@ var temp2 = ee.Image([]);
    // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
-      var cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // RO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // PI
@@ -206,7 +206,7 @@ var temp2 = ee.Image([]);
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(4)), 39.99);   // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(4)), 39.99);   // RO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(4)), 39.99); // TO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(4)), 39.99); // MA
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(4)), 39.99);   // PI
@@ -222,7 +222,7 @@ var temp2 = ee.Image([]);
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // RO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // TO
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // MA
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);   // PI
