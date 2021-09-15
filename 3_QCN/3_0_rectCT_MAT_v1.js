@@ -109,7 +109,7 @@ var temp2 = ee.Image([]);
         ma_tot_rect = ma_tot_rect.rename('rect_' + year_j);
     
     // perform QCN correction by brazilian state - static //
-    var ma_tot_rect = ma_tot_rect.where(states.eq(24).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // RN
+        ma_tot_rect = ma_tot_rect.where(states.eq(24).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // RN
         ma_tot_rect = ma_tot_rect.where(states.eq(25).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // PB
         ma_tot_rect = ma_tot_rect.where(states.eq(26).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // PE
         ma_tot_rect = ma_tot_rect.where(states.eq(27).and(mapb_qcn_ij_d5.eq(4)), 48.2497191);   // AL
@@ -127,7 +127,7 @@ var temp2 = ee.Image([]);
         ma_tot_rect = ma_tot_rect.rename('rect_' + year_j);
         
          // perform QCN correction by brazilian state - static //
-    var ma_tot_rect = ma_tot_rect.where(states.eq(24).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // RN
+        ma_tot_rect = ma_tot_rect.where(states.eq(24).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // RN
         ma_tot_rect = ma_tot_rect.where(states.eq(25).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // PB
         ma_tot_rect = ma_tot_rect.where(states.eq(26).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // PE
         ma_tot_rect = ma_tot_rect.where(states.eq(27).and(mapb_qcn_ij_d5.eq(12)), 13.89369925);   // AL
@@ -167,7 +167,7 @@ var temp2 = ee.Image([]);
      // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
-      var ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // RN
+          ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // RN
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(25).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // PB
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(26).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // PE
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(27).and(mapb_qcn_ij_d5.eq(4)), 48.2497191);   // AL
@@ -187,7 +187,7 @@ var temp2 = ee.Image([]);
    // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
     if (year_j == 1985) {
-      var ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // RN
+          ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // RN
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(25).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // PB
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(26).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // PE
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(27).and(mapb_qcn_ij_d5.eq(12)), 13.89369925);   // AL
@@ -227,7 +227,7 @@ var temp2 = ee.Image([]);
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(4)), 48.2497191);   // RN
+          ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(4)), 48.2497191);   // RN
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(25).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // PB
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(26).and(mapb_qcn_ij_d5.eq(4)), 48.2497191); // PE
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(27).and(mapb_qcn_ij_d5.eq(4)), 48.2497191);   // AL
@@ -246,7 +246,7 @@ var temp2 = ee.Image([]);
     }
      // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
-      var ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(12)), 13.89369925);   // RN
+          ma_tot_rect2 = ma_tot_rect2.where(states.eq(24).and(mapb_qcn_ij_d5.eq(12)), 13.89369925);   // RN
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(25).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // PB
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(26).and(mapb_qcn_ij_d5.eq(12)), 13.89369925); // PE
           ma_tot_rect2 = ma_tot_rect2.where(states.eq(27).and(mapb_qcn_ij_d5.eq(12)), 13.89369925);   // AL
