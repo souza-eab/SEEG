@@ -151,28 +151,28 @@ list_mapb_years.forEach(function(year_j){
            // mix corrections
         // static
         if (class_i == 3) {
-          temp = cer_tot_rect;
+          temp = pan_tot_rect;
         }
         if (class_i == 4) {
-          temp = temp.blend(cer_tot_rect.updateMask(qcn_i.eq(class_i)));
+          temp = temp.blend(pan_tot_rect.updateMask(qcn_i.eq(class_i)));
         }
         if (class_i == 12) {
-          temp = temp.blend(cer_tot_rect.updateMask(qcn_i.eq(class_i)));
+          temp = temp.blend(pan_tot_rect.updateMask(qcn_i.eq(class_i)));
           // paste as band
           image_static = image_static.addBands(temp);
         }
         
         // accumulated
         if (class_i == 3) {
-          temp2 = cer_tot_rect2;
+          temp2 = pan_tot_rect2;
         }
         if (class_i == 4) {
-          temp2 = temp2.blend(cer_tot_rect2.updateMask(qcn_i.eq(class_i)));
+          temp2 = temp2.blend(pan_tot_rect2.updateMask(qcn_i.eq(class_i)));
         }
         if (class_i == 12) {
-          temp2 = temp2.blend(cer_tot_rect2.updateMask(qcn_i.eq(class_i)));
+          temp2 = temp2.blend(pan_tot_rect2.updateMask(qcn_i.eq(class_i)));
           // paste as band
-          image_accumm = image_accumm.addBands(cer_tot_rect2);
+          image_accumm = image_accumm.addBands(pan_tot_rect2);
         }
     
     });
