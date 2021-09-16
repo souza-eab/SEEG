@@ -15,7 +15,7 @@ var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN_stp2_v1/';
 var version = '1';
 
 // Define classes to be assesed as 'reference class' into QCN
-var list_classes = [3, 4, 12];
+var list_classes = [3, 4, 5, 12];
 
 // Define years of Mapbiomas to be compared with QCN reference class
 var list_mapb_years = [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
@@ -55,18 +55,21 @@ Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_3_v1");
 var qcnS = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_4_v1");
 var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12_v1");
+var qcnM = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_5_v1");
 
 // reclassificiar
 var qcnF = qcnF.remap([0, 1], [0, 3]);
 var qcnS = qcnS.remap([0, 1], [0, 4]);
 var qcnC = qcnC.remap([0, 1], [0, 12]);
+var qcnM = qcnM.remap([0, 1], [0, 5]);
 
-Map.addLayer(qcnF, vis, 'QCN_1.1. Forest Formation');
-Map.addLayer(qcnS, vis, 'QCN_1.2.-Savanna Formation');
-Map.addLayer(qcnC, vis, 'QCN_2.2. Grassland');
+Map.addLayer(qcnF, vis, 'QCN_1.1. Forest Formation', false);
+Map.addLayer(qcnS, vis, 'QCN_1.2. Savanna Formation', false);
+Map.addLayer(qcnM, vis, '1.3. Mangrove', false);
+Map.addLayer(qcnC, vis, 'QCN_2.2. Grassland', false);
 
 // fazer o blend só com as classes - descartar quando value == 0
-var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
+var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12).blend(qcnC.updateMask(qcnC.eq(12))))));
 
 // Inspector
 Map.addLayer(qcn, vis, 'QCN_Reclass_QGIS');
@@ -138,6 +141,21 @@ var temp2 = ee.Image([]);
         cer_tot_rect = cer_tot_rect.where(states.eq(52).and(mapb_qcn_ij_d5.eq(12)), 24.75375483); // GO
         cer_tot_rect = cer_tot_rect.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);  // DF
         cer_tot_rect = cer_tot_rect.rename('rect_' + year_j);
+    
+    // perform QCN correction by brazilian state - static //
+        cer_tot_rect = cer_tot_rect.where(states.eq(11).and(mapb_qcn_ij_d5.eq(5)), 38.26); // RO
+        cer_tot_rect = cer_tot_rect.where(states.eq(17).and(mapb_qcn_ij_d5.eq(5)), 38.26); // TO
+        cer_tot_rect = cer_tot_rect.where(states.eq(21).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MA
+        cer_tot_rect = cer_tot_rect.where(states.eq(22).and(mapb_qcn_ij_d5.eq(5)), 38.26);   // PI
+        cer_tot_rect = cer_tot_rect.where(states.eq(29).and(mapb_qcn_ij_d5.eq(5)), 38.26); // BA
+        cer_tot_rect = cer_tot_rect.where(states.eq(31).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MG
+        cer_tot_rect = cer_tot_rect.where(states.eq(35).and(mapb_qcn_ij_d5.eq(5)), 38.26); // SP
+        cer_tot_rect = cer_tot_rect.where(states.eq(41).and(mapb_qcn_ij_d5.eq(5)), 38.26); // PR
+        cer_tot_rect = cer_tot_rect.where(states.eq(50).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MS
+        cer_tot_rect = cer_tot_rect.where(states.eq(51).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MT
+        cer_tot_rect = cer_tot_rect.where(states.eq(52).and(mapb_qcn_ij_d5.eq(5)), 38.26); // GO
+        cer_tot_rect = cer_tot_rect.where(states.eq(53).and(mapb_qcn_ij_d5.eq(5)), 38.26);  // DF
+        cer_tot_rect = cer_tot_rect.rename('rect_' + year_j);
         
     // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
     // first year dont have previous year
@@ -190,6 +208,23 @@ var temp2 = ee.Image([]);
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);  // DF
           cer_tot_rect2 = cer_tot_rect2.rename('rect_' + year_j);
     }
+   // perform QCN correction by brazilian state - cumulative - considers the rect of the last year //
+    // first year dont have previous year
+    if (year_j == 1985) {
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(5)), 38.26); // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(5)), 38.26); // TO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(5)), 38.26);   // PI
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(29).and(mapb_qcn_ij_d5.eq(5)), 38.26); // BA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(31).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MG
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(35).and(mapb_qcn_ij_d5.eq(5)), 38.26); // SP
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(41).and(mapb_qcn_ij_d5.eq(5)), 38.26); // PR
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(50).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MS
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MT
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(52).and(mapb_qcn_ij_d5.eq(5)), 38.26); // GO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(5)), 38.26);  // DF
+          cer_tot_rect2 = cer_tot_rect2.rename('rect_' + year_j);
+    }
    
     // if year is greater than 1985, considers the previous year
     if (year_j > 1985) {
@@ -240,6 +275,22 @@ var temp2 = ee.Image([]);
           cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(12)), 24.75375483);  // DF
           cer_tot_rect2 = cer_tot_rect2.rename('rect_' + year_j);
     }
+     // if year is greater than 1985, considers the previous year
+    if (year_j > 1985) {
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(11).and(mapb_qcn_ij_d5.eq(5)), 38.26);   // RO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(17).and(mapb_qcn_ij_d5.eq(5)), 38.26); // TO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(21).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(22).and(mapb_qcn_ij_d5.eq(5)), 38.26);   // PI
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(29).and(mapb_qcn_ij_d5.eq(5)), 38.26); // BA
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(31).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MG
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(35).and(mapb_qcn_ij_d5.eq(5)), 38.26); // SP
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(41).and(mapb_qcn_ij_d5.eq(5)), 38.26); // PR
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(50).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MS
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(51).and(mapb_qcn_ij_d5.eq(5)), 38.26); // MT
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(52).and(mapb_qcn_ij_d5.eq(5)), 38.26); // GO
+          cer_tot_rect2 = cer_tot_rect2.where(states.eq(53).and(mapb_qcn_ij_d5.eq(5)), 38.26);  // DF
+          cer_tot_rect2 = cer_tot_rect2.rename('rect_' + year_j);
+    }
     
 // mix corrections
         // static
@@ -251,7 +302,10 @@ var temp2 = ee.Image([]);
         }
         if (class_i == 12) {
           temp = temp.blend(cer_tot_rect.updateMask(qcn_i.eq(class_i)));
-          // paste as band
+        }
+        if (class_i == 5) {
+          temp = temp.blend(cer_tot_rect.updateMask(qcn_i.eq(class_i)));
+        // paste as band
           image_static = image_static.addBands(temp);
         }
         
@@ -263,6 +317,9 @@ var temp2 = ee.Image([]);
           temp2 = temp2.blend(cer_tot_rect2.updateMask(qcn_i.eq(class_i)));
         }
         if (class_i == 12) {
+          temp2 = temp2.blend(cer_tot_rect2.updateMask(qcn_i.eq(class_i)));
+        }
+        if (class_i == 5) {
           temp2 = temp2.blend(cer_tot_rect2.updateMask(qcn_i.eq(class_i)));
           // paste as band
           image_accumm = image_accumm.addBands(cer_tot_rect2);
@@ -277,7 +334,7 @@ print('accumulated', image_accumm);
 
 // plot inspection
 Map.addLayer(image_static.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass_Static 2019');
-Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass_Accumm 2019');
+Map.addLayer(image_accumm.select(['rect_2019']),  {min: 0, max: 168, palette: palt}, 'QCN_STK_Biomass_Accumm 2019', false);
 
 // export as GEE asset
 Export.image.toAsset({
