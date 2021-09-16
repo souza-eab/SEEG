@@ -65,7 +65,7 @@ var qcnM = qcnM.remap([0, 1], [0, 5]);
 
 Map.addLayer(qcnF, vis, 'QCN_1.1. Forest Formation', false);
 Map.addLayer(qcnS, vis, 'QCN_1.2. Savanna Formation', false);
-Map.addLayer(qcnM, vis, '1.3. Mangrove', false);
+Map.addLayer(qcnM, vis, 'QCN_1.3. Mangrove', false);
 Map.addLayer(qcnC, vis, 'QCN_2.2. Grassland', false);
 
 // fazer o blend só com as classes - descartar quando value == 0
