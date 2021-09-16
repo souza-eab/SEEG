@@ -65,6 +65,11 @@ var qcnM = qcnM.remap([0, 1], [0, 5]);
 var qcnCH = qcnCH.remap([0, 1], [0, 11]);
 var qcnC = qcnC.remap([0, 1], [0, 12]);
 
+Map.addLayer(qcnF, vis, 'QCN_1.1. Forest Formation', false);
+Map.addLayer(qcnM, vis, 'QCN_1.3. Mangrove', false);
+Map.addLayer(qcnCH, vis, 'QCN_2.1. Wetland', false);
+Map.addLayer(qcnC, vis, 'QCN_2.2. Grassland', false);
+
 
 // fazer o blend só com as classes - descartar quando value == 0
 var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnM.updateMask(qcnM.eq(5)).blend(qcnCH.updateMask(qcnCH.eq(11)).blend(qcnC.updateMask(qcnC.eq(12)))));
