@@ -69,7 +69,7 @@ Map.addLayer(qcnM, vis, 'QCN_1.3. Mangrove', false);
 Map.addLayer(qcnC, vis, 'QCN_2.2. Grassland', false);
 
 // fazer o blend só com as classes - descartar quando value == 0
-var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12).blend(qcnC.updateMask(qcnC.eq(12))))));
+var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12).blend(qcnM.updateMask(qcnM.eq(5))))));
 
 // Inspector
 Map.addLayer(qcn, vis, 'QCN_Reclass_QGIS');
