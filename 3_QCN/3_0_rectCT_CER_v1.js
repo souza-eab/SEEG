@@ -52,14 +52,18 @@ Map.addLayer(states.randomVisualizer(), {}, 'states', false);
 
 
 // Import LCLUC data
-var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_3");
-var qcnS = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_4");
-var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12");
+var qcnF = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_3_v1");
+var qcnS = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_4_v1");
+var qcnC = ee.Image("projects/mapbiomas-workspace/SEEG/2021/QCN_stp1/cer_12_v1");
 
 // reclassificiar
 var qcnF = qcnF.remap([0, 1], [0, 3]);
 var qcnS = qcnS.remap([0, 1], [0, 4]);
 var qcnC = qcnC.remap([0, 1], [0, 12]);
+
+Map.addLayer(qcnF, vis, 'QCN_1.1. Forest Formation');
+Map.addLayer(qcnS, vis, 'QCN_1.2.-Savanna Formation');
+Map.addLayer(qcnC, vis, 'QCN_2.2. Grassland');
 
 // fazer o blend só com as classes - descartar quando value == 0
 var qcn = qcnF.updateMask(qcnF.eq(3)).blend(qcnS.updateMask(qcnS.eq(4)).blend(qcnC.updateMask(qcnC.eq(12))));
