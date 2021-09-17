@@ -19,7 +19,7 @@ tiles <- read_sf(dsn= root, layer='tiles_biomes')
 
 ####### end of user parameters, don't change after this line ########
 ## rasterize fieldnames per tile and stack bands 
-for (i in 25:nrow(tiles)) {
+for (i in 1:nrow(tiles)) {
   print(paste0('processing tile ', i, ' from ', nrow(tiles)))
   ## read tile i
   tile_i <- tiles[i,]
