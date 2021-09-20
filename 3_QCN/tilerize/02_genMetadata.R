@@ -9,7 +9,7 @@ tile_n <- sapply(strsplit(filename, split='_', fixed=TRUE), function(x) (x[2]))
 product <- sapply(strsplit(filename, split='_', fixed=TRUE), function(x) (x[3]))
 
 ## build 
-metadata <- cbind(id_no, tile_n, product)
+metadata <- cbind(filename, tile_n, product)
 
 ## export
 write.csv(metadata, './metadata.csv', row.names=FALSE)
