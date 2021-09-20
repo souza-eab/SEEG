@@ -1,21 +1,8 @@
-## init env
-pip install earthengine-api --upgrade
-pip install retrying
-pip install requests_toolbelt
-pip install chromedriver_binary
-pip install selenium
-pip install webdriver-manager
-pip install pipwin
-
-git clone https://github.com/samapriya/geeup.git
-cd geeup
-
-## authenticate
-python
-import ee
-ee.Authenticate()
-exit()
+## set init environment using anaconda
+pip install geeup
+geeup init
+earthengine authenticate
 
 ## upload
-cd /d E:\OneDrive_IPAM\OneDrive - IPAM\IPAM\7_SEEG\1_QCN\r_code\gee_asset_manager
-python geebam.py upload -u dh.conciani@gmail.com --source ..\output --dest projects/mapbiomas-workspace/SEEG/2021/QCN/QCN_30m --metadata ..\metadata.csv
+cd C:\Users\dhemerson.costa\OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA\IPAM\7_SEEG\1_QCN\r_code
+geeup upload -u dh.conciani@gmail.com --source C:\Users\dhemerson.costa\Desktop\to_up --dest projects/mapbiomas-workspace/SEEG/2021/QCN/QCN_30m --metadata C:\Users\dhemerson.costa\Desktop\metadata.csv
