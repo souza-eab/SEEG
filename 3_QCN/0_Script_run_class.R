@@ -86,14 +86,25 @@ ggplot(amz, aes(tipo, n, fill = c_pretvizi)) + #BarPlot Class
 
 
 #######################
+#""   "Aa" "Ab" "Am" "As" "Ca" "Cb" "Cs" "Da" "Db" "Dm" "Ds" "Fa" "Fb" "Fm" "Fs" "L"  "La" "Lb" "Ld" "Lg" "LO" "ON" "P"  "Pa"
+#     "Pf" "Pm" "Rl" "Rm" "Rs" "S"  "Sa" "Sd" "Sg" "SN" "SO" "Sp" "SP" "ST" "T"  "Ta" "Td" "Tg" "TN" "Tp"
+
+# L"  "LO" "ON" "P"  "Rl" "Rs" "S" "SN" "SO" "SP" "ST" "T"  "Ta" "Tg" "TN" 
+
 
 ## Ao todo são 44 classes, sendo 18.911 sem classe alguma?
+# 22 Floresta
+# 1 Savana
+# 6 Campo 
+# 29 Classes Classificadas 
+# 
+
 
 
 #Classificar Floresta QCN -> MAPBIOMAS 
 
 
-levels(amz$tipo)
+levels(amz$C_pretvizi_OK)
 #Reclassificar classes da QCN com correspondência d
 amz_mapb_FA<- amz %>% 
   filter(tipo== "ANTROPIZADA")%>%
@@ -111,7 +122,7 @@ amz_mapb_F<- amz %>%
   filter(tipo== "NATURAL")%>%
   filter(C_pretvizi_OK== "Aa" |C_pretvizi_OK== "Ab" |C_pretvizi_OK== "As" | C_pretvizi_OK== "Am"
          |C_pretvizi_OK== "Ca"|C_pretvizi_OK== "Cb" |C_pretvizi_OK== "Cs" | C_pretvizi_OK== "Da"  # Conforme QCN página 121
-         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" |C_pretvizi_OK== "Fb" #pág122
+         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Dm" |C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" |C_pretvizi_OK== "Fb" #pág122
          |C_pretvizi_OK== "Fm"|C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"|C_pretvizi_OK== "La"
          |C_pretvizi_OK== "Ld"| C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm" |C_pretvizi_OK== "Sd"
          |C_pretvizi_OK== "Td") %>%
@@ -124,7 +135,7 @@ amz_mapb_SA<- amz %>%
   filter(tipo== "ANTROPIZADA")%>%
   filter(C_pretvizi_OK== "Sa") %>%
   mutate(MAPBIOMAS = 4)%>% 
-  mutate(G_class = "S")
+  mutate(G_class = "SA")
 
 #
 amz_mapb_S<- amz %>% 
@@ -134,30 +145,28 @@ amz_mapb_S<- amz %>%
   mutate(G_class = "S")
 
 
-
-
 #Campo Natural e outras formações lenhosas
 amz_mapb_CA<- amz %>% 
   filter(tipo== "ANTROPIZADA")%>%
-  filter(C_pretvizi_OK== "Lg"|C_pretvizi_OK== "Lb"|C_pretvizi_OK== "Tp" |C_pretvizi_OK== "Sp"|C_pretvizi_OK== "Sg"
-         |C_pretvizi_OK== "Rm") %>%
+  filter(C_pretvizi_OK== "Lg"|C_pretvizi_OK== "Lb"|C_pretvizi_OK== "Tp" |C_pretvizi_OK== "Sp"
+         |C_pretvizi_OK== "Sg"|C_pretvizi_OK== "Rm") %>%
   mutate(MAPBIOMAS = 12)%>% 
   mutate(G_class = "CA")
 
 
 #Campo Natural e outras formações lenhosas
 amz_mapb_C<- amz %>% 
-  filter(tipo== "ANTROPICO")%>%
+  filter(tipo== "NATURAL")%>%
   filter(C_pretvizi_OK== "Lg"| C_pretvizi_OK== "Lb"|C_pretvizi_OK== "Tp" |C_pretvizi_OK== "Sp"|C_pretvizi_OK== "Sg"
          |C_pretvizi_OK== "Rm") %>%
   mutate(MAPBIOMAS = 0)%>% 
-  mutate(G_class = "CA")
+  mutate(G_class = "C")
 
 
 
 #
 amz_mapb_MA<- amz %>% 
-  filter(tipo== "ANTROPICO")%>%
+  filter(tipo== "ANTROPIZADA")%>%
   filter(C_pretvizi_OK== "Pf") %>%
   mutate(MAPBIOMAS = 5)%>% 
   mutate(G_class = "MA")
@@ -165,9 +174,55 @@ amz_mapb_MA<- amz %>%
 #
 amz_mapb_M<- amz %>% 
   filter(tipo== "NATURAL")%>%
-  filter(C_pretvizi_OK== "Sa") %>%
+  filter(C_pretvizi_OK== "PF") %>%
   mutate(MAPBIOMAS = 0)%>% 
   mutate(G_class = "M")
+
+
+
+
+
+
+# L"  "LO" "ON" "P"  "Rl" "Rs" "S" "SN" "SO" "SP" "ST" "T"  "Ta" "Tg" "TN" 
+
+
+
+amz_mapb_NFA<- amz %>% 
+  filter(tipo== "ANTROPIZADA")%>%
+  filter(C_pretvizi_OK== "L" |C_pretvizi_OK== "LO" |C_pretvizi_OK== "ON" | C_pretvizi_OK== "P"
+         |C_pretvizi_OK== "Rl"|C_pretvizi_OK== "Rs" |C_pretvizi_OK== "S" | C_pretvizi_OK== "SN"  # Conforme QCN página 121
+         |C_pretvizi_OK== "SO"|C_pretvizi_OK== "SP" |C_pretvizi_OK== "ST" |C_pretvizi_OK== "T" #pág122
+         |C_pretvizi_OK== "Ta"|C_pretvizi_OK== "Tg" | C_pretvizi_OK== "TN"|C_pretvizi_OK== "") %>%
+  mutate(MAPBIOMAS = 3)%>% 
+  mutate(G_class = "NFA")
+
+
+amz_mapb_NF<- amz %>% 
+  filter(tipo== "NATURAL")%>%
+  filter(C_pretvizi_OK== "L" |C_pretvizi_OK== "LO" |C_pretvizi_OK== "ON" | C_pretvizi_OK== "P"
+         |C_pretvizi_OK== "Rl"|C_pretvizi_OK== "Rs" |C_pretvizi_OK== "S" | C_pretvizi_OK== "SN"  # Conforme QCN página 121
+         |C_pretvizi_OK== "SO"|C_pretvizi_OK== "SP" |C_pretvizi_OK== "ST" |C_pretvizi_OK== "T" #pág122
+         |C_pretvizi_OK== "Ta"|C_pretvizi_OK== "Tg" | C_pretvizi_OK== "TN"|C_pretvizi_OK== "") %>%
+  mutate(MAPBIOMAS = 0)%>% 
+  mutate(G_class = "NF") 
+
+
+
+
+setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
+todos<-rbind(amz_mapb_F,amz_mapb_FA,amz_mapb_NF,amz_mapb_NFA, amz_mapb_S, amz_mapb_SA, amz_mapb_M,amz_mapb_MA)
+
+class <-todosNA[,c(2,13,14)]
+class1 <-todosNAA[,c(2,13,14)]
+
+
+setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
+
+#Printar as csv para concatenar com o QGIS
+write.csv(class,file = "Cer_Teste2_MAPbiomas_NA.csv",row.names=F,fileEncoding = "UTF-8")
+write.csv(class1,file = "Cer_MapBiomas_v1_.csv",row.names=F,fileEncoding = "UTF-8")
+rm(list=ls())
+
 
 
 ################################################################################
