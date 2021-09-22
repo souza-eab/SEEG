@@ -93,12 +93,19 @@ ggplot(p_class_n, aes(c_pretvizi, n, fill = c_pretvizi)) + #BarPlot Class
 
 
 
+
+#18911
+
+# Aa 2151495 Ab 6583065 Am 255 As 11416627 Ca 410 Cb 19011 Cs 152230 Da 4876096 Db 16372116 Dm 607711
+# Ds 17252836 Fa 208725 Fb 351549 Fm 14853 Fs 3640154 L 1356 La 480966 Lb 223042 Ld 2254205 Lg 315072 LO 321691 ON 599219 P 486 Pa 1395318 Pf 331280 Pm 1594 Rl 454 Rm 80177 Rs 360 S 11557
+# Sa 882131_S Sd 1239642_F Sg 178629_C SN 312585 SO 328072 Sp 1007068 SP 1619 ST 43306 T 15 Ta 95 Td 64719 Tg 7758 TN 8581 Tp 32746
+
 ## Ao todo são 44 classes, sendo 18.911 sem classe alguma?
 # 22 Floresta
 # 1 Savana
 # 6 Campo 
 # 29 Classes Classificadas 
-# 
+# 16 
 
 
 
@@ -107,13 +114,21 @@ ggplot(p_class_n, aes(c_pretvizi, n, fill = c_pretvizi)) + #BarPlot Class
 
 levels(amz$C_pretvizi_OK)
 #Reclassificar classes da QCN com correspondência d
+
+
+# Aa 2151495_F Ab 6583065_F Am 255_F As 11416627_F Ca 410_F Cb 19011_F Cs 152230_F Da 4876096_F Db 16372116 _F Dm 607711_F
+# Ds 17252836_F Fa 208725_F Fb 351549_F Fm 14853_F Fs 3640154_F L 1356_Fa La 480966_F Lb 223042_C Ld 2254205_F Lg 315072_C 
+# LO 321691_FA ON 599219_FA P 486_FA Pa 1395318_F Pf 331280_M Pm 1594_F Rl 454_F Rm 80177_C Rs 360_FA S 11557_F
+# Sa 882131_S Sd 1239642_F Sg 178629_C SN 312585 SO 328072_FA Sp 1007068_C SP 1619_FA ST 43306_FA T 15_FA Ta 95_FA 
+# Td 64719_F Tg 7758 TN 8581_FA Tp 32746_C
+
 amz_mapb_FA<- amz %>% 
   filter(tipo== "ANTROPIZADA")%>%
   filter(C_pretvizi_OK== "Aa" |C_pretvizi_OK== "Ab" |C_pretvizi_OK== "As" | C_pretvizi_OK== "Am"
          |C_pretvizi_OK== "Ca"|C_pretvizi_OK== "Cb" |C_pretvizi_OK== "Cs" | C_pretvizi_OK== "Da"  # Conforme QCN página 121
          |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Dm" | C_pretvizi_OK== "Ds"| C_pretvizi_OK== "Fa" #pág122
          |C_pretvizi_OK== "Fb"|C_pretvizi_OK== "Fm" |C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"
-         |C_pretvizi_OK== "La"|C_pretvizi_OK== "Ld" | C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm"
+         |C_pretvizi_OK== "Ld" | C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm"
          |C_pretvizi_OK== "Sd"|C_pretvizi_OK== "Td") %>%
   mutate(MAPBIOMAS = 3)%>% 
   mutate(G_class = "FA")
@@ -125,7 +140,7 @@ amz_mapb_F<- amz %>%
          |C_pretvizi_OK== "Ca"|C_pretvizi_OK== "Cb" |C_pretvizi_OK== "Cs" | C_pretvizi_OK== "Da"  # Conforme QCN página 121
          |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Dm" |C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" #pág122
          |C_pretvizi_OK== "Fb"|C_pretvizi_OK== "Fm" |C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"
-         |C_pretvizi_OK== "La"|C_pretvizi_OK== "Ld" | C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm"
+         |C_pretvizi_OK== "Ld" | C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm"
          |C_pretvizi_OK== "Sd"|C_pretvizi_OK== "Td") %>%
   mutate(MAPBIOMAS = 0)%>% 
   mutate(G_class = "F")
@@ -178,8 +193,6 @@ amz_mapb_M<- amz %>%
   filter(C_pretvizi_OK== "Pf") %>%
   mutate(MAPBIOMAS = 0)%>% 
   mutate(G_class = "M")
-
-
 
 
 
