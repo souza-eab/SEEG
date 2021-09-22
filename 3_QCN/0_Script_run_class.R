@@ -79,7 +79,7 @@ p_class <- amz %>% # Inspect the number of QCN Class
   count(tipo,c_pretvizi,ctotal4inv,X_mean)
 
 
-ggplot(amz, aes(tipo, n, fill = c_pretvizi)) + #BarPlot Class
+ggplot(p_class_n, aes(c_pretvizi, n, fill = c_pretvizi)) + #BarPlot Class
   geom_bar(position = "dodge", width = 0.5, stat = "identity") 
 
 
@@ -90,6 +90,7 @@ ggplot(amz, aes(tipo, n, fill = c_pretvizi)) + #BarPlot Class
 #     "Pf" "Pm" "Rl" "Rm" "Rs" "S"  "Sa" "Sd" "Sg" "SN" "SO" "Sp" "SP" "ST" "T"  "Ta" "Td" "Tg" "TN" "Tp"
 
 # L"  "LO" "ON" "P"  "Rl" "Rs" "S" "SN" "SO" "SP" "ST" "T"  "Ta" "Tg" "TN" 
+
 
 
 ## Ao todo são 44 classes, sendo 18.911 sem classe alguma?
@@ -110,10 +111,10 @@ amz_mapb_FA<- amz %>%
   filter(tipo== "ANTROPIZADA")%>%
   filter(C_pretvizi_OK== "Aa" |C_pretvizi_OK== "Ab" |C_pretvizi_OK== "As" | C_pretvizi_OK== "Am"
          |C_pretvizi_OK== "Ca"|C_pretvizi_OK== "Cb" |C_pretvizi_OK== "Cs" | C_pretvizi_OK== "Da"  # Conforme QCN página 121
-         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" |C_pretvizi_OK== "Fb" #pág122
-         |C_pretvizi_OK== "Fm"|C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"|C_pretvizi_OK== "La"
-         |C_pretvizi_OK== "Ld"| C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm" |C_pretvizi_OK== "Sd"
-         |C_pretvizi_OK== "Td") %>%
+         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Dm" | C_pretvizi_OK== "Ds"| C_pretvizi_OK== "Fa" #pág122
+         |C_pretvizi_OK== "Fb"|C_pretvizi_OK== "Fm" |C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"
+         |C_pretvizi_OK== "La"|C_pretvizi_OK== "Ld" | C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm"
+         |C_pretvizi_OK== "Sd"|C_pretvizi_OK== "Td") %>%
   mutate(MAPBIOMAS = 3)%>% 
   mutate(G_class = "FA")
 
@@ -122,10 +123,10 @@ amz_mapb_F<- amz %>%
   filter(tipo== "NATURAL")%>%
   filter(C_pretvizi_OK== "Aa" |C_pretvizi_OK== "Ab" |C_pretvizi_OK== "As" | C_pretvizi_OK== "Am"
          |C_pretvizi_OK== "Ca"|C_pretvizi_OK== "Cb" |C_pretvizi_OK== "Cs" | C_pretvizi_OK== "Da"  # Conforme QCN página 121
-         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Dm" |C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" |C_pretvizi_OK== "Fb" #pág122
-         |C_pretvizi_OK== "Fm"|C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"|C_pretvizi_OK== "La"
-         |C_pretvizi_OK== "Ld"| C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm" |C_pretvizi_OK== "Sd"
-         |C_pretvizi_OK== "Td") %>%
+         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Dm" |C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" #pág122
+         |C_pretvizi_OK== "Fb"|C_pretvizi_OK== "Fm" |C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"
+         |C_pretvizi_OK== "La"|C_pretvizi_OK== "Ld" | C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm"
+         |C_pretvizi_OK== "Sd"|C_pretvizi_OK== "Td") %>%
   mutate(MAPBIOMAS = 0)%>% 
   mutate(G_class = "F")
 
@@ -157,8 +158,8 @@ amz_mapb_CA<- amz %>%
 #Campo Natural e outras formações lenhosas
 amz_mapb_C<- amz %>% 
   filter(tipo== "NATURAL")%>%
-  filter(C_pretvizi_OK== "Lg"| C_pretvizi_OK== "Lb"|C_pretvizi_OK== "Tp" |C_pretvizi_OK== "Sp"|C_pretvizi_OK== "Sg"
-         |C_pretvizi_OK== "Rm") %>%
+  filter(C_pretvizi_OK== "Lg"| C_pretvizi_OK== "Lb"|C_pretvizi_OK== "Tp" |C_pretvizi_OK== "Sp"
+         |C_pretvizi_OK== "Sg"| C_pretvizi_OK== "Rm") %>%
   mutate(MAPBIOMAS = 0)%>% 
   mutate(G_class = "C")
 
@@ -174,7 +175,7 @@ amz_mapb_MA<- amz %>%
 #
 amz_mapb_M<- amz %>% 
   filter(tipo== "NATURAL")%>%
-  filter(C_pretvizi_OK== "PF") %>%
+  filter(C_pretvizi_OK== "Pf") %>%
   mutate(MAPBIOMAS = 0)%>% 
   mutate(G_class = "M")
 
@@ -211,6 +212,8 @@ amz_mapb_NF<- amz %>%
 
 setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
 todos<-rbind(amz_mapb_F,amz_mapb_FA,amz_mapb_NF,amz_mapb_NFA, amz_mapb_S, amz_mapb_SA, amz_mapb_M,amz_mapb_MA)
+
+amz$C_pretorig <- as.factor(amz$C_pretorig)# Tranformar em fatores para as Tibbles
 
 class <-todosNA[,c(2,13,14)]
 class1 <-todosNAA[,c(2,13,14)]
