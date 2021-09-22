@@ -11,7 +11,7 @@ windowsFonts(fonte.tt= windowsFont("TT Times New Roman"))#Fonte de texto para pl
 setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv")
 
 
-#Chamar df das classificações da QCN/MAPBiomas/IPCC
+#Input Reclass QCN/MAPBiomas/IPCC
 qcn <- read.csv2("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/qcn_class.csv",
                   h=T, encoding = "UTF-8",sep = ";")#Tabela 4 da QCN página 43
 mapb <- read.csv2("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/mapbiomas_class.csv",
@@ -21,23 +21,153 @@ ipcc <- read.csv2("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIE
 babi <- read.csv2("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/Ok_Biomas/qcn_babi.csv",
                   h=T, encoding = "UTF-8",sep = ";")
 
-
+d<- read.csv2("C:/Users/edriano.souza/OneDrive/data_2021/result/areastran_col6_municipios.csv",
+              +              h=T, encoding = "UTF-8",sep = ",")
 
 gc()
 memory.limit (9999999999)
 
-################################################################################
-################################################################################
-################################ Amazônia########################################
-################################################################################
-################################################################################
+############################################################################################################################
+############################################################################################################################
+##########################################################    AmZ   ########################################################
+############################################################################################################################
+############################################################################################################################
 
 
-#am <- read.csv2("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/amazon.csv",
-                #h=T, encoding = "UTF-8",sep = ";")
+amz <- read.csv2("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/amazon.csv",
+                h=T, encoding = "UTF-8",sep = ",")
+
+str(amz)
+colnames(amz) #verificar nomes das colunas 
 
 
-#Mémoria insuficiente, elevado número de feições e .csv de 3Giga; 
+amz<-amz[,-c(11,12)] #Na csv tem outra categoria do IBGE, "categorig" retirar e alinhar a colunas
+
+#Nomes das colunas
+newNames <- c("FID", "ID", "C_pretorig","C_pretvizi","tipo", "c_agb", 
+              "c_bgb","c_dw","c_litter","c_total4inv") #Aqui as colunas padrã
+#que todos os biomas compartilhas da mesma informação;
+#Para relacionar as classes pegamos C_pretvizi e categvizi;
+
+colnames(amz)<-newNames# Receber classes  
+#amz$BIOMA <- c("Amz")#Criar variável bioma na csv
+amz <- mutate(amz, C_pretvizi_OK = C_pretvizi)#Criar variável de classe igual para tratamentos
+str(names(amz)) #Conferência
+amz$C_pretorig <- as.factor(amz$C_pretorig)# Tranformar em fatores para as Tibbles
+amz$C_pretvizi <- as.factor(amz$C_pretvizi)#.....................................
+amz$tipo <- as.factor(amz$tipo)#.....................................
+#amz$BIOMA <- as.factor(amz$BIOMA)#...............................................
+amz$C_pretvizi_OK <- as.factor(amz$C_pretvizi_OK)#..............................#
+
+
+
+p_class_n <- amz %>% # Inspect the number of QCN Class
+  group_by(c_pretvizi) %>%
+  count(c_pretvizi)
+
+p_class_nn <- amz %>% # Inspect the number of QCN Class
+  group_by(c_pretorig) %>%
+  count(c_pretorig)
+
+p_class_1 <- amz %>% # Inspect the number of QCN Class
+  group_by(tipo,c_pretvizi) %>%
+  count(tipo,c_pretvizi)
+
+
+p_class <- amz %>% # Inspect the number of QCN Class
+  group_by(tipo,c_pretvizi,ctotal4inv,X_mean) %>%
+  count(tipo,c_pretvizi,ctotal4inv,X_mean)
+
+
+ggplot(amz, aes(tipo, n, fill = c_pretvizi)) + #BarPlot Class
+  geom_bar(position = "dodge", width = 0.5, stat = "identity") 
+
+
+
+
+#######################
+
+## Ao todo são 44 classes, sendo 18.911 sem classe alguma?
+
+
+#Classificar Floresta QCN -> MAPBIOMAS 
+
+
+levels(amz$tipo)
+#Reclassificar classes da QCN com correspondência d
+amz_mapb_FA<- amz %>% 
+  filter(tipo== "ANTROPIZADA")%>%
+  filter(C_pretvizi_OK== "Aa" |C_pretvizi_OK== "Ab" |C_pretvizi_OK== "As" | C_pretvizi_OK== "Am"
+         |C_pretvizi_OK== "Ca"|C_pretvizi_OK== "Cb" |C_pretvizi_OK== "Cs" | C_pretvizi_OK== "Da"  # Conforme QCN página 121
+         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" |C_pretvizi_OK== "Fb" #pág122
+         |C_pretvizi_OK== "Fm"|C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"|C_pretvizi_OK== "La"
+         |C_pretvizi_OK== "Ld"| C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm" |C_pretvizi_OK== "Sd"
+         |C_pretvizi_OK== "Td") %>%
+  mutate(MAPBIOMAS = 3)%>% 
+  mutate(G_class = "FA")
+
+
+amz_mapb_F<- amz %>% 
+  filter(tipo== "NATURAL")%>%
+  filter(C_pretvizi_OK== "Aa" |C_pretvizi_OK== "Ab" |C_pretvizi_OK== "As" | C_pretvizi_OK== "Am"
+         |C_pretvizi_OK== "Ca"|C_pretvizi_OK== "Cb" |C_pretvizi_OK== "Cs" | C_pretvizi_OK== "Da"  # Conforme QCN página 121
+         |C_pretvizi_OK== "Db"|C_pretvizi_OK== "Ds" |C_pretvizi_OK== "Fa" |C_pretvizi_OK== "Fb" #pág122
+         |C_pretvizi_OK== "Fm"|C_pretvizi_OK== "Fs" | C_pretvizi_OK== "La"|C_pretvizi_OK== "La"
+         |C_pretvizi_OK== "Ld"| C_pretvizi_OK== "Pa"|C_pretvizi_OK== "Pm" |C_pretvizi_OK== "Sd"
+         |C_pretvizi_OK== "Td") %>%
+  mutate(MAPBIOMAS = 0)%>% 
+  mutate(G_class = "F")
+
+
+#
+amz_mapb_SA<- amz %>% 
+  filter(tipo== "ANTROPIZADA")%>%
+  filter(C_pretvizi_OK== "Sa") %>%
+  mutate(MAPBIOMAS = 4)%>% 
+  mutate(G_class = "S")
+
+#
+amz_mapb_S<- amz %>% 
+  filter(tipo== "NATURAL")%>%
+  filter(C_pretvizi_OK== "Sa") %>%
+  mutate(MAPBIOMAS = 0)%>% 
+  mutate(G_class = "S")
+
+
+
+
+#Campo Natural e outras formações lenhosas
+amz_mapb_CA<- amz %>% 
+  filter(tipo== "ANTROPIZADA")%>%
+  filter(C_pretvizi_OK== "Lg"|C_pretvizi_OK== "Lb"|C_pretvizi_OK== "Tp" |C_pretvizi_OK== "Sp"|C_pretvizi_OK== "Sg"
+         |C_pretvizi_OK== "Rm") %>%
+  mutate(MAPBIOMAS = 12)%>% 
+  mutate(G_class = "CA")
+
+
+#Campo Natural e outras formações lenhosas
+amz_mapb_C<- amz %>% 
+  filter(tipo== "ANTROPICO")%>%
+  filter(C_pretvizi_OK== "Lg"| C_pretvizi_OK== "Lb"|C_pretvizi_OK== "Tp" |C_pretvizi_OK== "Sp"|C_pretvizi_OK== "Sg"
+         |C_pretvizi_OK== "Rm") %>%
+  mutate(MAPBIOMAS = 0)%>% 
+  mutate(G_class = "CA")
+
+
+
+#
+amz_mapb_MA<- amz %>% 
+  filter(tipo== "ANTROPICO")%>%
+  filter(C_pretvizi_OK== "Pf") %>%
+  mutate(MAPBIOMAS = 5)%>% 
+  mutate(G_class = "MA")
+
+#
+amz_mapb_M<- amz %>% 
+  filter(tipo== "NATURAL")%>%
+  filter(C_pretvizi_OK== "Sa") %>%
+  mutate(MAPBIOMAS = 0)%>% 
+  mutate(G_class = "M")
 
 
 ################################################################################
@@ -132,18 +262,45 @@ cer_mapb_FLO<- cer %>%
   filter(C_pretvizi_OK== "Aa" |C_pretvizi_OK== "Ab"|C_pretvizi_OK== "As"| C_pretvizi_OK== "Ca" |C_pretvizi_OK== "Cb" # Conforme QCN página 121
          |C_pretvizi_OK== "Cm"|C_pretvizi_OK== "Cs"| C_pretvizi_OK== "Da" |C_pretvizi_OK== "Db" |C_pretvizi_OK== "Ds" #pág122
          |C_pretvizi_OK== "Fa"|C_pretvizi_OK== "Fb" |C_pretvizi_OK== "Fm"|C_pretvizi_OK== "Fs"| C_pretvizi_OK== "Ma" #    123
-         |C_pretvizi_OK== "Ml" |C_pretvizi_OK== "Mm"|C_pretvizi_OK== "P"|C_pretvizi_OK== "Pf"| C_pretvizi_OK== "Pm"
-         |C_pretvizi_OK== "S" |C_pretvizi_OK== "Sa" |C_pretvizi_OK== "Sd"|C_pretvizi_OK== "T"|C_pretvizi_OK== "Ta"
-         |C_pretvizi_OK== "Td") %>%
+         |C_pretvizi_OK== "Ml" |C_pretvizi_OK== "Mm"|C_pretvizi_OK== "P"| C_pretvizi_OK== "Pm"
+         |C_pretvizi_OK== "S" |C_pretvizi_OK== "Sd"|C_pretvizi_OK== "T"| C_pretvizi_OK== "Td"| C_pretvizi_OK== "Pa") %>%
   mutate(MAPBIOMAS = 3)%>% 
   mutate(G_class = "F")
+
+# 25 Floresta
+# 2 Savana
+# 24 Floresta de contato
+# 6 Grassland
+
+
+#Colocar no radar SA; P; PF; Sd
   
 # Na tabela da QCN aparece: ON (0.12%)e P (0.0%)
 
 
+
+
+#Aa,Ab,AR,Ar,As,Ca,Cb,Cm,Cs,Da,Db,DUN,Dn,Ds,Eg,Fa,Fb,Fm,Fs,Ma,Ml,Mm,ONm,ONs,ONts,P,Pa,Pf,Pm,Rm,S,Sa,Sd,Sg,SMl,SMm,SNb,SNm,SNs,SNtm,SNts,SOs,SOts,Sp,STb,STNm,STNs,STNtm,STNts,STs,STtm,STts,T,Ta,Td,Tg,TNm,TNs,TNtm,TNts,Tp
+
 #Classificar com a QCN para OFL (Outras formações lenhosas)
 #PA na primeira analise estáva como Floresta 
 #Do Bioma o percentual representa -> PA = 0.35% > RM = 0.09% > Tp = 0.16%
+
+cer_mapb_S<- cer %>% 
+  filter(C_pretvizi_OK== "Sa" |C_pretvizi_OK== "Ta") %>%
+  mutate(MAPBIOMAS = 4)%>%
+  mutate(G_class = "S")
+
+cer_mapb_M<- cer %>% 
+  filter(C_pretvizi_OK== "Pf") %>%
+  mutate(MAPBIOMAS = 5)%>%
+  mutate(G_class = "M")
+
+
+cer %>% 
+  filter(C_pretvizi_OK== "Pa")
+
+
 cer_mapb_OFL<- cer %>% 
   filter(C_pretvizi_OK== "Pa" |C_pretvizi_OK== "Rm"| C_pretvizi_OK== "Tp") %>%
   mutate(MAPBIOMAS = 27)%>%
@@ -153,7 +310,7 @@ cer_mapb_OFL<- cer %>%
 #Classificar com a QCN para a Grassland
 #Do Bioma o percentual representa -> Eg = 0.01% > Sg = 4.97% > Sp = 15.58% > Tg = 0.02%
 cer_mapb_G<- cer %>% 
-  filter(C_pretvizi_OK== "Eg" | C_pretvizi_OK== "Sg" |C_pretvizi_OK== "Sp" |C_pretvizi_OK== "Tg") %>%
+  filter(C_pretvizi_OK== "Eg" | C_pretvizi_OK== "Sg" |C_pretvizi_OK== "Sp" |C_pretvizi_OK== "Tg"|C_pretvizi_OK== "Rm"| C_pretvizi_OK== "Tp") %>%
   mutate(MAPBIOMAS = 12)%>% 
   mutate(G_class = "G")
 
@@ -187,6 +344,8 @@ cer_mapb_NA <- cer %>%
   mutate(G_class = "NA")
 
 
+
+
 cer_mapb_NAA <- cer %>% 
   filter(C_pretvizi_OK== "ONm" |C_pretvizi_OK== "ONs"|C_pretvizi_OK== "ONts"|C_pretvizi_OK== "SMl"|C_pretvizi_OK== "SMm"
          |C_pretvizi_OK== "SNb" |C_pretvizi_OK== "SNm"|C_pretvizi_OK== "SNs"|C_pretvizi_OK== "SNtm"|C_pretvizi_OK== "SNts"
@@ -199,15 +358,17 @@ cer_mapb_NAA <- cer %>%
 
 setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
 todosNA<-rbind(cer_mapb_FLO,cer_mapb_OFL,cer_mapb_G,cer_mapb_DUN,cer_mapb_AR,cer_mapb_NA)
-todosNAA<-rbind(cer_mapb_FLO,cer_mapb_OFL,cer_mapb_G,cer_mapb_DUN,cer_mapb_AR,cer_mapb_NAA)
+todosNAA<-rbind(cer_mapb_FLO,cer_mapb_S,cer_mapb_G,cer_mapb_DUN,cer_mapb_AR,cer_mapb_NAA,cer_mapb_M)
 
 class <-todosNA[,c(2,13,14)]
 class1 <-todosNAA[,c(2,13,14)]
 
 
-  #Printar as csv para concatenar com o QGIS
-  write.csv(class,file = "Cer_Teste2_MAPbiomas_NA.csv",row.names=F,fileEncoding = "UTF-8")
-  write.csv(class1,file = "Cer_Teste2_MAPbiomas_NAA.csv",row.names=F,fileEncoding = "UTF-8")
+setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
+
+#Printar as csv para concatenar com o QGIS
+write.csv(class,file = "Cer_Teste2_MAPbiomas_NA.csv",row.names=F,fileEncoding = "UTF-8")
+write.csv(class1,file = "Cer_MapBiomas_v1_.csv",row.names=F,fileEncoding = "UTF-8")
 rm(list=ls())
 
 
@@ -422,7 +583,7 @@ class <-todosNA[,c(2,13)]
 class1 <-todosNAA[,c(2,13)]
 
 
-setwd("C:/Users/edriano.souza/OneDrive - INSTITUTO DE PESQUISA AMBIENTAL DA AMAZÔNIA/Mapbiomas/class_csv/OKK")
+
 #Printar as csv para concatenar com o QGIS
 write.csv(class,file = "Caa_Teste_MAPbiomas_NA.csv",row.names=F,fileEncoding = "UTF-8")
 write.csv(class1,file = "Caa_MAPbiomas.csv",row.names=F,fileEncoding = "UTF-8")
