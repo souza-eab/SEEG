@@ -43,13 +43,19 @@ library(openxlsx)
 ############################
 
 
+
+gc()
+memory.limit (9999999999)
+
+
 ###Leitura das tabelas GeoJSON exportadas pelo processo do Google Earth Engine
 
 #Importacao dos arquivos base com os codigos dos biomas e estados
-biomasestados <- read.csv("C:/Users/edriano.souza/OneDrive/d/seeg/a/R/data_seeg//biomas_estados.csv")
+biomasestados <- read.csv("C:/Users/edriano.souza/OneDrive/d/seeg/a/R/data_seeg/biomas_estados.csv")
 
 #Pasta onde se encontram os GeoJSON exportados do Google Earth Engine
 folder <- "C:/Users/edriano.souza/OneDrive/data_2021/geoJson"
+
 
 #Organizacao das areas de transicao e saida em hectares
 biomasestado.data = list.files(folder, full.names = TRUE) %>%
@@ -76,6 +82,8 @@ biomasestado.data = list.files(folder, full.names = TRUE) %>%
   mutate(area_ha = area_ha*100)
 
 #15:35 16:29
+colnames(biomasestado.data)
+summary(biomasestado.data$periodo)
 
 #Exportacao da tabela para fins de armazenamento do processo
 tran_mun = biomasestado.data %>%
@@ -224,7 +232,7 @@ classesPM<-c( 3,
 biomas <- c( "AMAZONIA", "CAATINGA","CERRADO", "MATA_ATLANTICA",
              "PAMPA","PANTANAL")
 
-#Relacao das classes do MapBiomas com as classes contabilizadas no 3o. Inventario
+#Relacao das classes do MapBiomas com as classes contabilizadas no 4o. Inventario
 FM <- c(3, 4, 5, 49)
 FNM <- c(3, 4, 5, 49)
 FSec <- c(300, 400, 500, 4900)
@@ -310,10 +318,54 @@ tran_mun<-tran_mun%>%
                                                                               X2019.a.2020 = sum(X2019.a.2020))
 tran_mun<-data.frame(tran_mun)
 
+
+str(tran_mun)
+
+tran_mun$bioma <- as.factor(tran_mun$bioma)
+tran_mun$estado <- as.factor(tran_mun$estado)
+tran_mun$ap <- as.factor(tran_mun$ap)
+tran_mun$de <- as.factor(tran_mun$de)
+tran_mun$para <- as.factor(tran_mun$para)
+levels(tran_mun$bioma)
+levels(tran_mun$estado)
+levels(tran_mun$ap)
+levels(tran_mun$de)
+levels(tran_mun$para)
+
+
+nrow(tran_mun[tran_mun$de == 3 &
+                tran_mun$para == 3 &
+                tran_mun$ap == 1&
+                tran_mun$bioma == 'AMAZONIA',])
+
+nrow(tran_mun[tran_mun$de == 3 &
+                tran_mun$para == 3 &
+                tran_mun$ap == 1&
+                tran_mun$bioma == 'CERRADO',])
+
+nrow(tran_mun[tran_mun$de == 3 &
+                tran_mun$para == 3 &
+                tran_mun$ap == 1&
+                tran_mun$bioma == 'CAATINGA',])
+
+
 nrow(tran_mun[tran_mun$de == 3 &
                 tran_mun$para == 3 &
                 tran_mun$ap == 1&
                 tran_mun$bioma == 'MATA ATLANTICA',])
+
+
+nrow(tran_mun[tran_mun$de == 3 &
+                tran_mun$para == 3 &
+                tran_mun$ap == 1&
+                tran_mun$bioma == 'PAMPA',])
+
+
+nrow(tran_mun[tran_mun$de == 3 &
+                tran_mun$para == 3 &
+                tran_mun$ap == 1&
+                tran_mun$bioma == 'PANTANAL',])
+
 
 
 #Ajustando areas de transicao
@@ -1589,9 +1641,9 @@ seeg <- function(t1, t2, bi, uf, ap){
     }
   }
   #{ equacao <- null }
+}######
   out <-data.frame(t1, t2, bi, uf, equacao, newAP, notes, proc, stringsAsFactors = FALSE)
   return(out) 
-}######
 
 
 ####Organizando matrizes por bioma com todos os casos de transicao a serem calculados,
@@ -1829,10 +1881,36 @@ for (i in 1:nrow(emiss_mun)){
   }
 }
 
+
+colnames(tran_mun.b)
 tran_mun.b[,8:38] <- as.numeric(unlist(tran_mun.b[,8:38])) #Coluna com as estimativas anuais como numéricas
 emiss_mun[,8:38] <- as.numeric(unlist(emiss_mun[,8:38])) #Coluna com as estimativas anuais como numéricas
 
-colSums(emiss_mun[8:38])
+sum(tran_mun.b$X2018.a.2019)
+
+tran_mun.b$bioma
+str(tran_mun.b)
+a<- tran_mun.b %>%
+  group_by(bioma)%>%
+  filter(processo == "Remoção por Vegetação Secundária") %>%
+  summarise('1990'= sum(`X1989.a.1990`),'1991'= sum(`X1990.a.1991`),'1992'= sum(`X1991.a.1992`),'1993' = sum(`X1992.a.1993`),
+            '1994'=sum(`X1993.a.1994`),'1995'= sum(`X1994.a.1995`),'1996'=sum (`X1995.a.1996`),'1997'=sum(`X1996.a.1997`),
+            '1998'=sum(`X1997.a.1998`),'1999'=sum(`X1998.a.1999`),'2000'=sum(`X1999.a.2000`),'2001'=sum(`X2000.a.2001`),
+            '2002'=sum(`X2001.a.2002`),'2003'=sum(`X2002.a.2003`),'2004'=sum(`X2003.a.2004`),'2005'=sum(`X2004.a.2005`),
+            '2006'=sum(`X2005.a.2006`),'2007'=sum(`X2006.a.2007`),'2008'=sum(`X2007.a.2008`),'2009'=sum(`X2008.a.2009`),
+            '2010'=sum(`X2009.a.2010`),'2011'=sum(`X2010.a.2011`),'2012'=sum(`X2011.a.2012`),'2013'=sum(`X2012.a.2013`),
+            '2014'=sum(`X2013.a.2014`),'2015'=sum(`X2014.a.2015`),'2016'=sum(`X2015.a.2016`),'2017'=sum(`X2016.a.2017`),
+            '2018'=sum(`X2017.a.2018`),'2019'=sum(`X2018.a.2019`),'2020'=sum(`X2019.a.2020`))
+
+df <- as.data.frame(a)
+
+
+str(a)
+
+sum(df$`2018`)
+sum(tran_mun.b$X2017.a.2018)
+
+colSums(tran_mun.b[8:38])
 
 #colSums(desm[34:63])
 #colSums(subset(desm, desm$LEVEL_3 == "AMAZONIA")[34:63])
@@ -1842,9 +1920,14 @@ colSums(emiss_mun[8:38])
 # colSums(subset(desm, desm$LEVEL_3 == "PAMPA")[34:63])
 # colSums(subset(desm, desm$LEVEL_3 == "PANTANAL")[34:63])
 
+
+
+setwd("C:/Users/edriano.souza/OneDrive/data_2021")
+
+
 #Exportacao para fins de armazenamento do processo e exploracao inicial dos padroes
-write.csv(emiss_mun, file = "C:/Users/edriano.souza/OneDrive/data_seeg/result/emiss_mun_col6_municipios.csv")
-write.csv(tran_mun.b, file = "C:/Users/edriano.souza/OneDrive/data_seeg/result/areastran_col6_municipios.csv")
+write.csv(emiss_mun, file = "C:/Users/edriano.souza/OneDrive/data_2021/result/emiss_mun_col6_municipios.csv")
+write.csv(tran_mun.b, file = "C:/Users/edriano.souza/OneDrive/data_2021/result/areastran_col6_municipios.csv")
 
 # setwd("D:/Dropbox/Work/SEEG")
 # tran_mun.b<-read.csv("SEEG 8/SEEG 8.1/areastran_col5_municipios.csv",h=T)
@@ -1925,12 +2008,12 @@ emiss_mun_filt <- emiss_mun_filt [, c("processo", "bioma", "ap", "transic", "tip
                                       'X2011.a.2012','X2012.a.2013',
                                       'X2013.a.2014','X2014.a.2015',
                                       'X2015.a.2016','X2016.a.2017',
-                                      'X2017.a.2018','X2018.a.2019', "codigo","codigobiomasestados", "de", "para", "uf", "eq_inv")]
+                                      'X2017.a.2018','X2018.a.2019', 'X2019.a.2020',"codigo","codigobiomasestados", "de", "para", "uf", "eq_inv")]
 #names(emiss_mun_filt[,8:36])
 #emiss_mun_filt[,8:36] <- as.numeric(unlist(emiss_mun_filt[,8:36])) #Coluna com as estimativas anuais como numéricas
 
 #Exportacao para fins de armazenamento do processo e exploracao resultados filtrados
-write.csv(emiss_mun_filt, file = "area_mun_filt_col5_municipios.csv")
+#write.csv(emiss_mun_filt, file = "area_mun_filt_col5_municipios.csv")
 
 # colSums(subset(emiss_mun_filt, emiss_mun_filt$bioma == "CAATINGA")[8:37])
 # sum(subset(emiss_mun_filt, emiss_mun_filt$bioma == "CERRADO")[8:37])
@@ -1940,7 +2023,7 @@ write.csv(emiss_mun_filt, file = "area_mun_filt_col5_municipios.csv")
 # sum(subset(emiss_mun_filt, emiss_mun_filt$bioma == "PAMPA")[8:37])
 
 #Agrupamento dos tipos de transicao
-emiss_aggr <- aggregate(emiss_mun_filt[,8:37], by = list(
+emiss_aggr <- aggregate(emiss_mun_filt[,8:38], by = list(
   emiss_mun_filt$processo,
   emiss_mun_filt$bioma,
   emiss_mun_filt$ap,
@@ -2016,6 +2099,7 @@ newNames <- c("LEVEL_2",
               "2017",
               "2018",
               "2019",
+              "2020",
               "1970",
               "1971",
               "1972",
@@ -2049,7 +2133,7 @@ emiss_aggr[i] <- lapply(emiss_aggr[i], as.character)
 # cbind(names(emiss_aggr),newNames)
 
 names(emiss_aggr) <- newNames
-emiss_aggr <- emiss_aggr [, c(61, 1:3, 62, 4, 5, 60, 6, 7, 8, 9, 63, 40:59, 10:39)]
+emiss_aggr <- emiss_aggr [, c(62, 1:3, 63, 4, 5, 61, 6, 7, 8, 9, 64, 41:60, 10:40)]
 i <- sapply(emiss_aggr, is.factor)
 emiss_aggr[i] <- lapply(emiss_aggr[i], as.character)
 
@@ -2061,6 +2145,9 @@ tabelao_full_mun<-emiss_aggr
 #Exportacao para fins de armazenamento do processo
 write.csv(tabelao_full_mun, file = "tabelao_area_full_mun_col5.csv")
 
+colnames(tabelao_full_mun)
+head(tabelao_full_mun)
+summary(tabelao_full_mun)
 
 ####Calculo das emissoes por queima de residuos florestais, com base nas emissoes por desmatamento
 
@@ -2097,16 +2184,19 @@ unique(tabelao_full_mun$LEVEL_6)
 # [27] "Área sem vegetação -- Silvicultura"                                      
 # [28] "Floresta primária -- Floresta primária"                                  
 # [29] "Vegetação não florestal primária -- Vegetação não florestal primária"    
-
+colnames(tabelao_full_mun)
 
 desm <- tabelao_full_mun[tabelao_full_mun$LEVEL_6 %in% c(unique(tabelao_full_mun$LEVEL_6)[c(
   1,2,3,10,11,12,13,20)])
   & tabelao_full_mun$`TIPO DE VALOR` == "Emissão",]
 
 desm$LEVEL_4[desm$LEVEL_4 == 1 ] <- 0 #nao diferencia entre dentro e fora de areas protegidas
+colnames(tabelao_full_mun)
+
+dim(desm)
 
 #Agrupa total de emissoes por desmatamento
-desm <- aggregate(desm[, c(14:63)], by = list(
+desm <- aggregate(desm[, c(14:64)], by = list(
   desm$SECTOR,
   desm$LEVEL_2,
   desm$LEVEL_3,
@@ -2121,23 +2211,27 @@ desm <- aggregate(desm[, c(14:63)], by = list(
   desm$PRODUCT),
   FUN = "sum")
 
+dim(desm)
+str(desm)
+colnames(tabelao_full_mun)
 # names(tabelao_full_mun)
-names(desm) <- names(tabelao_full_mun)[c(1:5,7:63)]
+names(desm) <- names(tabelao_full_mun)[c(1:5,7:64)]
 desm$LEVEL_6 <- "NA"
 # names(desm)
-desm <- desm[c(1:5, 63, 6:62)]
+desm <- desm[c(1:5, 64, 6:63)]
 # names(desm)
+colnames(desm)
 
 #Aplicacao dos fatores de emissao de CH4 e N2O com base nas emissoes de CO2 por desmatamento
 ch42002 <- round(desm[14:46]*0.00169)
-ch42018 <- round(desm[47:63]*0.00205)
+ch42020 <- round(desm[47:64]*0.00205)
 n2o2002 <- round(desm[14:46] *0.000067)
-n202018 <- round(desm[47:63]*0.000074)
+n202020 <- round(desm[47:64]*0.000074)
 
 #Organizacao dos resultados
-ch4 <- cbind(ch42002, ch42018)
+ch4 <- cbind(ch42002, ch42020)
 ch4$GAS <- "CH4 (t)"
-n2o <- cbind(n2o2002, n202018)
+n2o <- cbind(n2o2002, n202020)
 n2o$GAS <- "N2O (t)" 
 
 ch4$SECTOR <- desm$SECTOR[1]
@@ -2176,18 +2270,26 @@ n2o$ECONOMIC_ACTIVITY <- desm[,"ECONOMIC_ACTIVITY"]
 ch4$PRODUCT <- "NA"
 n2o$PRODUCT <- "NA"
 
+str(ch4)
 names(ch4)
-ch4 <- ch4[, c(52:58, 51, 59:63, 1:50)]
+ch4 <- ch4[, c(53:58, 52, 59:64, 1:51)]
 names(n2o)
-n2o <- n2o[, c(52:58, 51, 59:63, 1:50)]
+n2o <- n2o[, c(53:58, 52, 59:64, 1:51)]
 
+names(ch4)
+names(n2o)
+
+colnames(ch4)
 #Calculo das emissoes de residuos como CO2 equivalente de acordo com as metricas de potencial de aquecimento do IPCC
-TAR2 <- round((ch4[,14:63]*5)+(n2o [,14:63]*270))
-WAR2 <- round((ch4[,14:63]*21)+(n2o[,14:63]*310))
-TAR4 <- round((ch4[,14:63]*5)+(n2o [,14:63]*270))
-WAR4 <- round((ch4[,14:63]*25)+(n2o[,14:63]*298))
-TAR5 <- round((ch4[,14:63]*4)+(n2o [,14:63]*234))
-WAR5 <- round((ch4[,14:63]*28)+(n2o[,14:63]*265))
+TAR2 <- round((ch4[,14:64]*5)+(n2o [,14:64]*270))
+WAR2 <- round((ch4[,14:64]*21)+(n2o[,14:64]*310))
+TAR4 <- round((ch4[,14:64]*5)+(n2o [,14:64]*270))
+WAR4 <- round((ch4[,14:64]*25)+(n2o[,14:64]*298))
+TAR5 <- round((ch4[,14:64]*4)+(n2o [,14:64]*234))
+WAR5 <- round((ch4[,14:64]*28)+(n2o[,14:64]*265))
+
+names(ch4)
+names(n2o)
 
 #Organizacao dos resultados para agrupamento com o tabelao original
 TAR2 <- cbind(ch4[,1:13], TAR2)
@@ -2289,18 +2391,61 @@ unique(tabelao_full_final_mun$LEVEL_6)
 # [29] "Vegetação não florestal primária -- Vegetação não florestal primária"    Estavel
 # [30] "NA"                                                                   
 
-tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(5,6,14,17,21,26)]] <- "Regeneração"
-tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(7, 8, 28, 29)]] <- "Vegetação nativa estável"
-tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(1,2,3,10,11,12,13,18,20,22,23,24)]] <- "Desmatamento"
-tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(30)]] <- "NA"
-tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(4,9,15,16,19,25,27)]] <- "Outras Mudanças de uso da terra"
 
-write.csv(tabelao_full_final_mun, file = "tabelao_full_final_mun_col5.csv")
+
+#Coleção 6
+
+#[1] Floresta primária -- Área sem vegetação                                 
+#[2] Floresta primária -- Uso agropecuário                                   
+#[3] Floresta secundária -- Uso agropecuário                                 
+#[4] Uso agropecuário -- Área sem vegetação                                  
+#[5] Uso agropecuário -- Floresta secundária                                 
+#[6] Uso agropecuário -- Vegetação não florestal secundária                  
+#[7] Vegetação não florestal primária -- Área sem vegetação                  
+#[8] Vegetação não florestal primária -- Uso agropecuário                    
+#[9] Vegetação não florestal secundária -- Uso agropecuário                  
+#[10] Floresta secundária -- Floresta secundária                              
+#[11] Vegetação não florestal secundária -- Vegetação não florestal secundária
+#[12] Uso agropecuário -- Uso agropecuário                                    
+#[13] Área sem vegetação -- Uso agropecuário                                  
+#[14] Floresta secundária -- Área sem vegetação                               
+#15] Vegetação não florestal secundária -- Área sem vegetação                
+#[16] Silvicultura -- Floresta secundária                                     
+#[17] Silvicultura -- Uso agropecuário                                        
+#[18] Uso agropecuário -- Silvicultura                                        
+#[19] Área sem vegetação -- Floresta secundária                               
+#[20] NULL                                                                    
+#[21] Floresta primária -- Silvicultura                                       
+#[22] Vegetação não florestal primária -- Silvicultura                        
+#[23] Área sem vegetação -- Vegetação não florestal secundária                
+#[24] Silvicultura -- Área sem vegetação                                      
+#[25] Floresta secundária -- Silvicultura                                     
+#[26] Silvicultura -- Vegetação não florestal secundária                      
+#[27] Vegetação não florestal secundária -- Silvicultura                      
+#[28] Área sem vegetação -- Silvicultura                                      
+#[29] Floresta primária -- Floresta primária                                  
+#[30] Vegetação não florestal primária -- Vegetação não florestal primária    
+#[31] NA    
+
+
+tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(5,6,13,16,23,26)]] <- "Regeneração"
+tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(10, 11, 29, 30)]] <- "Vegetação nativa estável"
+tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(1,2,3,14,7,8,9,22,15,27,21,25)]] <- "Desmatamento"
+tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(20,31)]] <- "NA"
+tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(4,12,13,17,18,24,28)]] <- "Outras Mudanças de uso da terra"
+
+
+
+setwd("C:/Users/edriano.souza/OneDrive/data_2021/highligts/")
+write.csv(tabelao_full_final_mun, file = "SEEG_Tabelao_full_mun_col6.csv")
+
+
+tabelao_full_final_mun
 
 # tabelao_full_final_mun$STATE[tabelao_full_final_mun$STATE=="RONDONIA"]<-"RO"
 # tabelao_full_final_mun$STATE[tabelao_full_final_mun$STATE=="ACRE"]<-"AC"
@@ -2393,13 +2538,16 @@ newNames <- c("Nivel_1_Setor",
               "2016",
               "2017",
               "2018",
-              "2019")
+              "2019",
+              "2020")
 
 names(tabelao_full_final_mun) <- newNames
 
+
+
 #Geracao e exportacao do tabelao para estados
 tabelao_full_final_estados <- tabelao_full_final_mun
-tabelao_full_final_estados <- aggregate(tabelao_full_final_estados[,14:63], by = list(
+tabelao_full_final_estados <- aggregate(tabelao_full_final_estados[,14:64], by = list(
   tabelao_full_final_estados$Nivel_1_Setor,
   tabelao_full_final_estados$Nivel_2,
   tabelao_full_final_estados$Nivel_3,
@@ -2413,12 +2561,14 @@ tabelao_full_final_estados <- aggregate(tabelao_full_final_estados[,14:63], by =
   tabelao_full_final_estados$Produto), FUN = "sum")
 names(tabelao_full_final_estados) <- names(tabelao_full_final_mun[,-c(9,10)])
 #head(tabelao_full_final_estados,4)
-write.csv(tabelao_full_final_estados, file = "TABELAO_MUT_ESTADOS-19-03.csv",row.names=F)
+write.csv(tabelao_full_final_estados, file = "TABELAO_MUT_ESTADOS-26-09.csv",row.names=F)
+
+
 
 #Geracao e exportacao do tabelao para o Brasil
 tabelaoBR <- tabelao_full_final_mun
 tabelaoBR$Estado <- "BR"
-tabelaoBR <- aggregate(tabelaoBR[,14:63], by = list(
+tabelaoBR <- aggregate(tabelaoBR[,14:64], by = list(
   tabelaoBR$Nivel_1_Setor,
   tabelaoBR$Nivel_2,
   tabelaoBR$Nivel_3,
@@ -2431,19 +2581,50 @@ tabelaoBR <- aggregate(tabelaoBR[,14:63], by = list(
   tabelaoBR$Atividade_Economica,
   tabelaoBR$Produto), FUN = "sum")
 names(tabelaoBR) <- names(tabelao_full_final_mun[,-c(9,10)])
-write.csv(tabelaoBR, file = "TABELAO_MUT_ESTADOS-19-03.csv",row.names=F)
+write.csv(tabelaoBR, file = "TABELAO_MUT_BR-26-09.csv",row.names=F)
+
+
+str(tabelao_full_final_mun$CodIBGE)
 
 #Organizacao dos nomes dos municipios
-setwd("C:/Users/edriano.souza/OneDrive/d/seeg/a/data_seeeg")
-nomesmun<-read.csv("nomes_mun_IBGE.csv",head=T,sep=";")
-nomesmun<-nomesmun[,1:2]
-nomesmun$GEOCODIGO2<-as.character(nomesmun$GEOCODIGO)
+setwd("C:/Users/edriano.souza/OneDrive/teste")
 
+nomesmun<-read.csv("nomes_mun_IBGE.csv",head=T,sep=";")
+colnames(nomesmun)
+
+nomesmun<-nomesmun[,1:2]
+
+nomesmun$GEOCODIGO2<-as.character(nomesmun$GEOCODIGO)
+nomesmun$IBGE <- as.character(nomesmun$IBGE)
+
+tabelao_full_final_mun$CodIBGE <- as.factor(nomesmun$GEOCODIGO2)
+library(dplyr)
+
+
+tabelao_full_final_mun$IBGE <- as.character(tabelao_full_final_mun$CodIBGE)
+
+
+nomesmun <- as.data.frame(nomesmun)
+tabelao_full_final_mun <- as.data.frame(tabelao_full_final_mun)
 tabelao_full_final_mun$CodIBGE<-as.character(str_sub(tabelao_full_final_mun$CodIBGE,4,10))
+head(tabelao_full_final_mun_OK,3)
 head(tabelao_full_final_mun,3)
 
-tabelao_full_final_mun<-tabelao_full_final_mun%>%
-  left_join(nomesmun,by=c("CodIBGE"="GEOCODIGO2"))
-# names(tabelao_full_final_mun)
+tabelao_full_final_mun$CodIBGE<-as.character(tabelao_full_final_mun$CodIBGE)
 
-write.csv(tabelao_full_final_mun, file = "TABELAO_MUT_MUN-14-01.csv",row.names=F,fileEncoding = "UTF-8")
+
+tabelao_full_final_mun<-tabelao_full_final_mun[,-c(65,66)] #N
+
+str(tabelao_full_final_mun)
+
+str()
+
+a<- left_join(y=nomesmun,x= tabelao_full_final_mun, by=c("CodIBGE"="GEOCODIGO2"))
+
+head(a,5)
+# names(tabelao_full_final_mun)
+tabelao_full_final_mun$Nome_Município
+
+setwd("C:/Users/edriano.souza/OneDrive/data_2021/highligts/")
+
+write.csv(tabelao_full_final_mun, file = "TABELAO_MUT_MUN-26-09.csv",row.names=F,fileEncoding = "UTF-8")
