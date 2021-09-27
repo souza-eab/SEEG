@@ -19,10 +19,11 @@ var biomes = ee.Image('projects/mapbiomas-workspace/AUXILIAR/biomas-2019-raster'
 // Add ImageCollection Mapbiomas 6.0
 var colecao6 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO6/mapbiomas-collection60-integration-v0-12").mosaic();
 
+// Retire class 13; 27; 
 //Remap layers for native vegetation in 1985 to 1; what is anthropic, is 0; and what does not apply, is 9
 var col6floresta85 = colecao6.select('classification_1985').remap(
-                  [3, 4, 5, 11, 12, 13, 9, 15,  19, 20, 21,  23, 24, 25,  27, 29, 30, 31, 32, 33, 36, 39, 40, 41, 42, 43, 44, 45, 49],
-                  [1, 1, 1,  1,  1,  1, 0,  0,   0,  0,  0,   9,  0,  0,   9,  9,  0,  0,  9,  9,  0,  0,  0,  0,  0,  0,  0,  0, 1]);
+                  [3, 4, 5, 11, 12,  9, 15,  19, 20, 21,  23, 24, 25,  29, 30, 31, 32, 33, 36, 39, 40, 41,  46, 47, 48],
+                  [1, 1, 1,  1,  1,  0,  0,   0,  0,  0,   9,  0,  0,   9,  0,  0,  9,  9,  0,  0,  0,  0,   0,  0,  0]);
 
 // Include New Class 49 in 2019 _ {1.4. Wooded Restinga}
                
