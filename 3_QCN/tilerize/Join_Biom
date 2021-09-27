@@ -1,0 +1,21 @@
+// import QCN with 30 meters
+var qcn_ic = ee.ImageCollection('projects/mapbiomas-workspace/SEEG/2021/QCN/QCN_30m');
+
+// read filename and paste as metadata
+var qcn_ic= qcn_ic.map(function(image){return image.set({
+      band: ee.String(image.get('system:index')).split('_').get(2)}); 
+    });
+    
+// filter by band
+var qcn_cagb = qcn_ic.filterMetadata('band', 'equals', 'cagb').mosaic();
+var qcn_cbgb = qcn_ic.filterMetadata('band', 'equals', 'cbgb').mosaic();
+var qcn_cdw = qcn_ic.filterMetadata('band', 'equals', 'cdw').mosaic();
+var qcn_clitter = qcn_ic.filterMetadata('band', 'equals', 'clitter').mosaic();
+var qcn_total = qcn_ic.filterMetadata('band', 'equals', 'total').mosaic();
+
+// plot 
+Map.addLayer(qcn_cagb.randomVisualizer(), {}, 'CAGB');
+Map.addLayer(qcn_cbgb.randomVisualizer(), {}, 'CBGB');
+Map.addLayer(qcn_cdw.randomVisualizer(), {}, 'CDW');
+Map.addLayer(qcn_clitter.randomVisualizer(), {}, 'CLITTER');
+Map.addLayer(qcn_total.randomVisualizer(), {}, 'TOTAL');
