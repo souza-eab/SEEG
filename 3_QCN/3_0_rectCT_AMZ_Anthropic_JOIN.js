@@ -19,9 +19,6 @@ var address =   'projects/mapbiomas-workspace/SEEG/2021/QCN/tile_id_';
 // Id for tiles
 var tiles = [1,2,3,4,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,32];
 
-// Total de tiles 25 // Exclusion
-// 1,2,3,4,  5,  6,7,8,9,  10,    11,12,13,14,15,16,17,18,19,20,21,22,23,24,   25;26,    27,28,     29;30;31;   32, 33,34,35
-/// tiles not insert = 5,10,25,26,29,30 e 31 7 Classes 
 
 ///////////////////////////////////////
 /* @. Don't change below this line *///
@@ -42,12 +39,9 @@ var featureCollection = tiles.map(function(i){
   var name = asset.split()[5];
   
   return ee.FeatureCollection(asset).set('name',name);
-
-  
 });
 
 featureCollection = ee.FeatureCollection(featureCollection).flatten();
-
 
 print(featureCollection,'featureCollection');
 
