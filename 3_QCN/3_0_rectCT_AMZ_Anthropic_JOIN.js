@@ -1,5 +1,5 @@
 // Perform join tiles and Rasterize variables AGB, BGB, LITTER, CDW, TOTAL and Mapbiomas Reclass with 4° Comunication Nacional (QCN)
-// For any issue/bug, please write to edriano.souza@ipam.org.br or dhemerson.costa@ipam.org.br 
+// For any issue/bug, please write to wallace.silva@ipam.org.br or edriano.souza@ipam.org.br 
 // Developed by: IPAM, SEEG and OC
 // Citing: SEEG/Observatório do Clima and IPAM
 
@@ -17,11 +17,9 @@ var assets = ee.List.sequence(6,6,1).getInfo();
 var address =   'projects/mapbiomas-workspace/SEEG/2021/QCN/tile_id_';
 
 // Id for tiles
-var tiles = [
-  // 1,11,12, 14,15,16,17,18,19,2,20,21,22,23,24,27,28,3,32,4,6,7,8,9, // desordenado
-  1,2,3,4,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,32 // Total de tiles 25 // Exclusion
-];
+var tiles = [1,2,3,4,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,32];
 
+// Total de tiles 25 // Exclusion
 // 1,2,3,4,  5,  6,7,8,9,  10,    11,12,13,14,15,16,17,18,19,20,21,22,23,24,   25;26,    27,28,     29;30;31;   32, 33,34,35
 /// tiles not insert = 5,10,25,26,29,30 e 31 7 Classes 
 
