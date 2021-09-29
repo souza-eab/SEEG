@@ -18,9 +18,11 @@ var address =   'projects/mapbiomas-workspace/SEEG/2021/QCN/tile_id_';
 
 // Id for tiles
 var tiles = [1,2,3,4,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,32];
+var geom ='users/edrianosouza/QCN/am_ctotal4inv';
 
  /* @. Set user parameters */// eg.
 var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN/';
+
 var version = '1';
 
 ///////////////////////////////////////
@@ -39,7 +41,7 @@ var featureCollection = tiles.map(function(i){
   
   var asset = address + i;
   
-  var name = asset.split()[5];
+  var name = asset.split()[6];
   
   return ee.FeatureCollection(asset).set('name',name);
 });
@@ -80,8 +82,11 @@ var visParams = {
     min:3,
     max:12,
   },
+  'ctotal4inv':{
+    min:3,
+    max:12,
+  },
 };
-
 
 
 propertieNames.forEach(function(propertie){
@@ -108,5 +113,5 @@ Export.image.toAsset({
         '.default': 'mode'
     },
     "maxPixels": 1e13,
-    "region": geometry
+    "region": geom.geometry
 });
