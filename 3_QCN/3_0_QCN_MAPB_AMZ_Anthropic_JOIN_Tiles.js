@@ -85,5 +85,5 @@ Export.image.toAsset({
         '.default': 'mode'
     },
     "maxPixels": 1e13,
-    "region": geom.geometry
+    "region": geom
 });
