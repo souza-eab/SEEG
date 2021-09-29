@@ -101,27 +101,13 @@ print('pastVegetation',pastVegetation);
 
 // export as GEE asset
 Export.image.toAsset({
-    "image": image_static.toFloat(),
-    "description": 'ma_pclass_static',
-    "assetId": dir_output + 'ma_pclas_static',
+    "image": pastVegetation.select('cagb').toFloat(),
+    "description": 'AGB',
+    "assetId": dir_output + 'AGB',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
     },
     "maxPixels": 1e13,
-    "region": image_static.geometry()
-});  
-
-
-// export as GEE asset
-Export.image.toAsset({
-    "image": image_accumm.toFloat(),
-    "description": 'ma_pclass_accum',
-    "assetId": dir_output + 'ma_pclas_accum',
-    "scale": 30,
-    "pyramidingPolicy": {
-        '.default': 'mode'
-    },
-    "maxPixels": 1e13,
-    "region": image_accumm.geometry()
+    "region": pastVegetation.geometry()
 });  
