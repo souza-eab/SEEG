@@ -103,7 +103,7 @@ print('pastVegetation',pastVegetation);
 Export.image.toAsset({
     "image": pastVegetation.select('cagb').toFloat(),
     "description": 'AGB',
-    "assetId": dir_output + 'AGB',
+    "assetId": dir_output + 'QCN_AGB',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
