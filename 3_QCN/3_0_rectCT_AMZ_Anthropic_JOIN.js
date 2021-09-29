@@ -19,6 +19,9 @@ var address =   'projects/mapbiomas-workspace/SEEG/2021/QCN/tile_id_';
 // Id for tiles
 var tiles = [1,2,3,4,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,32];
 
+ /* @. Set user parameters */// eg.
+var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN/';
+var version = '1';
 
 ///////////////////////////////////////
 /* @. Don't change below this line *///
@@ -94,3 +97,31 @@ propertieNames.forEach(function(propertie){
 });
 
 print('pastVegetation',pastVegetation);
+
+
+// export as GEE asset
+Export.image.toAsset({
+    "image": image_static.toFloat(),
+    "description": 'ma_pclass_static',
+    "assetId": dir_output + 'ma_pclas_static',
+    "scale": 30,
+    "pyramidingPolicy": {
+        '.default': 'mode'
+    },
+    "maxPixels": 1e13,
+    "region": image_static.geometry()
+});  
+
+
+// export as GEE asset
+Export.image.toAsset({
+    "image": image_accumm.toFloat(),
+    "description": 'ma_pclass_accum',
+    "assetId": dir_output + 'ma_pclas_accum',
+    "scale": 30,
+    "pyramidingPolicy": {
+        '.default': 'mode'
+    },
+    "maxPixels": 1e13,
+    "region": image_accumm.geometry()
+});  
