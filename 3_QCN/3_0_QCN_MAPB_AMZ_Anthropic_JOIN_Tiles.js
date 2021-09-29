@@ -37,7 +37,6 @@ var palt = pal.matplotlib.viridis[7]; // AGB e TOTAL
 var pala = pal.kovesi.rainbow_bgyr_35_85_c72[7];
 
 
-
 var featureCollection = tiles.map(function(i){
   
   var asset = address + i;
@@ -61,34 +60,6 @@ Map.centerObject(featureCollection.first());
 
 var pastVegetation = ee.Image().select();
 var propertieNames = ['cagb','cbgb','clitter','cdw','MAPBIOMAS','ctotal4inv'];
-
-var visParams = {
-  'cagb':{
-    min:38,
-    max:139,
-  },
-  'cbgb':{
-    min:0,
-    max:100,
-  },
-  'clitter':{
-    min:0,
-    max:1,
-  },
-  'cdw':{
-    min:-1,
-    max:1,
-  },
-  'MAPBIOMAS':{
-    min:3,
-    max:12,
-  },
-  'ctotal4inv':{
-    min:3,
-    max:12,
-  },
-};
-
 
 propertieNames.forEach(function(propertie){
   
