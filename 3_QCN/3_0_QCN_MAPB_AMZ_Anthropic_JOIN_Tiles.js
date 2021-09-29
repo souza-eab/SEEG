@@ -18,8 +18,8 @@ var address =   'projects/mapbiomas-workspace/SEEG/2021/QCN/tile_id_';
 
 // Id for tiles
 var tiles = [1,2,3,4,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,32];
-var geom ='users/edrianosouza/QCN/am_ctotal4inv';
-geom = ee.Image('users/edrianosouza/QCN/am_ctotal4inv').geometry
+
+var geom =ee.Image('users/edrianosouza/QCN/am_ctotal4inv').geometry();
 
  /* @. Set user parameters */// eg.
 var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/QCN/';
