@@ -98,78 +98,15 @@ propertieNames.forEach(function(propertie){
 
 print('pastVegetation',pastVegetation);
 
-
 // export as GEE asset
 Export.image.toAsset({
-    "image": pastVegetation.select('cagb').toFloat(),
-    "description": 'AGB',
-    "assetId": dir_output + 'QCN_AGB',
+    "image": pastVegetation,
+    "description": 'pastVegetation',
+    "assetId": dir_output + 'pastVegetation',
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
     },
     "maxPixels": 1e13,
-    "region": pastVegetation.geometry()
-});  
-
-'cagb','cbgb','clitter','cdw','MAPBIOMAS','ctotal4inv'];
-Export.image.toAsset({
-    "image": pastVegetation.select('cbgb').toFloat(),
-    "description": 'BGB',
-    "assetId": dir_output + 'QCN_BGB',
-    "scale": 30,
-    "pyramidingPolicy": {
-        '.default': 'mode'
-    },
-    "maxPixels": 1e13,
-    "region": pastVegetation.geometry()
-});  
-
-
-Export.image.toAsset({
-    "image": pastVegetation.select('clitter').toFloat(),
-    "description": 'Litter',
-    "assetId": dir_output + 'QCN_Litter',
-    "scale": 30,
-    "pyramidingPolicy": {
-        '.default': 'mode'
-    },
-    "maxPixels": 1e13,
-    "region": pastVegetation.geometry()
-});  
-
-Export.image.toAsset({
-    "image": pastVegetation.select('cdw').toFloat(),
-    "description": 'CDW',
-    "assetId": dir_output + 'QCN_CDW',
-    "scale": 30,
-    "pyramidingPolicy": {
-        '.default': 'mode'
-    },
-    "maxPixels": 1e13,
-    "region": pastVegetation.geometry()
-}); 
-
-Export.image.toAsset({
-    "image": pastVegetation.select('MAPBIOMAS').toFloat(),
-    "description": 'MAPBIOMAS',
-    "assetId": dir_output + 'QCN_MAPBIOMAS',
-    "scale": 30,
-    "pyramidingPolicy": {
-        '.default': 'mode'
-    },
-    "maxPixels": 1e13,
-    "region": pastVegetation.geometry()
-});  
-
-Export.image.toAsset({
-    "image": pastVegetation.select('ctotal4inv').toFloat(),
-    "description": 'ctotal4inv',
-    "assetId": dir_output + 'QCN_ctotal4inv',
-    "scale": 30,
-    "pyramidingPolicy": {
-        '.default': 'mode'
-    },
-    "maxPixels": 1e13,
-    "region": pastVegetation.geometry()
-});  
+    "region": geometry
+});
