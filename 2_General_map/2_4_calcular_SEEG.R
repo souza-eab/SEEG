@@ -39,6 +39,7 @@ library(jsonlite)
 library(tidyverse)
 library(googledrive)
 library(openxlsx)
+library(dplyr)
 #install.packages("styler")
 ############################
 
@@ -83,6 +84,9 @@ biomasestado.data = list.files(folder, full.names = TRUE) %>%
 
 #15:35 16:29
 colnames(biomasestado.data)
+
+unique(biomasestado.data$de)
+unique(biomasestado.data$para)
 summary(biomasestado.data$periodo)
 
 #Exportacao da tabela para fins de armazenamento do processo
@@ -90,26 +94,30 @@ tran_mun = biomasestado.data %>%
   arrange(codigo, periodo, de, para) %>% 
   spread(key = periodo, value = area_ha, fill = 0) %>%
   filter(!is.na(bioma))#%>%
-  #write_csv("C:/Users/edriano.souza/OneDrive/d/seeg/a/R/seeg8_1/out_trans/transicao_biomas_estados_municipios_col5.csv")
+#write_csv("C:/Users/edriano.souza/OneDrive/d/seeg/a/R/seeg8_1/out_trans/transicao_biomas_estados_municipios_col5.csv")
 #15:35 16:29
 
+colnames(tran_mun)
 ####Definicao de parametros para aplicacao das equacoes de emissao/remocao 
 
 #Lista das classes do Mapbiomas (coleção 5.0) presentes em cada bioma
 #Amazonia
-classesAM<-c(3,
+classesAM<-c(3, 
              4,
              5,
              9,
+             11,
              12,
              15,
              20,
+             21, # Add Include Mosaic de Agricultura e Pastagem
              23,
              24,
              25,
              30,
              39,
              41,
+             47, # Add Citrus
              300,
              400,
              500,
@@ -130,9 +138,13 @@ classesCE<-c(3,
              24,
              25,
              30,
-             36,
+             #36, # Classe not include
              39,
+             40, # Include rice
              41,
+             46,# Include in Colletction 6.0
+             47,# Include in Colletction 6.0
+             48,# Include in Colletction 6.0
              300,
              400,
              500,
@@ -157,15 +169,21 @@ classesMA<-c( 3,
               29,
               30,
               31,
-              36,
+              33,
+              #36, # Classe not include
               39,
+              40, # Include Rice
               41,
+              46,# Include in Colletction 6.0
+              47,# Include in Colletction 6.0
+              49, #Include new classes
               300,
               400,
               500,
               1100,
               1200,
-              1300)
+              1300,
+              4900)
 
 #Caatinga
 classesCA<-c( 3,
@@ -183,9 +201,13 @@ classesCA<-c( 3,
               29,
               30,
               31,
-              36,
+              33, # Include class lake, 
+              #36, # Classe not include
               39,
               41,
+              46,# Include in Colletction 6.0
+              47,# Include in Colletction 6.0
+              48,# Include in Colletction 6.0
               300,
               400,
               500,
@@ -200,9 +222,10 @@ classesPN<-c( 3,
               12,
               15,
               20,
+              21,
               24,
-              25,
               30,
+              33, #Include Lake
               39,
               41,
               300,
@@ -220,9 +243,12 @@ classesPM<-c( 3,
               23,
               24,
               25,
+              29, # Include 2.4. Rocky Outcrop
               30,
               31,
-              39,
+              33,
+              39, # Soja
+              40, # Include Rice Collection 
               41,
               300,
               1100,
@@ -240,7 +266,7 @@ GSec <- c(1100, 1200, 1300)
 Ref <- 9
 GM <- c(11,12,13)
 GNM <- c(11,12,13)
-Ac <- c(20, 21,36,39,41)
+Ac <- c(20, 21,39,40,41,46,47,48) #Include: (40)3.2.1.3. Rice; (46)3.2.1.1. Coffee / (47) 3.2.1.2. Citrus/ (48) 3.2.1.3. Other Perennial Crops
 Ap <- 15
 O <- c(23, 24, 25, 29, 30, 31)
 
@@ -296,7 +322,7 @@ colnames(tran_mun)<-c('codigo','codigobiomasestados', 'bioma','estado','ap','de'
                       'X2011.a.2012','X2012.a.2013',
                       'X2013.a.2014','X2014.a.2015',
                       'X2015.a.2016','X2016.a.2017',
-                      'X2017.a.2018','X2018.a.2019', 'X2019.a.2020')
+                      'X2017.a.2018','X2018.a.2019','X2019.a.2020')
 
 #Agregar a soma das areas de cada transicao por area de interesse (municipio, bioma, estado e area protegida)
 tran_mun<-tran_mun%>%
@@ -319,18 +345,19 @@ tran_mun<-tran_mun%>%
 tran_mun<-data.frame(tran_mun)
 
 
+
 str(tran_mun)
 
-tran_mun$bioma <- as.factor(tran_mun$bioma)
-tran_mun$estado <- as.factor(tran_mun$estado)
-tran_mun$ap <- as.factor(tran_mun$ap)
-tran_mun$de <- as.factor(tran_mun$de)
-tran_mun$para <- as.factor(tran_mun$para)
-levels(tran_mun$bioma)
-levels(tran_mun$estado)
-levels(tran_mun$ap)
-levels(tran_mun$de)
-levels(tran_mun$para)
+#tran_mun$bioma <- as.factor(tran_mun$bioma)
+#tran_mun$estado <- as.factor(tran_mun$estado)
+#tran_mun$ap <- as.factor(tran_mun$ap)
+#tran_mun$de <- as.factor(tran_mun$de)
+#tran_mun$para <- as.factor(tran_mun$para)
+#levels(tran_mun$bioma)
+#levels(tran_mun$estado)
+#levels(tran_mun$ap)
+#levels(tran_mun$de)
+#levels(tran_mun$para)
 
 
 nrow(tran_mun[tran_mun$de == 3 &
@@ -379,6 +406,7 @@ tran_mun$bioma[tran_mun$bioma == 'MATA ATLANTICA']<-'MATA_ATLANTICA'
 #Organizacao dos dados de floresta para relacionar com os estados do Cerrado (UF = "outros" nos demais biomas)
 tran_mun$uf <- "OUTROS"
 
+colnames(tran_mun)
 for (i in 1:length(estadosCerrado)){
   tran_mun[tran_mun$bioma == "CERRADO" & tran_mun$estado == estados_cer[i] & tran_mun$de == 3, "uf"] <- estadosCerrado[i]
   tran_mun[tran_mun$bioma == "CERRADO" & tran_mun$estado == estados_cer[i] & tran_mun$para == 3, "uf"] <- estadosCerrado[i]
@@ -393,7 +421,7 @@ colSums(subset(tran_mun, tran_mun$bioma == "PAMPA")[8:38])
 colSums(subset(tran_mun, tran_mun$bioma == "CAATINGA")[8:38])
 
 # rownames(tran_mun)<-seq(1:nrow(tran_mun))
-
+names(tran_mun)
 #Descartar areas muitos pequenas (< 1ha)
 tran_mun <- tran_mun[!!rowSums(abs(tran_mun[(names (tran_mun) %in% c("X1989.a.1990","X1990.a.1991","X1991.a.1992",
                                                                      "X1992.a.1993","X1993.a.1994","X1994.a.1995",
@@ -435,7 +463,7 @@ inc <- reshape (incr, varying = list(colnames(incr[-1])),
                 direction = "long")
 rownames(inc) <- NULL
 colnames(inc)[3] <- "incremento"
-#head(inc)
+head(inc)
 
 
 ####Funcao para codificar e associar as equacoes do inventario em funcao das transicoes
@@ -1641,9 +1669,9 @@ seeg <- function(t1, t2, bi, uf, ap){
     }
   }
   #{ equacao <- null }
-}######
   out <-data.frame(t1, t2, bi, uf, equacao, newAP, notes, proc, stringsAsFactors = FALSE)
-  return(out) 
+  return(out)
+}
 
 
 ####Organizando matrizes por bioma com todos os casos de transicao a serem calculados,
@@ -1881,34 +1909,14 @@ for (i in 1:nrow(emiss_mun)){
   }
 }
 
+#15:25 #########Isso influencia na questão do número de combinação de
+
 
 colnames(tran_mun.b)
+str(tran_mun.b)
 tran_mun.b[,8:38] <- as.numeric(unlist(tran_mun.b[,8:38])) #Coluna com as estimativas anuais como numéricas
 emiss_mun[,8:38] <- as.numeric(unlist(emiss_mun[,8:38])) #Coluna com as estimativas anuais como numéricas
 
-sum(tran_mun.b$X2018.a.2019)
-
-tran_mun.b$bioma
-str(tran_mun.b)
-a<- tran_mun.b %>%
-  group_by(bioma)%>%
-  filter(processo == "Remoção por Vegetação Secundária") %>%
-  summarise('1990'= sum(`X1989.a.1990`),'1991'= sum(`X1990.a.1991`),'1992'= sum(`X1991.a.1992`),'1993' = sum(`X1992.a.1993`),
-            '1994'=sum(`X1993.a.1994`),'1995'= sum(`X1994.a.1995`),'1996'=sum (`X1995.a.1996`),'1997'=sum(`X1996.a.1997`),
-            '1998'=sum(`X1997.a.1998`),'1999'=sum(`X1998.a.1999`),'2000'=sum(`X1999.a.2000`),'2001'=sum(`X2000.a.2001`),
-            '2002'=sum(`X2001.a.2002`),'2003'=sum(`X2002.a.2003`),'2004'=sum(`X2003.a.2004`),'2005'=sum(`X2004.a.2005`),
-            '2006'=sum(`X2005.a.2006`),'2007'=sum(`X2006.a.2007`),'2008'=sum(`X2007.a.2008`),'2009'=sum(`X2008.a.2009`),
-            '2010'=sum(`X2009.a.2010`),'2011'=sum(`X2010.a.2011`),'2012'=sum(`X2011.a.2012`),'2013'=sum(`X2012.a.2013`),
-            '2014'=sum(`X2013.a.2014`),'2015'=sum(`X2014.a.2015`),'2016'=sum(`X2015.a.2016`),'2017'=sum(`X2016.a.2017`),
-            '2018'=sum(`X2017.a.2018`),'2019'=sum(`X2018.a.2019`),'2020'=sum(`X2019.a.2020`))
-
-df <- as.data.frame(a)
-
-
-str(a)
-
-sum(df$`2018`)
-sum(tran_mun.b$X2017.a.2018)
 
 colSums(tran_mun.b[8:38])
 
@@ -1926,11 +1934,11 @@ setwd("C:/Users/edriano.souza/OneDrive/data_2021")
 
 
 #Exportacao para fins de armazenamento do processo e exploracao inicial dos padroes
-write.csv(emiss_mun, file = "C:/Users/edriano.souza/OneDrive/data_2021/result/emiss_mun_col6_municipios.csv")
-write.csv(tran_mun.b, file = "C:/Users/edriano.souza/OneDrive/data_2021/result/areastran_col6_municipios.csv")
+write.csv(emiss_mun, file = "C:/Users/edriano.souza/OneDrive/data_2021/emiss_mun_col6_municipios.csv")
+write.csv(tran_mun.b, file = "C:/Users/edriano.souza/OneDrive/data_2021/areastran_col6_municipios.csv")
 
 # setwd("D:/Dropbox/Work/SEEG")
-# tran_mun.b<-read.csv("SEEG 8/SEEG 8.1/areastran_col5_municipios.csv",h=T)
+tran_mun.b<-read.csv("areastran_col6_municipios.csv",h=T)
 
 # head(emiss_mun)
 # unique(emiss_mun$eq_inv)
@@ -1953,6 +1961,7 @@ emiss_mun_filt [grep("Remoção", emiss_mun_filt$processo), "tipo"] <- "Remoçã
 emiss_mun_filt [-grep("Remoção", emiss_mun_filt$processo), "tipo"] <- "Emissão"
 
 #Associacao das classes do inventario a cada tipo de transicao
+setwd('C:/Users/edriano.souza/OneDrive/d/seeg/a/R/data_seeg')
 simp <- read.csv(file = "class_inv_simpl.csv", header = TRUE, sep = ";")
 emiss_mun_filt$transic <- emiss_mun_filt$eq_inv
 emiss_mun_filt$transic <- gsub('[[:digit:]]', "", emiss_mun_filt$transic)
@@ -2009,7 +2018,7 @@ emiss_mun_filt <- emiss_mun_filt [, c("processo", "bioma", "ap", "transic", "tip
                                       'X2013.a.2014','X2014.a.2015',
                                       'X2015.a.2016','X2016.a.2017',
                                       'X2017.a.2018','X2018.a.2019', 'X2019.a.2020',"codigo","codigobiomasestados", "de", "para", "uf", "eq_inv")]
-#names(emiss_mun_filt[,8:36])
+#names(emiss_mun_filt[,8:37])
 #emiss_mun_filt[,8:36] <- as.numeric(unlist(emiss_mun_filt[,8:36])) #Coluna com as estimativas anuais como numéricas
 
 #Exportacao para fins de armazenamento do processo e exploracao resultados filtrados
@@ -2021,7 +2030,8 @@ emiss_mun_filt <- emiss_mun_filt [, c("processo", "bioma", "ap", "transic", "tip
 # sum(subset(emiss_mun_filt, emiss_mun_filt$bioma == "PANTANAL")[8:37])
 # sum(subset(emiss_mun_filt, emiss_mun_filt$bioma == "MATA_ATLANTICA")[8:37])
 # sum(subset(emiss_mun_filt, emiss_mun_filt$bioma == "PAMPA")[8:37])
-
+str(emiss_mun_filt)
+colnames(emiss_mun_filt)
 #Agrupamento dos tipos de transicao
 emiss_aggr <- aggregate(emiss_mun_filt[,8:38], by = list(
   emiss_mun_filt$processo,
@@ -2034,6 +2044,8 @@ emiss_aggr <- aggregate(emiss_mun_filt[,8:38], by = list(
   emiss_mun_filt$estado,
   emiss_mun_filt$atividade),
   FUN = "sum")
+
+names(emiss_aggr$Group.2)
 
 #Adicao e organizacao das colunas necessarias a tabela final do SEEG MUT
 emiss_aggr$ano1970 <- 0
@@ -2129,10 +2141,14 @@ i <- sapply(emiss_aggr, is.factor)
 emiss_aggr[i] <- lapply(emiss_aggr[i], as.character)
 
 # length(newNames)
-# length(emiss_aggr)
+str(emiss_aggr)
 # cbind(names(emiss_aggr),newNames)
 
+names(emiss_aggr)
 names(emiss_aggr) <- newNames
+
+colnames(emiss_aggr)
+str(emiss_aggr)
 emiss_aggr <- emiss_aggr [, c(62, 1:3, 63, 4, 5, 61, 6, 7, 8, 9, 64, 41:60, 10:40)]
 i <- sapply(emiss_aggr, is.factor)
 emiss_aggr[i] <- lapply(emiss_aggr[i], as.character)
@@ -2142,11 +2158,17 @@ emiss_aggr[i] <- lapply(emiss_aggr[i], as.character)
 
 tabelao_full_mun<-emiss_aggr
 
+tabelao_full_mun1<-emiss_aggr
+
+plot(tabelao_full_mun$`2018`)
+
+head(tabelao_full_mun)
+
 #Exportacao para fins de armazenamento do processo
 write.csv(tabelao_full_mun, file = "tabelao_area_full_mun_col5.csv")
 
-colnames(tabelao_full_mun)
-head(tabelao_full_mun)
+colnames(tabelao_full_mun1)
+head(tabelao_full_mun1)
 summary(tabelao_full_mun)
 
 ####Calculo das emissoes por queima de residuos florestais, com base nas emissoes por desmatamento
@@ -2183,17 +2205,54 @@ unique(tabelao_full_mun$LEVEL_6)
 # [26] "Silvicultura -- Floresta secundária"                                     
 # [27] "Área sem vegetação -- Silvicultura"                                      
 # [28] "Floresta primária -- Floresta primária"                                  
-# [29] "Vegetação não florestal primária -- Vegetação não florestal primária"    
+# [29] "Vegetação não florestal primária -- Vegetação não florestal primária"
+
+
+
+
+#[1] "Floresta primária -- Área sem vegetação"                                 
+#[2] "Floresta primária -- Uso agropecuário"                                   
+#[3] "Floresta secundária -- Uso agropecuário"                                 
+#[4] "Uso agropecuário -- Área sem vegetação"                                  
+#[5] "Uso agropecuário -- Floresta secundária"                                 
+#[6] "Uso agropecuário -- Vegetação não florestal secundária"                  
+#[7] "Vegetação não florestal primária -- Área sem vegetação"                  
+#[8] "Vegetação não florestal primária -- Uso agropecuário"                    
+#[9] "Vegetação não florestal secundária -- Uso agropecuário"                  
+#[10] "Floresta secundária -- Floresta secundária"                              
+#11] "Vegetação não florestal secundária -- Vegetação não florestal secundária"
+#[12] "Uso agropecuário -- Uso agropecuário"                                    
+#[13] "Área sem vegetação -- Uso agropecuário"                                  
+#[14] "Floresta secundária -- Área sem vegetação"                               
+#[15] "Vegetação não florestal secundária -- Área sem vegetação"                
+#[16] "NULL"                                                                    
+#[17] "Floresta primária -- Silvicultura"                                       
+#[18] "Vegetação não florestal primária -- Silvicultura"                        
+#[19] "Área sem vegetação -- Floresta secundária"                               
+#[20] "Área sem vegetação -- Vegetação não florestal secundária"                
+#[21] "Uso agropecuário -- Silvicultura"                                        
+#[22] "Silvicultura -- Área sem vegetação"                                      
+#[23] "Floresta secundária -- Silvicultura"                                     
+#[24] "Silvicultura -- Floresta secundária"                                     
+#[25] "Silvicultura -- Uso agropecuário"                                        
+#[26] "Silvicultura -- Vegetação não florestal secundária"                      
+#[27] "Vegetação não florestal secundária -- Silvicultura"                      
+#[28] "Área sem vegetação -- Silvicultura"                                      
+#[29] "Floresta primária -- Floresta primária"                                  
+#[30] "Vegetação não florestal primária -- Vegetação não florestal primária"
+
 colnames(tabelao_full_mun)
 
 desm <- tabelao_full_mun[tabelao_full_mun$LEVEL_6 %in% c(unique(tabelao_full_mun$LEVEL_6)[c(
-  1,2,3,10,11,12,13,20)])
+  1,2,3,7,8,9,14, 15)])
   & tabelao_full_mun$`TIPO DE VALOR` == "Emissão",]
 
 desm$LEVEL_4[desm$LEVEL_4 == 1 ] <- 0 #nao diferencia entre dentro e fora de areas protegidas
 colnames(tabelao_full_mun)
 
 dim(desm)
+
+colnames(desm)
 
 #Agrupa total de emissoes por desmatamento
 desm <- aggregate(desm[, c(14:64)], by = list(
@@ -2215,9 +2274,11 @@ dim(desm)
 str(desm)
 colnames(tabelao_full_mun)
 # names(tabelao_full_mun)
+
+tabelao_full_mun$`TIPO DE VALOR`
 names(desm) <- names(tabelao_full_mun)[c(1:5,7:64)]
 desm$LEVEL_6 <- "NA"
-# names(desm)
+names(desm)
 desm <- desm[c(1:5, 64, 6:63)]
 # names(desm)
 colnames(desm)
@@ -2395,50 +2456,84 @@ unique(tabelao_full_final_mun$LEVEL_6)
 
 #Coleção 6
 
-#[1] Floresta primária -- Área sem vegetação                                 
-#[2] Floresta primária -- Uso agropecuário                                   
-#[3] Floresta secundária -- Uso agropecuário                                 
-#[4] Uso agropecuário -- Área sem vegetação                                  
-#[5] Uso agropecuário -- Floresta secundária                                 
-#[6] Uso agropecuário -- Vegetação não florestal secundária                  
-#[7] Vegetação não florestal primária -- Área sem vegetação                  
-#[8] Vegetação não florestal primária -- Uso agropecuário                    
-#[9] Vegetação não florestal secundária -- Uso agropecuário                  
-#[10] Floresta secundária -- Floresta secundária                              
-#[11] Vegetação não florestal secundária -- Vegetação não florestal secundária
-#[12] Uso agropecuário -- Uso agropecuário                                    
-#[13] Área sem vegetação -- Uso agropecuário                                  
-#[14] Floresta secundária -- Área sem vegetação                               
-#15] Vegetação não florestal secundária -- Área sem vegetação                
-#[16] Silvicultura -- Floresta secundária                                     
-#[17] Silvicultura -- Uso agropecuário                                        
-#[18] Uso agropecuário -- Silvicultura                                        
-#[19] Área sem vegetação -- Floresta secundária                               
-#[20] NULL                                                                    
-#[21] Floresta primária -- Silvicultura                                       
-#[22] Vegetação não florestal primária -- Silvicultura                        
-#[23] Área sem vegetação -- Vegetação não florestal secundária                
-#[24] Silvicultura -- Área sem vegetação                                      
-#[25] Floresta secundária -- Silvicultura                                     
-#[26] Silvicultura -- Vegetação não florestal secundária                      
-#[27] Vegetação não florestal secundária -- Silvicultura                      
-#[28] Área sem vegetação -- Silvicultura                                      
-#[29] Floresta primária -- Floresta primária                                  
-#[30] Vegetação não florestal primária -- Vegetação não florestal primária    
-#[31] NA    
+#[1] Floresta primária -- Área sem vegetação                                      #Desm               
+#[2] Floresta primária -- Uso agropecuário                                        #Desm         
+#[3] Floresta secundária -- Uso agropecuário                                      #Desm               
+#[4] Uso agropecuário -- Área sem vegetação                                       #Outros               
+#[5] Uso agropecuário -- Floresta secundária                                      #Regen               
+#[6] Uso agropecuário -- Vegetação não florestal secundária                       #Regen         
+#[7] Vegetação não florestal primária -- Área sem vegetação                       #Desm               
+#[8] Vegetação não florestal primária -- Uso agropecuário                         #Desm               
+#[9] Vegetação não florestal secundária -- Uso agropecuário                       #Desm
+#[10] Floresta secundária -- Floresta secundária                                  #Estável
+#[11] Vegetação não florestal secundária -- Vegetação não florestal secundária    #Estável
+#[12] Uso agropecuário -- Uso agropecuário                                        #Outros
+#[13] Área sem vegetação -- Uso agropecuário                                      #Outros
+#[14] Floresta secundária -- Área sem vegetação                                   #Desm
+#15]  Vegetação não florestal secundária -- Área sem vegetação                     #Desm
+#[16] Silvicultura -- Floresta secundária                                         #Regen
+#[17] Silvicultura -- Uso agropecuário                                            #Outros
+#[18] Uso agropecuário -- Silvicultura                                            #Outros
+#[19] Área sem vegetação -- Floresta secundária                                   #Regen
+#[20] NULL                                                                        #NA
+#[21] Floresta primária -- Silvicultura                                           #Desmatamento
+#[22] Vegetação não florestal primária -- Silvicultura                            #Desmatamento
+#[23] Área sem vegetação -- Vegetação não florestal secundária                    #Regen
+#[24] Silvicultura -- Área sem vegetação                                          #Outros
+#[25] Floresta secundária -- Silvicultura                                         #Desma
+#[26] Silvicultura -- Vegetação não florestal secundária                          #Regen
+#[27] Vegetação não florestal secundária -- Silvicultura                          #Desm
+#[28] Área sem vegetação -- Silvicultura                                          #Outros
+#[29] Floresta primária -- Floresta primária                                      #Estável
+#[30] Vegetação não florestal primária -- Vegetação não florestal primária        #Estável
+#[31] NA
+
+
+#[1] "Floresta primária -- Área sem vegetação"                                     #Desm
+#[2] "Floresta primária -- Uso agropecuário"                                       #Desm
+#[3] "Floresta secundária -- Uso agropecuário"                                     #Desm
+#[4] "Uso agropecuário -- Área sem vegetação"                                      #Outros
+#[5] "Uso agropecuário -- Floresta secundária"                                     #Regen
+#[6] "Uso agropecuário -- Vegetação não florestal secundária"                      #Regen
+#[7] "Vegetação não florestal primária -- Área sem vegetação"                      #Desm
+#[8] "Vegetação não florestal primária -- Uso agropecuário"                        #Desm
+#[9] "Vegetação não florestal secundária -- Uso agropecuário"                      #Desm
+#[10] "Floresta secundária -- Floresta secundária"                                 #Estável
+#[11] "Vegetação não florestal secundária -- Vegetação não florestal secundária"   #Estável
+#[12] "Uso agropecuário -- Uso agropecuário"                                       #Outros
+#[13] "Área sem vegetação -- Uso agropecuário"                                     #Outros
+#[14] "Floresta secundária -- Área sem vegetação"                                  #Desm
+#[15] "Vegetação não florestal secundária -- Área sem vegetação"                   #Desm
+#[16] "NULL"                                                                       #NA
+#[17] "Floresta primária -- Silvicultura"                                          #Desm
+#[18] "Vegetação não florestal primária -- Silvicultura"                           #Desmatamento
+#[19] "Área sem vegetação -- Floresta secundária"                                  #Regen 
+#[20] "Área sem vegetação -- Vegetação não florestal secundária"                   #Regen
+#[21] "Uso agropecuário -- Silvicultura"                                           #Outros
+#[22] "Silvicultura -- Área sem vegetação"                                         #Outros
+#[23] "Floresta secundária -- Silvicultura"                                        #Desmatamento
+#[24] "Silvicultura -- Floresta secundária"                                        #Regeneração
+#[25] "Silvicultura -- Uso agropecuário"                                           #Outros
+#[26] "Silvicultura -- Vegetação não florestal secundária"                         #Regeneração
+#[27] "Vegetação não florestal secundária -- Silvicultura"                         #Desmatamento
+#[28] "Área sem vegetação -- Silvicultura"                                         #Outros
+#[29] "Floresta primária -- Floresta primária"                                     #Estável
+#[30] "Vegetação não florestal primária -- Vegetação não florestal primária"       #Estável
+#[31] "NA"                                                                         #NA
 
 
 tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(5,6,13,16,23,26)]] <- "Regeneração"
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(5,6,19,20,24,26)]] <- "Regeneração" #Caution Oscilation
 tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(10, 11, 29, 30)]] <- "Vegetação nativa estável"
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(10, 11, 29, 30)]] <- "Vegetação nativa estável" #Stable
 tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(1,2,3,14,7,8,9,22,15,27,21,25)]] <- "Desmatamento"
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(1,2,3,7,8,9,14,15,17,18,23,27)]] <- "Desmatamento" # Caution Oscilation
 tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(20,31)]] <- "NA"
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(16,31)]] <- "NA"
 tabelao_full_final_mun$LEVEL_5 [tabelao_full_final_mun$LEVEL_6 %in%
-                                  unique(tabelao_full_final_mun$LEVEL_6)[c(4,12,13,17,18,24,28)]] <- "Outras Mudanças de uso da terra"
+                                  unique(tabelao_full_final_mun$LEVEL_6)[c(4,12,13,21,22,25,28)]] <- "Outras Mudanças de uso da terra"
 
+#
 
 
 setwd("C:/Users/edriano.souza/OneDrive/data_2021/highligts/")
@@ -2562,7 +2657,7 @@ tabelao_full_final_estados <- aggregate(tabelao_full_final_estados[,14:64], by =
 names(tabelao_full_final_estados) <- names(tabelao_full_final_mun[,-c(9,10)])
 #head(tabelao_full_final_estados,4)
 write.csv(tabelao_full_final_estados, file = "TABELAO_MUT_ESTADOS-26-09.csv",row.names=F)
-
+colnames(tabelao_full_final_mun)
 
 
 #Geracao e exportacao do tabelao para o Brasil
@@ -2593,6 +2688,7 @@ nomesmun<-read.csv("nomes_mun_IBGE.csv",head=T,sep=";")
 colnames(nomesmun)
 
 nomesmun<-nomesmun[,1:2]
+str(nomesmun)
 
 nomesmun$GEOCODIGO2<-as.character(nomesmun$GEOCODIGO)
 nomesmun$IBGE <- as.character(nomesmun$IBGE)
@@ -2606,7 +2702,7 @@ tabelao_full_final_mun$IBGE <- as.character(tabelao_full_final_mun$CodIBGE)
 
 nomesmun <- as.data.frame(nomesmun)
 tabelao_full_final_mun <- as.data.frame(tabelao_full_final_mun)
-tabelao_full_final_mun$CodIBGE<-as.character(str_sub(tabelao_full_final_mun$CodIBGE,4,10))
+#tabelao_full_final_mun$CodIBGE<-as.character(str_sub(tabelao_full_final_mun$CodIBGE,4,10)) No caso do 4 ao décimos
 head(tabelao_full_final_mun_OK,3)
 head(tabelao_full_final_mun,3)
 
@@ -2620,6 +2716,14 @@ str(tabelao_full_final_mun)
 str()
 
 a<- left_join(y=nomesmun,x= tabelao_full_final_mun, by=c("CodIBGE"="GEOCODIGO2"))
+
+
+
+tabelao_full_final_mun1<-tabelao_full_final_mun%>%
+  left_join(nomesmun,by=c("CodIBGE"="GEOCODIGO"))
+# names(tabelao_full_final_mun)
+
+
 
 head(a,5)
 # names(tabelao_full_final_mun)
