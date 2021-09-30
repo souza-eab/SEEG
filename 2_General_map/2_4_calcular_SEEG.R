@@ -59,7 +59,7 @@ folder <- "C:/Users/edriano.souza/OneDrive/data_2021/geoJson"
 
 
 #Organizacao das areas de transicao e saida em hectares
-biomasestado.data = list.files(folder, full.names = TRUE) %>%
+biomasestado.data <- list.files(folder, full.names = TRUE) %>%
   map_df(function (file) {
     dt = fromJSON(file,flatten = TRUE, simplifyDataFrame = TRUE)$features
     1:length(dt$properties.featureid) %>% 
@@ -90,7 +90,7 @@ unique(biomasestado.data$para)
 summary(biomasestado.data$periodo)
 
 #Exportacao da tabela para fins de armazenamento do processo
-tran_mun = biomasestado.data %>%
+tran_mun <- biomasestado.data %>%
   arrange(codigo, periodo, de, para) %>% 
   spread(key = periodo, value = area_ha, fill = 0) %>%
   filter(!is.na(bioma))#%>%
@@ -268,7 +268,16 @@ GM <- c(11,12,13)
 GNM <- c(11,12,13)
 Ac <- c(20, 21,39,40,41,46,47,48) #Include: (40)3.2.1.3. Rice; (46)3.2.1.1. Coffee / (47) 3.2.1.2. Citrus/ (48) 3.2.1.3. Other Perennial Crops
 Ap <- 15
-O <- c(23, 24, 25, 29, 30, 31)
+O <- c(23, 24, 25, 29, 30, 31,33)
+
+#Verificar APICUM
+
+# 3, 4, 5, 9, 11, 12, 13, 15, 20, 21, 23, 24, 25, 29, 30, 31, 33, 39, 40,41, 46, 47, 48, 49
+
+unique(biomasestado.data$de)
+unique(biomasestado.data$para)
+unique(biomasestado.data$periodo)
+
 
 classes <- sort(unique(c(FM, FNM, FSec, Ref, GM, GNM, GSec, Ac, Ap, O)))
 uso <- sort(unique(c(Ref, Ac, Ap, O)))
@@ -324,6 +333,8 @@ colnames(tran_mun)<-c('codigo','codigobiomasestados', 'bioma','estado','ap','de'
                       'X2015.a.2016','X2016.a.2017',
                       'X2017.a.2018','X2018.a.2019','X2019.a.2020')
 
+
+colnames(tran_mun)
 #Agregar a soma das areas de cada transicao por area de interesse (municipio, bioma, estado e area protegida)
 tran_mun<-tran_mun%>%
   group_by(codigo,codigobiomasestados, bioma,estado,ap,de,para) %>% summarise(X1989.a.1990 = sum(X1989.a.1990),X1990.a.1991 = sum(X1990.a.1991),
