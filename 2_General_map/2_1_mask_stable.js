@@ -22,11 +22,11 @@ var assetRegions = "projects/mapbiomas-workspace/AUXILIAR/biomas-2019";
 var regions = ee.FeatureCollection(assetRegions);
 
 //Carregar as máscaras de desmatamento e regeneração, já filtradas para eliminar ruído
-var regenDir = 'projects/mapbiomas-workspace/SEEG/2021/regen_SEEGc6_filter';
+var regenDir = 'projects/mapbiomas-workspace/SEEG/2021/Col9/regen_SEEGc6_filter';
 var regen = ee.Image(regenDir);
 print("bandas regen", regen.bandNames());//regeneração a partir de 1990
 
-var annualDesm = 'projects/mapbiomas-workspace/SEEG/2021/desmSEEGc6_filter';
+var annualDesm = 'projects/mapbiomas-workspace/SEEG/2021/Col9/desmSEEGc6_filter';
 var annualLoss = ee.Image(annualDesm); // desmatamento a partir de 1990
 print("bandas annualLoss", annualLoss.bandNames());
 
@@ -45,11 +45,10 @@ var exp = '100*((b(0)+b(1)+b(2)+b(3)+b(4)+b(5)+b(6)+b(7)+b(8)+b(9)+b(10)+b(11)+b
 var florFreq = mapbiomas.eq(3).expression(exp); //floresta
 var savFreq = mapbiomas.eq(4).expression(exp); //savana
 var manFreq = mapbiomas.eq(5).expression(exp);  //mangue
-var floFFreq = mapbiomas.eq(6).expression(exp);  //////////////////////////////////////////////// 'Add class Flooded Forest'
-var WrestFreq = mapbiomas.eq(49).expression(exp);  //////////////////////////////////////////////// 'Add class Wooded Restinga'
 var umiFreq = mapbiomas.eq(11).expression(exp); //área úmida não florestal
 var grassFreq = mapbiomas.eq(12).expression(exp); //veg campestre
 var naoFlorFreq = mapbiomas.eq(13).expression(exp); //outra formação natural não florestal
+var WrestFreq = mapbiomas.eq(49).expression(exp);  //////////////////////////////////////////////// 'Add class Wooded Restinga'
 
 var silviFreq = mapbiomas.eq(9).expression(exp); //silvicultura (floresta plantada)
 var pastFreq = mapbiomas.eq(15).expression(exp); //pastagem
@@ -59,27 +58,27 @@ var agroFreq = mapbiomas.eq(21).expression(exp); //mosaico de agricultura e past
 var praiasFreq = mapbiomas.eq(23).expression(exp); //praia e duna
 var urbanFreq = mapbiomas.eq(24).expression(exp); //infraestrutura urbana
 var naoVegFreq = mapbiomas.eq(25).expression(exp); //outra área não vegetada
-var naoObsFreq = mapbiomas.eq(27).expression(exp); /////////////////////////////////////////////// Add class 'Non observed'
 var rockFreq = mapbiomas.eq(29).expression(exp); //afloramento rochoso
 var mineFreq = mapbiomas.eq(30).expression(exp); //mineração
 var aquiFreq = mapbiomas.eq(31).expression(exp); //aquicultura
-var ApicFreq = mapbiomas.eq(32).expression(exp); /////////////////////////////////////////////// Add class 'Apicum'
 var aguaFreq = mapbiomas.eq(33).expression(exp); //rio, lago, oceano
 var agroPerFreq = mapbiomas.eq(36).expression(exp); //agricultura perene
 var agroSojaFreq = mapbiomas.eq(39).expression(exp); //soja
-var agroTempFreq = mapbiomas.eq(41).expression(exp); //agricultura anual (outras)
-
+var agroTempRice = mapbiomas.eq(40).expression(exp); //////////////////////////////////////// 'Add class agricultura perene de 'Café'
+var agroTempFreq = mapbiomas.eq(41).expression(exp); // agricultura anual (outras)
+var agroPerFreqCoffee = mapbiomas.eq(46).expression(exp); //////////////////////////////////////// 'Add class agricultura perene de 'Café'
+var agroPerFreqCitrus = mapbiomas.eq(47).expression(exp); //////////////////////////////////////// 'Add classagricultura perene de 'Citrus'
+var agroPerFreqOther = mapbiomas.eq(48).expression(exp); //////////////////////////////////////// 'Add classagricultura perene de 'Outras Lavouras' 
 
 //////Máscara de vegetacao nativa e agua (freq >95%) estáveis
 var vegMask = ee.Image(0).clip(regions)
                          .where(florFreq.gt(95),1)  //ESTAVA 99, MAS NO ESQUEMA DA METODOLOGIA DIZ 95%. TROQUEI...
                          .where(savFreq.gt(95),1)
                          .where(manFreq.gt(95),1)
-                         .where(floFFreq.gt(95),1) 
-                         .where(WrestFreq.gt(95),1) 
                          .where(umiFreq.gt(95),1)
                          .where(grassFreq.gt(95),1)
                          .where(naoFlorFreq.gt(95),1)
+                         .where(WrestFreq.gt(95),1) 
                          .where(aguaFreq.gt(95),1);
 
 //////Máscara de uso e afloramento rochoso (freq >99%)    estáveis                      
