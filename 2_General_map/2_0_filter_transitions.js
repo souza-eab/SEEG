@@ -117,7 +117,7 @@ print(result_regen);
 
 Export.image.toAsset({
     "image": result_regen.uint8(),
-    "description": 'regenSEEGc5_filter_certo',
+    "description": 'regenSEEGc6_filter_certo',
     "assetId": 'projects/mapbiomas-workspace/SEEG/2021/Col9/regen_SEEGc6_filter', //insere o endereço para onde vai exportar a máscara filtrada
     "scale": 30,
     "pyramidingPolicy": {
@@ -146,7 +146,7 @@ print(result_desm);
 
 Export.image.toAsset({
     "image": result_desm.uint8(),
-    "description": 'desmSEEGc5_filter_certo',
+    "description": 'desmSEEGc6_filter_certo',
     "assetId": 'projects/mapbiomas-workspace/SEEG/2021/Col9/desmSEEGc6_filter', //insere o endereço para onde vai exportar a máscara filtrada
     "scale": 30,
     "pyramidingPolicy": {
