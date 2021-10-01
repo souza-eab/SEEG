@@ -83,22 +83,25 @@ var vegMask = ee.Image(0).clip(regions)
 
 //////Máscara de uso e afloramento rochoso (freq >99%)    estáveis                      
 var usoMask = ee.Image(0).clip(regions)                         
-                          .where(silviFreq.gt(99), 1)
-                          .where(pastFreq.gt(99), 1)
-                          .where(agroAnnFreq.gt(99), 1)
-                          .where(agroPerFreq.gt(99), 1)
-                          .where(agroSojaFreq.gt(99), 1)
-                          .where(agroTempFreq.gt(99), 1)
-                          .where(canaFreq.gt(99), 1)
-                          .where(agroFreq.gt(99), 1)
-                          .where(praiasFreq.gt(99), 1)
-                          .where(urbanFreq.gt(99), 1)
-                          .where(naoVegFreq.gt(99), 1)
-                          .where(naoObsFreq.gt(99), 0) // Why 0?
-                          .where(mineFreq.gt(99), 1)
-                          .where(aquiFreq.gt(99), 1)
-                          .where(rockFreq.gt(0), 0);  //POR QUÊ 0?
-                          
+                          .where(silviFreq.gt(99), 1) //9
+                          .where(pastFreq.gt(99), 1)  //15
+                          .where(agroAnnFreq.gt(99), 1) //19
+                          .where(agroPerFreq.gt(99), 1) //36
+                          .where(agroPerFreqCoffee.gt(99), 1)     //46
+                          .where(agroPerFreqCitrus.gt(99), 1)     //47
+                          .where(agroPerFreqOther.gt(99), 1)      //48
+                          .where(agroSojaFreq.gt(99), 1)          //39
+                          .where(agroTempFreq.gt(99), 1)          //41
+                          .where(canaFreq.gt(99), 1)              //20
+                          .where(agroTempRice.gt(99), 1)          //40      
+                          .where(agroFreq.gt(99), 1)              //21
+                          .where(praiasFreq.gt(99), 1)            //23
+                          .where(urbanFreq.gt(99), 1)             //24
+                          .where(naoVegFreq.gt(99), 1)            //25
+                          .where(mineFreq.gt(99), 1)              //30
+                          .where(aquiFreq.gt(99), 1)              //31
+                          .where(rockFreq.gt(0), 0);  //POR QUÊ 0?//29
+
 /////Mapa base: 
 var  baseMap = ee.Image(0).clip(regions)
 ///Aloca classe mais frequente na máscara de uso no mapa base
