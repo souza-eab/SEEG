@@ -1,60 +1,32 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////// SCRIPT TO GENERATE DEFORESTATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0)  ///////////////////////////////////////////////////////
+////////////////////////////////// For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br> ///////////////
+////////////////////////////////// Coordination: Barbara Zimbres, Julia Shimbo, and Ane Alencar ///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////// Developed by: IPAM, SEEG and OC ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////// Citing: SEEG/Observatório do Clima and IPAM ////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////// Processing time <2h> in Google Earth Engine ////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// SCRIPT TO GENERATE DEFORESTATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0) 
-// For any issue/bug, please write to <edriano.souza@ipam.org.br>;<dhemerson.costa@ipam.org.br>;<barbara.zimbres@ipam.org.br> 
-// Developed by: IPAM, SEEG and OC
-// Citing: SEEG/Observatório do Clima and IPAM
-// Processing time <1h> in Google Earth Engine
+// @. UPDATE HISTORIC //
+// 1: SCRIPT TO GENERATE DEFORESTATION MASKS FROM A COLLECTION OF MAPBIOMAS (eg. col 6.0)
+// 1.1: Acess Asset MapBiomas and Biomes BRAZIL
+// 1.1: Remap layer col. 6.0 Mapiomas 
+// @. ~~~~~~~~~~~~~~ // 
 
-// Set assets
+/* @. Set user parameters */// eg.
+var dir_output = 'projects/mapbiomas-workspace/SEEG/2021/Col9/';
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+// Set Asset
 // Asset Biomes brazilian
 var Bioma = ee.FeatureCollection("users/SEEGMapBiomas/bioma_1milhao_uf2015_250mil_IBGE_geo_v4_revisao_pampa_lagoas"); 
-
-//// brazilian biomes?
-var biomes = ee.Image('projects/mapbiomas-workspace/AUXILIAR/biomas-2019-raster');
 
 // Add ImageCollection Mapbiomas 6.0
 var colecao6 = ee.ImageCollection("projects/mapbiomas-workspace/COLECAO6/mapbiomas-collection60-integration-v0-12").mosaic();
 
-//1 Forest
-//var f = ['3','4','5', '6', '49'];
-
-//10 Non Forest Natural Formation
-//var nf = ['11','12','32', '29', '13]; 
-
-//14 Farming
-//var afolu = ['15', '18', '19','39','20','40','41','36','46','47','48','9','21'];
-//var afoluO = ['9','15', '18', '19','20','21','36','39','40','41','46','47','48'];
-// var afoluOp = ['18', '19','39','20','40','41','36','46','47','48','9','15', '21'];
-
-  
-//22 Non vegetated area
-// var nav = ['23', '24', '30', '25'];
-// order prevalence <> 30,23,24,25
-
-//26 Water
-//var water = ['33', '31'];
-// order prevalence <> 30,23,24,25
-      
-// 27 Non Observed
-//var nonO = ['27'];
-
-//3 Forest
-//3,4,5,6,49
-//0,0,0,0, 0
-
-//11,12,32,29,13
-//0,0,9,9,0
-//Range General prevalence Cerrado Biome 30,23,5,31,32,24,9,20,39,40,41,36,46,47,48,19,29,25,33,3,4,11,12,15,21
-// Order  3,4,5,6,11,12,13,15,20,21,22,23,24,25,  29,32,49
 //Remap layers for native vegetation in 1985 to 1; what is anthropic, is 0; and what does not apply, is 9
 var col6antrop85 = colecao6.select('classification_1985').remap(
-                  [3, 4, 5, 6, 11, 12, 13, 9, 15,  19, 20, 21,  23, 24, 25,  27, 29, 30, 31, 32, 33, 36, 39, 40, 41, 42, 43, 44, 45, 49],
-                  [0, 0, 0, 0,  0,  0,  0, 1,  1,   1,  1,  1,   9,  1,  1,   9,  9,  1,  1,  9,  9,  1,  1,  1,  1,  1,  1, 1,   1, 0]);
+                  [3,4,5,9,11,12,13,15,20,21,23,24,25,29,30,31,32,33,39,40,41,46,47,48,49],
+                  [0,0,0,1, 0, 0, 0, 1, 1, 1, 9, 1, 1, 9, 1, 1, 9, 9, 1, 1, 1, 1, 1, 1, 0]);
 
 //Changing names of bands 
 col6antrop85 = col6antrop85.select([0],['desmat1985']).int8();
@@ -67,8 +39,8 @@ for (var i_ano=0;i_ano<anos.length; i_ano++){
   var ano = anos[i_ano];
 
   var col6uso = colecao6.select('classification_'+ano).remap(
-                  [3, 4, 5, 6, 11, 12, 13, 9, 15,  19, 20, 21,  23, 24, 25,  27, 29, 30, 31, 32, 33, 36, 39, 40, 41, 42, 43, 44, 45, 49],
-                  [0, 0, 0, 0,  0,  0,  0, 1,  1,   1,  1,  1,   9,  1,  1,   9,  9,  1,  1,  9,  9,  1,  1,  1,  1,  1,  1, 1,   1, 0]);
+                  [3,4,5,9,11,12,13,15,20,21,23,24,25,29,30,31,32,33,39,40,41,46,47,48,49],
+                  [0,0,0,1, 0, 0, 0, 1, 1, 1, 9, 1, 1, 9, 1, 1, 9, 9, 1, 1, 1, 1, 1, 1, 0]);
                     
   col6antrop85 = col6antrop85.addBands(col6uso.select([0],['desm'+ano])).int8();
 }
@@ -131,15 +103,15 @@ var mask86 =  col6antrop85.select('desm'+(1986 - 1)).eq(0)
   mask19 = mask19.updateMask(mask19.neq(0));
   mask19 = mask19.select([0], ['desm2019']);
   
-  var mask20 =  col6antrop85.select('desm'+(2019 - 8)).eq(0)
-            .and(col6antrop85.select('desm'+(2019 - 7)).eq(0))
-            .and(col6antrop85.select('desm'+(2019 - 6)).eq(0))
-            .and(col6antrop85.select('desm'+(2019 - 5)).eq(0))
-            .and(col6antrop85.select('desm'+(2019 - 4)).eq(0))
-            .and(col6antrop85.select('desm'+(2019 - 3)).eq(0))
-            .and(col6antrop85.select('desm'+(2019 - 2)).eq(0))             
-            .and(col6antrop85.select('desm'+(2019 - 1)).eq(0))
-            .and(col6antrop85.select('desm'+(2019    )).eq(1));
+  var mask20 =  col6antrop85.select('desm'+(2020 - 8)).eq(0)
+            .and(col6antrop85.select('desm'+(2020 - 7)).eq(0))
+            .and(col6antrop85.select('desm'+(2020 - 6)).eq(0))
+            .and(col6antrop85.select('desm'+(2020 - 5)).eq(0))
+            .and(col6antrop85.select('desm'+(2020 - 4)).eq(0))
+            .and(col6antrop85.select('desm'+(2020 - 3)).eq(0))
+            .and(col6antrop85.select('desm'+(2020 - 2)).eq(0))             
+            .and(col6antrop85.select('desm'+(2020 - 1)).eq(0))
+            .and(col6antrop85.select('desm'+(2020    )).eq(1));
             
   mask20 = mask20.mask(mask20.eq(1));
   mask20 = mask20.unmask(imageZero);  
@@ -160,8 +132,7 @@ desm = desm.addBands(desm88);
 
 //Gera as bandas aplicando o filtro para todos os demais anos da regra geral (no caso, até 2019)
 for (var i = 1989; i < 2019; i++) {
- 
-  var desm_geral = geraMask3_3(i);
+   var desm_geral = geraMask3_3(i);
       desm_geral = desm_geral.unmask(imageZero);
       desm_geral = desm_geral.updateMask(desm_geral.neq(0));
   desm = desm.addBands(desm_geral.select([0],['desm'+ i]));
@@ -171,16 +142,17 @@ for (var i = 1989; i < 2019; i++) {
 desm = desm.addBands(mask19).addBands(mask20);
 print(desm);
 
+Map.addLayer(desm.select('desm2019'), {'min': 0,'max': 1, 'palette': 'red'},"Desm_2019");
 Map.addLayer(desm.select('desm2020'), {'min': 0,'max': 1, 'palette': 'red'},"Desm_2020");
 
 Export.image.toAsset({
     "image": desm.unmask(0).uint8(),
     "description": 'desmSEEGc6',
-    "assetId":'projects/mapbiomas-workspace/SEEG/2021/V9/desmSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
+    "assetId":dir_output + 'desmSEEGc6', //inserir aqui o endereço e o nome do Asset a ser exportado
     "scale": 30,
     "pyramidingPolicy": {
         '.default': 'mode'
     },
     "maxPixels": 1e13,
     "region": Bioma.geometry().bounds() //alterar aqui para o nome da região usada
-});    
+});
