@@ -1,3 +1,11 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SCRIPT EXPORT IMAGE TRANSITIONS PARIED" 
+// For any issue/bug, please write to <edriano.souza@ipam.org.br>; <dhemerson.costa@ipam.org.br>; <barbara.zimbres@ipam.org.br>
+// Developed by: IPAM, SEEG and OC
+// Citing: SEEG/Observatório do Clima and IPAM
+// Processing time <2h> in Google Earth Engine
+
 // export parameters
 var gfolder = 'TEMP';                // google drive folder 
 var assetId = 'projects/mapbiomas-workspace/SEEG/2021/Col9/'; // asset link
